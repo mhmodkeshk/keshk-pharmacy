@@ -711,49 +711,45 @@ const menProducts = [
 ];
 
 function renderMenProducts() {
-  document.getElementById('men-products-list').innerHTML = menProducts.map((p, i) => `
-    <div class="men-product-card" style="flex-direction: column; align-items: stretch; gap: 8px;">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <img src="${p.img}" alt="${p.name}" class="men-product-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="men-product-img-ph">💊</div>
-        <div class="men-product-info">
-          <div class="men-product-badge">🛡️ ${p.badge}</div>
-          <div class="men-product-name">${p.name}</div>
-        </div>
-      </div>
-      
-      <!-- نظام اختيار الوحدات المطور والذكي -->
-      <div style="display: flex; gap: 6px; margin-top: 4px;">
-        <select id="men-unit-${i}" class="form-input" style="margin-bottom: 0; padding: 6px 10px; font-size: 11px; flex: 2; height: 36px; border-radius: 10px;">
-          <option value="علبة">📦 علبة كاملة</option>
-          <option value="شريط">💊 شريط</option>
-          <option value="حباية/كبسولة">✨ حباية / كبسولة</option>
-        </select>
-        
-        <select id="men-qty-${i}" class="form-input" style="margin-bottom: 0; padding: 6px 10px; font-size: 11px; flex: 1; height: 36px; border-radius: 10px; text-align: center;">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-        
-        <button class="men-order-btn" style="height: 36px; padding: 0 16px; border-radius: 10px;" onclick="orderMenProduct(${i})">🟢 طلب</button>
-      </div>
-    </div>`).join('');
+  var htmlText = "";
+  for (var i = 0; i < menProducts.length; i++) {
+    var p = menProducts[i];
+    htmlText += '<div class="men-product-card" style="flex-direction: column; align-items: stretch; gap: 8px;">' +
+      '<div style="display: flex; align-items: center; gap: 12px;">' +
+        '<img src="' + p.img + '" alt="' + p.name + '" class="men-product-img" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';">' +
+        '<div class="men-product-img-ph">💊</div>' +
+        '<div class="men-product-info">' +
+          '<div class="men-product-badge">🛡️ ' + p.badge + '</div>' +
+          '<div class="men-product-name">' + p.name + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="display: flex; gap: 6px; margin-top: 4px;">' +
+        '<select id="men-unit-' + i + '" class="form-input" style="margin-bottom: 0; padding: 6px 10px; font-size: 11px; flex: 2; height: 36px; border-radius: 10px;">' +
+          '<option value="علبة">📦 علبة كاملة</option>' +
+          '<option value="شريط">💊 شريط</option>' +
+          '<option value="حباية/كبسولة">✨ حباية / كبسولة</option>' +
+        '</select>' +
+        '<select id="men-qty-' + i + '" class="form-input" style="margin-bottom: 0; padding: 6px 10px; font-size: 11px; flex: 1; height: 36px; border-radius: 10px; text-align: center;">' +
+          '<option value="1">1</option>' +
+          '<option value="2">2</option>' +
+          '<option value="3">3</option>' +
+          '<option value="4">4</option>' +
+          '<option value="5">5</option>' +
+        '</select>' +
+        '<button class="men-order-btn" style="height: 36px; padding: 0 16px; border-radius: 10px;" onclick="orderMenProduct(' + i + ')">🟢 طلب</button>' +
+      '</div>' +
+    '</div>';
+  }
+  document.getElementById('men-products-list').innerHTML = htmlText;
 }
 
 function orderMenProduct(i) {
-  const p = menProducts[i];
-  // سحب الاختيارات التي حددها العميل للمنتج بالظبط
-  const unit = document.getElementById(`men-unit-${i}`).value;
-  const qty = document.getElementById(`men-qty-${i}`).value;
-  
-  const msg = `السلام عليكم 👋\nعايز أطلب من صيدلية كشك عبر التوصيل السري الخاص:\n\n📦 *المنتج:* ${p.name}\n📋 *الكمية المطلوبة:* ${qty} ${unit}\n\nمن فضلك تواصل معي لتأكيد الطلب بكل خصوصية وسرية. 🙏`;
-  
-  window.open(`https://wa.me{encodeURIComponent(msg)}`, '_blank');
+  var p = menProducts[i];
+  var unit = document.getElementById("men-unit-" + i).value;
+  var qty = document.getElementById("men-qty-" + i).value;
+  var msg = "السلام عليكم 👋\nعايز أطلب من صيدلية كشك عبر التوصيل السري الخاص:\n\n📦 *المنتج:* " + p.name + "\n📋 *الكمية المطلوبة:* " + qty + " " + unit + "\n\nمن فضلك تواصل معي لتأكيد الطلب بكل خصوصية وسرية. 🙏";
+  window.open("https://wa.me" + encodeURIComponent(msg), "_blank");
 }
-
 
 function orderAllMen() {
   const msg = 'السلام عليكم 👋\nعايز أعرف أكتر عن منتجات الصحة للرجال المتاحة في صيدلية كشك. 🙏';
@@ -813,6 +809,7 @@ function showToast(msg) { const t=document.getElementById('toast'); t.textConten
 /* ===== تشغيل ===== */
 window.addEventListener('load', () => {
   renderProducts();
+  renderMenProducts(); // 🔥 ضع هذا السطر هنا لتأمين بناء الصفحة فوراً
   setTimeout(() => {
     const s=document.getElementById('splash');
     s.style.opacity='0'; s.style.transform='scale(1.05)';
