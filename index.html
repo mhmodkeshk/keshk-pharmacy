@@ -646,11 +646,16 @@ textarea.form-input { resize: none; height: 80px; }
 /* ===== التنقل بين الصفحات ===== */
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
+  
+  // 🚀 السطر السحري: بيضمن لو اتبعتت men يفتح صفحة page-men فوراً وبدون أخطاء
+  var pageId = (name === 'men') ? 'page-men' : 'page-' + name;
+  
+  var target = document.getElementById(pageId);
+  if(target) target.classList.add('active');
+  
   window.scrollTo(0, 0);
   if (name === 'men') renderMenProducts();
 }
-
 /* ===== مكملات الرئيسية ===== */
 const products = [
   { key:'man',   name:'ليمتلس مان ماكس',  nameEn:'Limitless Man Max',  desc:'مالتي فيتامين للرجال لدعم الطاقة والمناعة وصحة العضلات.', img:'man.webp',   emoji:'💪' },
