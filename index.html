@@ -324,7 +324,7 @@ textarea.form-input { resize: none; height: 80px; }
   transition: transform 0.2s;
 }
 .dev-btn:active { transform: scale(0.95); }
-/* ===== أيقونة المطور العائمة والمتحركة 💻 ===== */
+/* ===== أيقونة المطور العائمة والمتحركة 💬 ===== */
 .dev-floating-btn {
   position: fixed;
   bottom: 90px; /* مرتفعة قليلاً لكي لا تختفي خلف زر تأكيد الطلب الأخضر */
@@ -365,7 +365,7 @@ textarea.form-input { resize: none; height: 80px; }
   }
 }
 
-/* ===== أيقونة المطور الدائرية الجديدة 💻 ===== */
+/* ===== أيقونة المطور الدائرية الجديدة 💬 ===== */
 .dev-floating-btn {
   position: fixed;
   bottom: 120px;
@@ -557,9 +557,11 @@ textarea.form-input { resize: none; height: 80px; }
         <input type="tel" id="customer-phone" class="form-input" placeholder="رقم موبايلك">
         <label class="form-label">العنوان بالتفصيل *</label>
         <textarea id="customer-address" class="form-input" placeholder="مثال: كفر الزيات - شارع... - بجوار مسجد..."></textarea>
-
-        <!-- أيقونة المطور الدائرية العائمة -->
-        <div class="dev-floating-btn" onclick="toggleDevPopup(true)" title="تواصل مع شركة البرمجة">💻</div>
+      
+        <!-- أيقونة وجملة شركة البرمجة العائمة الجديدة -->
+        <div class="dev-floating-btn" onclick="toggleDevPopup(true)">
+          🚀💬 <span>تواصل مع شركة البرمجة</span>
+        </div>
 
         <!-- فورمة العميل لشركة البرمجة -->
         <div class="dev-popup" id="devPopup">
