@@ -810,7 +810,6 @@ function showToast(msg) { const t=document.getElementById('toast'); t.textConten
 /* ===== تشغيل ===== */
 window.addEventListener('load', () => {
   renderProducts();
-  renderMenProducts(); // 🔥 ضع هذا السطر هنا لتأمين بناء الصفحة فوراً
   setTimeout(() => {
     const s=document.getElementById('splash');
     s.style.opacity='0'; s.style.transform='scale(1.05)';
