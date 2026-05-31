@@ -365,16 +365,17 @@ textarea.form-input { resize: none; height: 80px; }
 }
 
 /* ===== أيقونة المطور الدائرية الجديدة 💬 ===== */
+/* ===== إعادة تصميم الأيقونة الدائرية المدمجة الشيك 🚀 ===== */
 .dev-floating-btn {
   position: fixed;
-  bottom: 120px;
-  left: 20px;
+  bottom: 125px;
+  left: 16px;
   background: linear-gradient(135deg, #1e1e2f, #11111b);
   color: #ffffff;
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  font-size: 22px;
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -558,21 +559,20 @@ textarea.form-input { resize: none; height: 80px; }
         <textarea id="customer-address" class="form-input" placeholder="مثال: كفر الزيات - شارع... - بجوار مسجد..."></textarea>
       
         <!-- أيقونة وجملة شركة البرمجة العائمة الجديدة -->
-        <div class="dev-floating-btn" onclick="toggleDevPopup(true)">
-          💬 <span>المهندس</span>
-        </div>
+        <!-- أيقونة المطور الدائرية العائمة (صغيرة ومثالية للموبايل) -->
+        <div class="dev-floating-btn" onclick="toggleDevPopup(true)" title="تواصل مع شركة البرمجة">🚀💬</div>
 
         <!-- فورمة العميل لشركة البرمجة -->
         <div class="dev-popup" id="devPopup">
           <div class="dev-popup-card">
             <button class="dev-close-btn" onclick="toggleDevPopup(false)">✕</button>
             <div class="dev-popup-header">
-              <div class="dev-popup-title">🚀 المهندس</div>
+              <div class="dev-popup-title">🚀 تواصل مع شركة البرمجة</div>
               <div class="dev-popup-sub">اترك بياناتك وسيقوم البشمهندس بمراسلتك فوراً لتنفيذ مشروعك</div>
             </div>
             
             <label class="form-label">اسم حضرتك *</label>
-            <input type="text" id="dev-name" class="form-input" placeholder="اكتب اسمك الكريم">
+            <input type="text" id="dev-name" class="form-input" placeholder="اكتب اسم حضرتك">
             
             <label class="form-label">رقم تليفونك (واتساب) *</label>
             <input type="tel" id="dev-phone" class="form-input" placeholder="رقم الموبايل">
@@ -581,6 +581,11 @@ textarea.form-input { resize: none; height: 80px; }
             <input type="text" id="dev-business" class="form-input" placeholder="مثال: صيدلية، سوبر ماركت، مطعم...">
             
             <button class="dev-submit-btn" onclick="sendDevLead()">إرسال وفتح الواتساب 💬</button>
+            
+            <!-- سطر رفيع وشيك جداً لحفظ حقوق شركتك البرمجية داخل النافذة -->
+            <div style="text-align: center; margin-top: 16px; font-size: 10px; color: #aaa; font-weight: 600; letter-spacing: 0.5px; border-top: 1px dashed #eee; padding-top: 10px;">
+              Powered By Smf
+            </div>
           </div>
         </div>
 
