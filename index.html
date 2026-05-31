@@ -699,51 +699,47 @@ function updateSummary() {
 }
 document.addEventListener('input', e => { if(e.target.id==='extra-orders') updateSummary(); });
 
-/* ===== منتجات الرجال المحدثة والمعالجة بالكامل ===== */
-const menProducts = [
-  { name: 'ديامونركتا 20مجم | 4 قرص', img: 'diamonrecta-4.webp', badge: 'تادالافيل 20مجم' },
-  { name: 'ديامونركتا 20مجم | 2 قرص', img: 'diamonrecta-2.webp', badge: 'تادالافيل 20مجم' },
-  { name: 'باوريكتا ODT استحلاب لضعف الانتصاب والتأخير | 6 أقراص', img: 'powerecta-odt.webp', badge: 'فاردينافيل 10مجم' },
-  { name: 'باوريكتا لعلاج ضعف الانتصاب | 20مج | 4 اقراص', img: 'powerecta-4.webp', badge: 'فاردينافيل 20مجم' },
-  { name: 'فياجرا 100 للرجال (سيلدينافيل 100مجم) | 4 قرص', img: 'viagra-100.webp', badge: 'سيلدينافيل 100مجم' },
-  { name: 'فياجرا 50 سيلدينافيل للرجال | 4 أقراص', img: 'viagra-50.webp', badge: 'سيلدينافيل 50مجم' },
-  { name: 'تادالونج 20مجم للانتصاب | 4 أقراص', img: 'tadalong-20.webp', badge: 'تادالافيل 20مجم' },
-  { name: 'اريك 100مجم لتقوية الانتصاب | 12 قرص', img: 'erec-12.webp', badge: 'سيلدينافيل 100مجم' },
-  { name: 'جويبوكس 60مجم للتأخير | 6 أقراص', img: 'joypox-6.webp', badge: 'دابوكسيتين 60مجم' },
-  { name: 'فايركتا 100 منشط للذكور | 9 أقراص', img: 'virecta-9.webp', badge: 'سيلدينافيل 100مجم' },
-  { name: 'سيلدين 50مجم لعلاج ضعف الانتصاب | 4 أقراص', img: 'silden-50.webp', badge: 'سيلدينافيل 50مجم' },
-  { name: 'سيلدين 100مجم لضعف الانتصاب الشديد | 4 أقراص', img: 'silden-100.webp', badge: 'سيلدينافيل 100مجم' }
+/* ===== منتجات الرجال المعالجة والمضمونة 100% ===== */
+var menProducts = [
+  { name: "ديامونركتا 20مجم | 4 قرص", img: "diamonrecta-4.webp", badge: "تادالافيل 20مجم" },
+  { name: "ديامونركتا 20مجم | 2 قرص", img: "diamonrecta-2.webp", badge: "تادالافيل 20مجم" },
+  { name: "باوريكتا ODT استحلاب لضعف الانتصاب والتأخير | 6 أقراص", img: "powerecta-odt.webp", badge: "فاردينافيل 10مجم" },
+  { name: "باوريكتا لعلاج ضعف الانتصاب | 20مج | 4 اقراص", img: "powerecta-4.webp", badge: "فاردينافيل 20مجم" },
+  { name: "فياجرا 100 للرجال (سيلدينافيل 100مجم) | 4 قرص", img: "viagra-100.webp", badge: "سيلدينافيل 100مجم" },
+  { name: "فياجرا 50 سيلدينافيل للرجال | 4 أقراص", img: "viagra-50.webp", badge: "سيلدينافيل 50مجم" },
+  { name: "تادالونج 20مجم للانتصاب | 4 أقراص", img: "tadalong-20.webp", badge: "تادالافيل 20مجم" },
+  { name: "اريك 100مجم لتقوية الانتصاب | 12 قرص", img: "erec-12.webp", badge: "سيلدينافيل 100مجم" },
+  { name: "جويبوكس 60مجم للتأخير | 6 أقراص", img: "joypox-6.webp", badge: "دابوكسيتين 60مجم" },
+  { name: "فايركتا 100 منشط للذكور | 9 أقراص", img: "virecta-9.webp", badge: "سيلدينافيل 100مجم" },
+  { name: "سيلدين 50مجم لعلاج ضعف الانتصاب | 4 أقراص", img: "silden-50.webp", badge: "سيلدينافيل 50مجم" },
+  { name: "سيلدين 100مجم لضعف الانتصاب الشديد | 4 أقراص", img: "silden-100.webp", badge: "سيلدينافيل 100مجم" }
 ];
 
 function renderMenProducts() {
   var htmlText = "";
   for (var i = 0; i < menProducts.length; i++) {
     var p = menProducts[i];
-    htmlText += '<div class="men-product-card" style="flex-direction: column; align-items: stretch; gap: 8px; margin: 0 16px 12px; background: white; border: 1.5px solid var(--border); border-radius: 18px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">' +
-      '<div style="display: flex; align-items: center; gap: 12px;">' +
-        '<img src="' + p.img + '" alt="' + p.name + '" class="men-product-img" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';" style="width: 72px; height: 72px; border-radius: 12px; object-fit: contain; background: #f8f8f8; border: 1px solid var(--border); flex-shrink: 0;">' +
-        '<div class="men-product-img-ph" style="width: 72px; height: 72px; border-radius: 12px; background: #f0f4f8; border: 1px solid var(--border); flex-shrink: 0; display: none; align-items: center; justify-content: center; font-size: 28px;">💊</div>' +
-        '<div class="men-product-info" style="flex: 1; min-width: 0;">' +
-          '<div class="men-product-badge" style="display: inline-flex; align-items: center; gap: 4px; background: #e8faf1; color: var(--green); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-bottom: 5px;">🛡️ ' + p.badge + '</div>' +
-          '<div class="men-product-name" style="font-size: 12px; font-weight: 800; color: var(--text); line-height: 1.4;">' + p.name + '</div>' +
-        '</div>' +
-      '</div>' +
-      '<div style="display: flex; gap: 6px; margin-top: 4px; padding: 0 4px;">' +
-        '<select id="men-unit-' + i + '" class="form-input" style="margin-bottom: 0; padding: 6px 10px; font-size: 11px; flex: 2; height: 36px; border-radius: 10px; background-color: #f8f9fa; border: 1.5px solid var(--border); color: var(--text); cursor: pointer;">' +
-          '<option value="علبة">📦 علبة كاملة</option>' +
-          '<option value="شريط">💊 شريط</option>' +
-          '<option value="حباية/كبسولة">✨ حباية / كبسولة</option>' +
-        '</select>' +
-        '<select id="men-qty-' + i + '" class="form-input" style="margin-bottom: 0; padding: 6px 10px; font-size: 11px; flex: 1; height: 36px; border-radius: 10px; text-align: center; background-color: #f8f9fa; border: 1.5px solid var(--border); color: var(--text); cursor: pointer;">' +
-          '<option value="1">1</option>' +
-          '<option value="2">2</option>' +
-          '<option value="3">3</option>' +
-          '<option value="4">4</option>' +
-          '<option value="5">5</option>' +
-        '</select>' +
-        '<button class="men-order-btn" style="height: 36px; padding: 0 16px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; border: none; font-size: 12px; font-weight: 800; font-family: \'Cairo\', sans-serif; cursor: pointer; flex-shrink: 0; white-space: nowrap;" onclick="orderMenProduct(' + i + ')">🟢 طلب</button>' +
-      '</div>' +
-    '</div>';
+    htmlText += '<div class="men-product-card" style="flex-direction: column; align-items: stretch; gap: 8px; margin: 0 16px 12px; background: white; border: 1.5px solid var(--border); border-radius: 18px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">';
+    htmlText += '<div style="display: flex; align-items: center; gap: 12px;">';
+    htmlText += '<img src="' + p.img + '" alt="' + p.name + '" class="men-product-img" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';" style="width: 72px; height: 72px; border-radius: 12px; object-fit: contain; background: #f8f8f8; border: 1px solid var(--border); flex-shrink: 0;">';
+    htmlText += '<div class="men-product-img-ph" style="width: 72px; height: 72px; border-radius: 12px; background: #f0f4f8; border: 1px solid var(--border); flex-shrink: 0; display: none; align-items: center; justify-content: center; font-size: 28px;">💊</div>';
+    htmlText += '<div class="men-product-info" style="flex: 1; min-width: 0;">';
+    htmlText += '<div class="men-product-badge" style="display: inline-flex; align-items: center; gap: 4px; background: #e8faf1; color: var(--green); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-bottom: 5px;">🛡️ ' + p.badge + '</div>';
+    htmlText += '<div class="men-product-name" style="font-size: 12px; font-weight: 800; color: var(--text); line-height: 1.4;">' + p.name + '</div>';
+    htmlText += '</div>';
+    htmlText += '</div>';
+    htmlText += '<div style="display: flex; gap: 6px; margin-top: 4px; padding: 0 4px;">';
+    htmlText += '<select id="men-unit-' + i + '" class="form-input" style="margin-bottom: 0; padding: 6px 10px; font-size: 11px; flex: 2; height: 36px; border-radius: 10px; background-color: #f8f9fa; border: 1.5px solid var(--border); color: var(--text); cursor: pointer;">';
+    htmlText += '<option value="علبة">📦 علبة كاملة</option>';
+    htmlText += '<option value="شريط">💊 شريط</option>';
+    htmlText += '<option value="حباية/كبسولة">✨ حباية / كبسولة</option>';
+    htmlText += '</select>';
+    htmlText += '<select id="men-qty-' + i + '" class="form-input" style="margin-bottom: 0; padding: 6px 10px; font-size: 11px; flex: 1; height: 36px; border-radius: 10px; text-align: center; background-color: #f8f9fa; border: 1.5px solid var(--border); color: var(--text); cursor: pointer;">';
+    htmlText += '<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>';
+    htmlText += '</select>';
+    htmlText += '<button class="men-order-btn" style="height: 36px; padding: 0 16px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; border: none; font-size: 12px; font-weight: 800; font-family: \'Cairo\', sans-serif; cursor: pointer; flex-shrink: 0; white-space: nowrap;" onclick="orderMenProduct(' + i + ')">🟢 طلب</button>';
+    htmlText += '</div>';
+    htmlText += '</div>';
   }
   var container = document.getElementById('men-products-list');
   if (container) { container.innerHTML = htmlText; }
