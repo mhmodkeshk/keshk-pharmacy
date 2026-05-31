@@ -366,23 +366,27 @@ textarea.form-input { resize: none; height: 80px; }
 
 /* ===== أيقونة المطور الدائرية الجديدة 💬 ===== */
 /* ===== إعادة تصميم الأيقونة الدائرية المدمجة الشيك 🚀 ===== */
+/* ===== تنسيق مستطيل شركة البرمجة المرن للموبايل 🚀 ===== */
 .dev-floating-btn {
   position: fixed;
   bottom: 125px;
-  left: 16px;
+  left: 14px;
   background: linear-gradient(135deg, #1e1e2f, #11111b);
   color: #ffffff;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  font-size: 18px;
+  padding: 8px 12px; /* تجويف متناسق لعدم أخذ مساحة ضخمة */
+  border-radius: 12px; /* زوايا مستطيلة ناعمة وشيك */
+  font-size: 10.5px; /* حجم خط مثالي ومقروء جداً على الهواتف دون أن يخرج عن الشاشة */
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.3);
   z-index: 999;
   border: 1.5px solid rgba(255,255,255,0.15);
   cursor: pointer;
+  white-space: nowrap; /* يضمن بقاء الجملة كاملة على سطر واحد دون التواء */
+  direction: rtl; /* لضبط الترتيب من اليمين لليسار */
   animation: floatPulse 2s infinite ease-in-out;
   transition: transform 0.2s;
 }
@@ -557,10 +561,11 @@ textarea.form-input { resize: none; height: 80px; }
         <input type="tel" id="customer-phone" class="form-input" placeholder="رقم موبايلك">
         <label class="form-label">العنوان بالتفصيل *</label>
         <textarea id="customer-address" class="form-input" placeholder="مثال: كفر الزيات - شارع... - بجوار مسجد..."></textarea>
-      
-        <!-- أيقونة وجملة شركة البرمجة العائمة الجديدة -->
-        <!-- أيقونة المطور الدائرية العائمة (صغيرة ومثالية للموبايل) -->
-        <div class="dev-floating-btn" onclick="toggleDevPopup(true)" title="تواصل مع شركة البرمجة">🚀💬</div>
+
+        <!-- زر شركة البرمجة المستطيل المطور -->
+        <div class="dev-floating-btn" onclick="toggleDevPopup(true)">
+          💬 <span>تواصل مع شركة البرمجة</span>
+        </div>
 
         <!-- فورمة العميل لشركة البرمجة -->
         <div class="dev-popup" id="devPopup">
