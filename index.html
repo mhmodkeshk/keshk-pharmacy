@@ -325,45 +325,6 @@ textarea.form-input { resize: none; height: 80px; }
 }
 .dev-btn:active { transform: scale(0.95); }
 /* ===== أيقونة المطور العائمة والمتحركة 💬 ===== */
-/* ===== تنسيق كبسولة شركة البرمجة المطور 🚀 ===== */
-.dev-floating-btn {
-  position: fixed;
-  bottom: 125px;
-  left: 16px;
-  background: linear-gradient(135deg, #1e1e2f, #11111b);
-  color: #ffffff;
-  padding: 8px 14px;
-  border-radius: 30px;
-  font-size: 11px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-  z-index: 999;
-  border: 1.5px solid rgba(255,255,255,0.15);
-  cursor: pointer;
-  white-space: nowrap; /* ميزة تمنع كسر النص وتجعل الجملة على سطر واحد */
-  direction: rtl; /* لضبط اتجاه النص العربي */
-  animation: floatPulse 2s infinite ease-in-out;
-  transition: transform 0.2s;
-}
-.dev-floating-btn:active { transform: scale(0.92); }
-
-
-/* حركة النبض والاهتزاز الخفيف المستمر */
-@keyframes floatPulse {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-  }
-  50% {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-  }
-}
-
 /* ===== أيقونة المطور الدائرية الجديدة 💬 ===== */
 /* ===== إعادة تصميم الأيقونة الدائرية المدمجة الشيك 🚀 ===== */
 /* ===== تنسيق مستطيل شركة البرمجة المرن للموبايل 🚀 ===== */
@@ -692,7 +653,7 @@ function updateAction(key) {
     : `<div class="counter"><button onclick="changeQty('${key}',-1)">−</button><span>${cart[key]}</span><button onclick="changeQty('${key}',1)">+</button></div>`;
 }
 function updateSummary() {
-  const items=products.filter(p=>cart[p.key]>0), extra=document.getElementById('extra-orders').value.trim();
+const items=products.filter(p=>cart[p.key]>0), extra=document.getElementById('extra-orders').value.trim();
   const box=document.getElementById('order-summary'), content=document.getElementById('summary-content');
   if(items.length||extra) { box.style.display='block'; const lines=items.map(p=>`${p.name}: ${cart[p.key]} علبة`); if(extra) lines.push(`طلبات إضافية: ${extra}`); content.innerHTML=lines.join('<br>'); }
   else box.style.display='none';
@@ -704,7 +665,7 @@ var menProducts = [
   { name: "ديامونركتا 20مجم | 4 قرص", img: "diamonrecta-4.webp", badge: "تادالافيل 20مجم" },
   { name: "ديامونركتا 20مجم | 2 قرص", img: "diamonrecta-2.webp", badge: "تادالافيل 20مجم" },
   { name: "باوريكتا ODT استحلاب لضعف الانتصاب والتأخير | 6 أقراص", img: "powerecta-odt.webp", badge: "فاردينافيل 10مجم" },
-  { name: "باوريكتا لعلاج ضعف الانتصاب | 20مج | 4 اقراص", img: "powerecta-4.webp", badge: "فاردينافيل 20مجم" },
+  { name: 'باوريكتا ODT استحلاب لضعف الانتصاب والتأخير | 6 أقراص', img: 'powerecta-odt.webp', badge: "فاردينافيل 10مجم" },
   { name: "فياجرا 100 للرجال (سيلدينافيل 100مجم) | 4 قرص", img: "viagra-100.webp", badge: "سيلدينافيل 100مجم" },
   { name: "فياجرا 50 سيلدينافيل للرجال | 4 أقراص", img: "viagra-50.webp", badge: "سيلدينافيل 50مجم" },
   { name: "تادالونج 20مجم للانتصاب | 4 أقراص", img: "tadalong-20.webp", badge: "تادالافيل 20مجم" },
