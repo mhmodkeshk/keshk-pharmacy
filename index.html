@@ -343,7 +343,7 @@ textarea.form-input { resize: none; height: 80px; }
   z-index: 999; /* تضمن ظهورها فوق كل محتويات ومنتجات الموقع */
   border: 1px solid rgba(255,255,255,0.1);
   direction: ltr; /* لترتيب الإيموجي والنص من اليسار لليمين بشكل شيك */
-  
+
   /* تأثير حركي نبضي جذاب يلفت الانتباه تلقائياً */
   animation: floatPulse 2s infinite ease-in-out;
   transition: transform 0.2s;
@@ -365,11 +365,68 @@ textarea.form-input { resize: none; height: 80px; }
   }
 }
 
-/* إخفاء النص البرمي على الشاشات الصغيرة جداً ليصبح أيقونة دائرية فقط لعدم إزعاج العميل */
-@media (max-width: 360px) {
-  .dev-floating-btn span { display: none; }
-  .dev-floating-btn { padding: 10px; border-radius: 50%; font-size: 16px; bottom: 95px; }
+/* ===== أيقونة المطور الدائرية الجديدة 💻 ===== */
+.dev-floating-btn {
+  position: fixed;
+  bottom: 120px;
+  left: 20px;
+  background: linear-gradient(135deg, #1e1e2f, #11111b);
+  color: #ffffff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  z-index: 999;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  cursor: pointer;
+  animation: floatPulse 2s infinite ease-in-out;
+  transition: transform 0.2s;
 }
+.dev-floating-btn:active { transform: scale(0.92); }
+
+/* ===== النافذة المنبثقة لشركة البرمجة ===== */
+.dev-popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.dev-popup-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 360px;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  animation: popupScale 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+  direction: rtl;
+}
+.dev-popup-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.dev-popup-title { font-size: 16px; font-weight: 800; color: #1e1e2f; }
+.dev-popup-sub { font-size: 11px; color: #6b8068; margin-top: 4px; }
+.dev-close-btn {
+  float: left; background: #f0f0f0; border: none; width: 26px; height: 26px;
+  border-radius: 50%; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.dev-submit-btn {
+  width: 100%; background: linear-gradient(135deg, #1e1e2f, #11111b); color: white;
+  border: none; border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 700;
+  font-family: 'Cairo', sans-serif; cursor: pointer; margin-top: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+@keyframes popupScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
 
 </style>
 </head>
@@ -463,7 +520,7 @@ textarea.form-input { resize: none; height: 80px; }
         <div class="ad-card ad-slot4" onclick="openAdWA(4)">
           <div class="ad-card-noise"></div>
           <div class="ad-card-shine"></div>
-          <div class="ad-card-icon">💸💸</div>
+          <div class="ad-card-icon">💸</div>
           <div class="ad-card-content">
             <div class="ad-card-badge">📣 خصم خاص</div>
             <div class="ad-card-title">علاجك الشهري</div>
@@ -500,17 +557,31 @@ textarea.form-input { resize: none; height: 80px; }
         <input type="tel" id="customer-phone" class="form-input" placeholder="رقم موبايلك">
         <label class="form-label">العنوان بالتفصيل *</label>
         <textarea id="customer-address" class="form-input" placeholder="مثال: كفر الزيات - شارع... - بجوار مسجد..."></textarea>
-      
-        <!-- أيقونة المطور العائمة الجديدة الشيك -->
-        <a href="#" onclick="openDevWA(event)" class="dev-floating-btn" title="تواصل مع مطور التطبيق">
-          💻 <span>Powered By Smf</span>
-        </a>
 
-    <div class="footer-action">
-      <button class="submit-btn" onclick="sendToWhatsApp()">تأكيد الطلب واستلام الهدية عبر الواتساب 🎁</button>
-    </div>
+        <!-- أيقونة المطور الدائرية العائمة -->
+        <div class="dev-floating-btn" onclick="toggleDevPopup(true)" title="تواصل مع شركة البرمجة">💻</div>
 
-  </div>
+        <!-- فورمة العميل لشركة البرمجة -->
+        <div class="dev-popup" id="devPopup">
+          <div class="dev-popup-card">
+            <button class="dev-close-btn" onclick="toggleDevPopup(false)">✕</button>
+            <div class="dev-popup-header">
+              <div class="dev-popup-title">🚀 تواصل مع شركة البرمجة</div>
+              <div class="dev-popup-sub">اترك بياناتك وسيقوم البشمهندس بمراسلتك فوراً لتنفيذ مشروعك</div>
+            </div>
+            
+            <label class="form-label">اسم حضرتك *</label>
+            <input type="text" id="dev-name" class="form-input" placeholder="اكتب اسمك الكريم">
+            
+            <label class="form-label">رقم تليفونك (واتساب) *</label>
+            <input type="tel" id="dev-phone" class="form-input" placeholder="رقم الموبايل">
+            
+            <label class="form-label">نوع نشاطك التجاري *</label>
+            <input type="text" id="dev-business" class="form-input" placeholder="مثال: صيدلية، سوبر ماركت، مطعم...">
+            
+            <button class="dev-submit-btn" onclick="sendDevLead()">إرسال وفتح الواتساب 💬</button>
+          </div>
+        </div>
 
   <!-- ===== صفحة منتجات الرجال ===== -->
   <div class="page" id="page-men">
@@ -665,7 +736,7 @@ function typeNext() { if(twIndex<promoText.length){ twEl.textContent+=promoText[
 
 /* ===== الإعلانات ===== */
 function openAdWA(slot) {
-  const msg = `السلام عليكم 👋\nعايز أعرف أكتر عن المساحة الإعلانية رقم ${slot} في صيدلية كشك.`;
+  const msg = `السلام عليكم 👋\n عايز أعرف تفاصيل أكتر عن العرض ${slot} في صيدلية كشك.`;
   window.open(`https://wa.me/201020302005?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
@@ -701,13 +772,37 @@ window.addEventListener('load', () => {
     setTimeout(() => { s.style.display='none'; document.getElementById('app').style.display='block'; setTimeout(()=>{ twEl.textContent=''; twIndex=0; typeNext(); },600); },600);
   }, 2400);
 });
-/* ===== رابط مطور التطبيق البشمهندس محمود ===== */
-function openDevWA(event) {
-  event.preventDefault();
-  const myNumber = "201090908002"; // رقمك الاحترافي بكود مصر
-  const myMsg = "السلام عليكم يا بشمهندس، كنت عايز أستفسر عن تنفيذ تطبيق أونلاين مثل صيدلية كشك 🚀";
-  window.open(`https://wa.me{myNumber}?text=${encodeURIComponent(myMsg)}`, '_blank');
+
+/* ===== نظام تواصل شركة البرمجة (البشمهندس كريم) ===== */
+function toggleDevPopup(show) {
+  const popup = document.getElementById('devPopup');
+  if(popup) popup.style.display = show ? 'flex' : 'none';
 }
+
+function sendDevLead() {
+  const name = document.getElementById('dev-name').value.trim();
+  const phone = document.getElementById('dev-phone').value.trim();
+  const business = document.getElementById('dev-business').value.trim();
+
+  if(!name || !phone || !business) {
+    alert('⚠️ يرجى ملء جميع الخانات لتتمكن من إرسال طلبك بنجاح.');
+    return;
+  }
+
+  // نص الرسالة المنظم الذي سيصلك على رقمك الشخصي
+  let msg = `🚀 *طلب تصميم تطبيق جديد - شركة البرمجة*\n\n`;
+  msg += `👤 *اسم العميل:* ${name}\n`;
+  msg += `📞 *رقم الهاتف:* ${phone}\n`;
+  msg += `💼 *نشاطه التجاري:* ${business}\n\n`;
+  msg += `💻 العميل معجب بتطبيق *صيدلية كشك* ويريد تنفيذ مشروع خاص بنشاطه التجاري.`;
+
+  const myNumber = "201090908002"; // رقمك الشخصي الاحترافي
+  window.open(`https://wa.me{myNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+  
+  // إغلاق النافذة المنبثقة تلقائياً بعد الإرسال
+  toggleDevPopup(false);
+}
+
 
 </script>
 </body>
