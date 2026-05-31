@@ -431,6 +431,16 @@ textarea.form-input { resize: none; height: 80px; }
 }
 @keyframes popupScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
+/* ضبط شكل القوائم المنسدلة لمنتجات الرجال */
+.men-product-card select {
+  background-color: #f8f9fa;
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+}
+.men-product-card select:focus {
+  border-color: var(--green);
+}
 
 </style>
 </head>
@@ -701,23 +711,49 @@ const menProducts = [
 ];
 
 function renderMenProducts() {
-  document.getElementById('men-products-list').innerHTML = menProducts.map((p,i) => `
-    <div class="men-product-card">
-      <img src="${p.img}" alt="${p.name}" class="men-product-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="men-product-img-ph">💊</div>
-      <div class="men-product-info">
-        <div class="men-product-badge">💊 ${p.badge}</div>
-        <div class="men-product-name">${p.name}</div>
+  document.getElementById('men-products-list').innerHTML = menProducts.map((p, i) => `
+    <div class="men-product-card" style="flex-direction: column; align-items: stretch; gap: 8px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="${p.img}" alt="${p.name}" class="men-product-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="men-product-img-ph">💊</div>
+        <div class="men-product-info">
+          <div class="men-product-badge">🛡️ ${p.badge}</div>
+          <div class="men-product-name">${p.name}</div>
+        </div>
       </div>
-      <button class="men-order-btn" onclick="orderMenProduct(${i})">طلب<br>الآن</button>
+      
+      <!-- نظام اختيار الوحدات المطور والذكي -->
+      <div style="display: flex; gap: 6px; margin-top: 4px;">
+        <select id="men-unit-${i}" class="form-input" style="margin-bottom: 0; padding: 6px 10px; font-size: 11px; flex: 2; height: 36px; border-radius: 10px;">
+          <option value="علبة">📦 علبة كاملة</option>
+          <option value="شريط">💊 شريط</option>
+          <option value="حباية/كبسولة">✨ حباية / كبسولة</option>
+        </select>
+        
+        <select id="men-qty-${i}" class="form-input" style="margin-bottom: 0; padding: 6px 10px; font-size: 11px; flex: 1; height: 36px; border-radius: 10px; text-align: center;">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        
+        <button class="men-order-btn" style="height: 36px; padding: 0 16px; border-radius: 10px;" onclick="orderMenProduct(${i})">🟢 طلب</button>
+      </div>
     </div>`).join('');
 }
 
 function orderMenProduct(i) {
   const p = menProducts[i];
-  const msg = `السلام عليكم 👋\nعايز أطلب من صيدلية كشك:\n\n*${p.name}*\n\nمن فضلك تواصل معي لتأكيد الطلب. 🙏`;
-  window.open(`https://wa.me/201020302005?text=${encodeURIComponent(msg)}`, '_blank');
+  // سحب الاختيارات التي حددها العميل للمنتج بالظبط
+  const unit = document.getElementById(`men-unit-${i}`).value;
+  const qty = document.getElementById(`men-qty-${i}`).value;
+  
+  const msg = `السلام عليكم 👋\nعايز أطلب من صيدلية كشك عبر التوصيل السري الخاص:\n\n📦 *المنتج:* ${p.name}\n📋 *الكمية المطلوبة:* ${qty} ${unit}\n\nمن فضلك تواصل معي لتأكيد الطلب بكل خصوصية وسرية. 🙏`;
+  
+  window.open(`https://wa.me{encodeURIComponent(msg)}`, '_blank');
 }
+
 
 function orderAllMen() {
   const msg = 'السلام عليكم 👋\nعايز أعرف أكتر عن منتجات الصحة للرجال المتاحة في صيدلية كشك. 🙏';
