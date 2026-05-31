@@ -324,84 +324,6 @@ textarea.form-input { resize: none; height: 80px; }
   transition: transform 0.2s;
 }
 .dev-btn:active { transform: scale(0.95); }
-/* ===== أيقونة المطور العائمة والمتحركة 💬 ===== */
-/* ===== أيقونة المطور الدائرية الجديدة 💬 ===== */
-/* ===== إعادة تصميم الأيقونة الدائرية المدمجة الشيك 🚀 ===== */
-/* ===== تنسيق مستطيل شركة البرمجة المرن للموبايل 🚀 ===== */
-.dev-floating-btn {
-  position: fixed;
-  bottom: 125px;
-  left: 14px;
-  background: linear-gradient(135deg, #1e1e2f, #11111b);
-  color: #ffffff;
-  padding: 8px 12px; /* تجويف متناسق لعدم أخذ مساحة ضخمة */
-  border-radius: 12px; /* زوايا مستطيلة ناعمة وشيك */
-  font-size: 10.5px; /* حجم خط مثالي ومقروء جداً على الهواتف دون أن يخرج عن الشاشة */
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-  z-index: 999;
-  border: 1.5px solid rgba(255,255,255,0.15);
-  cursor: pointer;
-  white-space: nowrap; /* يضمن بقاء الجملة كاملة على سطر واحد دون التواء */
-  direction: rtl; /* لضبط الترتيب من اليمين لليسار */
-  animation: floatPulse 2s infinite ease-in-out;
-  transition: transform 0.2s;
-}
-.dev-floating-btn:active { transform: scale(0.92); }
-
-/* ===== النافذة المنبثقة لشركة البرمجة ===== */
-.dev-popup {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 10000;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  backdrop-filter: blur(4px);
-}
-.dev-popup-card {
-  background: #ffffff;
-  width: 100%;
-  max-width: 360px;
-  border-radius: 24px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  animation: popupScale 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
-  direction: rtl;
-}
-.dev-popup-header {
-  text-align: center;
-  margin-bottom: 18px;
-}
-.dev-popup-title { font-size: 16px; font-weight: 800; color: #1e1e2f; }
-.dev-popup-sub { font-size: 11px; color: #6b8068; margin-top: 4px; }
-.dev-close-btn {
-  float: left; background: #f0f0f0; border: none; width: 26px; height: 26px;
-  border-radius: 50%; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-}
-.dev-submit-btn {
-  width: 100%; background: linear-gradient(135deg, #1e1e2f, #11111b); color: white;
-  border: none; border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 700;
-  font-family: 'Cairo', sans-serif; cursor: pointer; margin-top: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-@keyframes popupScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-
-/* ضبط شكل القوائم المنسدلة لمنتجات الرجال */
-.men-product-card select {
-  background-color: #f8f9fa;
-  border: 1.5px solid var(--border);
-  color: var(--text);
-  cursor: pointer;
-}
-.men-product-card select:focus {
-  border-color: var(--green);
-}
 
 </style>
 </head>
@@ -456,7 +378,7 @@ textarea.form-input { resize: none; height: 80px; }
         <div class="ad-card ad-men" onclick="showPage('men')">
           <div class="ad-card-noise"></div>
           <div class="ad-card-shine"></div>
-          <div class="ad-card-icon">💪💥</div>
+          <div class="ad-card-icon">💪 </div>
           <div class="ad-card-content">
             <div class="ad-card-badge">🔒 للرجال فقط</div>
             <div class="ad-card-title">منتجات الصحة للرجال</div>
@@ -532,38 +454,22 @@ textarea.form-input { resize: none; height: 80px; }
         <input type="tel" id="customer-phone" class="form-input" placeholder="رقم موبايلك">
         <label class="form-label">العنوان بالتفصيل *</label>
         <textarea id="customer-address" class="form-input" placeholder="مثال: كفر الزيات - شارع... - بجوار مسجد..."></textarea>
+      </div>
+    </div>
+<!-- حقوق المطور الشخصية -->
+<div class="dev-footer">
+  <p>هل تريد تطبيقاً احترافياً ومميزاً مثل هذا لنشاطك التجاري؟</p>
+<a href="#" onclick="openDevWA(event)" class="dev-btn">
 
-        <!-- زر شركة البرمجة المستطيل المطور -->
-        <div class="dev-floating-btn" onclick="toggleDevPopup(true)">
-          💬 <span>تواصل مع شركة البرمجة</span>
-        </div>
+    💻 Powered By:  SMF 💬
+  </a>
+</div>
 
-        <!-- فورمة العميل لشركة البرمجة -->
-        <div class="dev-popup" id="devPopup">
-          <div class="dev-popup-card">
-            <button class="dev-close-btn" onclick="toggleDevPopup(false)">✕</button>
-            <div class="dev-popup-header">
-              <div class="dev-popup-title">🚀 تواصل مع شركة البرمجة</div>
-              <div class="dev-popup-sub">اترك بياناتك وسيقوم البشمهندس بمراسلتك فوراً لتنفيذ مشروعك</div>
-            </div>
-            
-            <label class="form-label">اسم حضرتك *</label>
-            <input type="text" id="dev-name" class="form-input" placeholder="اكتب اسم حضرتك">
-            
-            <label class="form-label">رقم تليفونك (واتساب) *</label>
-            <input type="tel" id="dev-phone" class="form-input" placeholder="رقم الموبايل">
-            
-            <label class="form-label">نوع نشاطك التجاري *</label>
-            <input type="text" id="dev-business" class="form-input" placeholder="مثال: صيدلية، سوبر ماركت، مطعم...">
-            
-            <button class="dev-submit-btn" onclick="sendDevLead()">إرسال وفتح الواتساب 💬</button>
-            
-            <!-- سطر رفيع وشيك جداً لحفظ حقوق شركتك البرمجية داخل النافذة -->
-            <div style="text-align: center; margin-top: 16px; font-size: 10px; color: #aaa; font-weight: 600; letter-spacing: 0.5px; border-top: 1px dashed #eee; padding-top: 10px;">
-              Powered By Smf
-            </div>
-          </div>
-        </div>
+    <div class="footer-action">
+      <button class="submit-btn" onclick="sendToWhatsApp()">تأكيد الطلب واستلام الهدية عبر الواتساب 🎁</button>
+    </div>
+
+  </div>
 
   <!-- ===== صفحة منتجات الرجال ===== -->
   <div class="page" id="page-men">
@@ -607,16 +513,11 @@ textarea.form-input { resize: none; height: 80px; }
 /* ===== التنقل بين الصفحات ===== */
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  
-  // 🚀 السطر السحري: بيضمن لو اتبعتت men يفتح صفحة page-men فوراً وبدون أخطاء
-  var pageId = (name === 'men') ? 'page-men' : 'page-' + name;
-  
-  var target = document.getElementById(pageId);
-  if(target) target.classList.add('active');
-  
+  document.getElementById('page-' + name).classList.add('active');
   window.scrollTo(0, 0);
   if (name === 'men') renderMenProducts();
 }
+
 /* ===== مكملات الرئيسية ===== */
 const products = [
   { key:'man',   name:'ليمتلس مان ماكس',  nameEn:'Limitless Man Max',  desc:'مالتي فيتامين للرجال لدعم الطاقة والمناعة وصحة العضلات.', img:'man.webp',   emoji:'💪' },
@@ -653,27 +554,27 @@ function updateAction(key) {
     : `<div class="counter"><button onclick="changeQty('${key}',-1)">−</button><span>${cart[key]}</span><button onclick="changeQty('${key}',1)">+</button></div>`;
 }
 function updateSummary() {
-const items=products.filter(p=>cart[p.key]>0), extra=document.getElementById('extra-orders').value.trim();
+  const items=products.filter(p=>cart[p.key]>0), extra=document.getElementById('extra-orders').value.trim();
   const box=document.getElementById('order-summary'), content=document.getElementById('summary-content');
   if(items.length||extra) { box.style.display='block'; const lines=items.map(p=>`${p.name}: ${cart[p.key]} علبة`); if(extra) lines.push(`طلبات إضافية: ${extra}`); content.innerHTML=lines.join('<br>'); }
   else box.style.display='none';
 }
 document.addEventListener('input', e => { if(e.target.id==='extra-orders') updateSummary(); });
 
-/* ===== منتجات الرجال المعالجة والمضمونة 100% ===== */
-var menProducts = [
-  { name: "ديامونركتا 20مجم | 4 قرص", img: "diamonrecta-4.webp", badge: "تادالافيل 20مجم" },
-  { name: "ديامونركتا 20مجم | 2 قرص", img: "diamonrecta-2.webp", badge: "تادالافيل 20مجم" },
-  { name: "باوريكتا ODT استحلاب لضعف الانتصاب والتأخير | 6 أقراص", img: "powerecta-odt.webp", badge: "فاردينافيل 10مجم" },
-  { name: 'باوريكتا ODT استحلاب لضعف الانتصاب والتأخير | 6 أقراص', img: 'powerecta-odt.webp', badge: "فاردينافيل 10مجم" },
-  { name: "فياجرا 100 للرجال (سيلدينافيل 100مجم) | 4 قرص", img: "viagra-100.webp", badge: "سيلدينافيل 100مجم" },
-  { name: "فياجرا 50 سيلدينافيل للرجال | 4 أقراص", img: "viagra-50.webp", badge: "سيلدينافيل 50مجم" },
-  { name: "تادالونج 20مجم للانتصاب | 4 أقراص", img: "tadalong-20.webp", badge: "تادالافيل 20مجم" },
-  { name: "اريك 100مجم لتقوية الانتصاب | 12 قرص", img: "erec-12.webp", badge: "سيلدينافيل 100مجم" },
-  { name: "جويبوكس 60مجم للتأخير | 6 أقراص", img: "joypox-6.webp", badge: "دابوكسيتين 60مجم" },
-  { name: "فايركتا 100 منشط للذكور | 9 أقراص", img: "virecta-9.webp", badge: "سيلدينافيل 100مجم" },
-  { name: "سيلدين 50مجم لعلاج ضعف الانتصاب | 4 أقراص", img: "silden-50.webp", badge: "سيلدينافيل 50مجم" },
-  { name: "سيلدين 100مجم لضعف الانتصاب الشديد | 4 أقراص", img: "silden-100.webp", badge: "سيلدينافيل 100مجم" }
+/* ===== منتجات الرجال ===== */
+const menProducts = [
+  { name:'ديامونركتا 20مجم | 4 قرص',                                       img:'diamonrecta-4.webp',  badge:'تادالافيل 20مجم' },
+  { name:'ديامونركتا 20مجم | 2 قرص',                                       img:'diamonrecta-2.webp',  badge:'تادالافيل 20مجم' },
+  { name:'باوريكتا ODT استحلاب لضعف الانتصاب والتأخير | 6 أقراص',         img:'powerecta-odt.webp', badge:'فاردينافيل 10مجم' },
+  { name:'باوريكتا لعلاج ضعف الانتصاب | 20مج | 4 اقراص',                  img:'powerecta-4.webp',   badge:'فاردينافيل 20مجم' },
+  { name:'فياجرا 100 للرجال (سيلدينافيل 100مجم) | 4 قرص',                  img:'viagra-100.webp',    badge:'سيلدينافيل 100مجم' },
+  { name:'فياجرا 50 سيلدينافيل للرجال | 4 أقراص',                          img:'viagra-50.webp',     badge:'سيلدينافيل 50مجم' },
+  { name:'تادالونج 20مجم للانتصاب | 4 أقراص',                              img:'tadalong-20.webp',   badge:'تادالافيل 20مجم' },
+  { name:'اريك 100مجم لتقوية الانتصاب | 12 قرص',                           img:'erec-12.webp',       badge:'سيلدينافيل 100مجم' },
+  { name:'جويبوكس 60مجم للتأخير | 6 أقراص',                               img:'joypox-6.webp',      badge:'دابوكسيتين 60مجم' },
+  { name:'فايركتا 100 منشط للذكور | 9 أقراص',                              img:'virecta-9.webp',     badge:'سيلدينافيل 100مجم' },
+  { name:'سيلدين 50مجم لعلاج ضعف الانتصاب | 4 أقراص',                     img:'silden-50.webp',     badge:'سيلدينافيل 50مجم' },
+  { name:'سيلدين 100مجم لضعف الانتصاب الشديد | 4 أقراص',                   img:'silden-100.webp',    badge:'سيلدينافيل 100مجم' },
 ];
 
 function renderMenProducts() {
@@ -707,11 +608,14 @@ function renderMenProducts() {
 }
 
 function orderMenProduct(i) {
-  var p = menProducts[i];
-  var unit = document.getElementById("men-unit-" + i).value;
-  var qty = document.getElementById("men-qty-" + i).value;
-  var msg = "السلام عليكم 👋\nعايز أطلب من صيدلية كشك عبر التوصيل السري الخاص:\n\n📦 *المنتج:* " + p.name + "\n📋 *الكمية المطلوبة:* " + qty + " " + unit + "\n\nمن فضلك تواصل معي لتأكيد الطلب بكل خصوصية وسرية. 🙏";
-  window.open("https://wa.me" + encodeURIComponent(msg), "_blank");
+  const p = menProducts[i];
+  const msg = `السلام عليكم 👋\nعايز أطلب من صيدلية كشك:\n\n*${p.name}*\n\nمن فضلك تواصل معي لتأكيد الطلب. 🙏`;
+  window.open(`https://wa.me/201020302005?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function orderAllMen() {
+  const msg = 'السلام عليكم 👋\nعايز أعرف أكتر عن منتجات الصحة للرجال المتاحة في صيدلية كشك. 🙏';
+  window.open(`https://wa.me/201020302005?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 /* ===== الصوت ===== */
@@ -737,7 +641,7 @@ function typeNext() { if(twIndex<promoText.length){ twEl.textContent+=promoText[
 
 /* ===== الإعلانات ===== */
 function openAdWA(slot) {
-  const msg = `السلام عليكم 👋\n عايز أعرف تفاصيل أكتر عن العرض ${slot} في صيدلية كشك.`;
+  const msg = `السلام عليكم 👋\nعايز أعرف أكتر عن المساحة الإعلانية رقم ${slot} في صيدلية كشك.`;
   window.open(`https://wa.me/201020302005?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
@@ -798,12 +702,12 @@ function sendDevLead() {
   msg += `💻 العميل معجب بتطبيق *صيدلية كشك* ويريد تنفيذ مشروع خاص بنشاطه التجاري.`;
 
   const myNumber = "201090908002"; // رقمك الشخصي الاحترافي
-  window.open(`https://wa.me{myNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+  // استبدل السطر الأخير في دالة sendDevLead بهذا السطر:
+window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(msg)}`, '_blank');
   
   // إغلاق النافذة المنبثقة تلقائياً بعد الإرسال
   toggleDevPopup(false);
 }
-
 
 </script>
 </body>
