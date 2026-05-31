@@ -324,6 +324,52 @@ textarea.form-input { resize: none; height: 80px; }
   transition: transform 0.2s;
 }
 .dev-btn:active { transform: scale(0.95); }
+/* ===== أيقونة المطور العائمة والمتحركة 💻 ===== */
+.dev-floating-btn {
+  position: fixed;
+  bottom: 90px; /* مرتفعة قليلاً لكي لا تختفي خلف زر تأكيد الطلب الأخضر */
+  left: 20px; /* مثبتة في الجانب الأيسر لعدم مضايقة محتوى الموبايل */
+  background: linear-gradient(135deg, #1e1e2f, #11111b);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  z-index: 999; /* تضمن ظهورها فوق كل محتويات ومنتجات الموقع */
+  border: 1px solid rgba(255,255,255,0.1);
+  direction: ltr; /* لترتيب الإيموجي والنص من اليسار لليمين بشكل شيك */
+  
+  /* تأثير حركي نبضي جذاب يلفت الانتباه تلقائياً */
+  animation: floatPulse 2s infinite ease-in-out;
+  transition: transform 0.2s;
+}
+
+.dev-floating-btn:active {
+  transform: scale(0.92);
+}
+
+/* حركة النبض والاهتزاز الخفيف المستمر */
+@keyframes floatPulse {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  }
+}
+
+/* إخفاء النص البرمي على الشاشات الصغيرة جداً ليصبح أيقونة دائرية فقط لعدم إزعاج العميل */
+@media (max-width: 360px) {
+  .dev-floating-btn span { display: none; }
+  .dev-floating-btn { padding: 10px; border-radius: 50%; font-size: 16px; bottom: 95px; }
+}
 
 </style>
 </head>
@@ -455,16 +501,10 @@ textarea.form-input { resize: none; height: 80px; }
         <label class="form-label">العنوان بالتفصيل *</label>
         <textarea id="customer-address" class="form-input" placeholder="مثال: كفر الزيات - شارع... - بجوار مسجد..."></textarea>
       
-        <!-- حقوق المطور الشخصية داخل كارت البيانات لتبان بوضوح -->
-        <div class="dev-footer">
-          <p>هل تريد تطبيقاً احترافياً ومميزاً مثل هذا لنشاطك التجاري؟</p>
-          <a href="#" onclick="openDevWA(event)" class="dev-btn">
-             💻 Powered By: SMF 💬
-          </a>
-        </div>
-
-      </div>
-    </div>
+        <!-- أيقونة المطور العائمة الجديدة الشيك -->
+        <a href="#" onclick="openDevWA(event)" class="dev-floating-btn" title="تواصل مع مطور التطبيق">
+          💻 <span>Powered By Smf</span>
+        </a>
 
     <div class="footer-action">
       <button class="submit-btn" onclick="sendToWhatsApp()">تأكيد الطلب واستلام الهدية عبر الواتساب 🎁</button>
