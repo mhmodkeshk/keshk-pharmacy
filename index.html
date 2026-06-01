@@ -1419,6 +1419,24 @@ document.addEventListener('click', function(e) {
 </script>
 
 <script>
+// ===== تشغيل الصوت تلقائياً عند أول تفاعل =====
+(function() {
+  var started = false;
+  function startVoiceOnce() {
+    if (started) return;
+    started = true;
+    if (typeof toggleVoice === 'function') {
+      toggleVoice();
+    }
+    document.removeEventListener('click', startVoiceOnce);
+    document.removeEventListener('touchstart', startVoiceOnce);
+  }
+  document.addEventListener('click', startVoiceOnce);
+  document.addEventListener('touchstart', startVoiceOnce);
+})();
+</script>
+
+<script>
 // ===== سلة طلبات العروض =====
 var OFFERS_CATALOG = {
   'off-man-max':       { name:'ليمتليس مان ماكس', price:'200 ج' },
