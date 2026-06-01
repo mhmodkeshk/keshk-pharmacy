@@ -43,7 +43,6 @@ body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--tex
 }
 #splash h1 { color: white; font-size: 30px; font-weight: 900; animation: fadeUp 0.5s 0.4s ease both; }
 #splash p  { color: rgba(255,255,255,0.75); font-size: 14px; margin-top: 6px; animation: fadeUp 0.5s 0.6s ease both; }
-.splash-gift { margin-top: 32px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 30px; padding: 8px 20px; color: white; font-size: 13px; font-weight: 600; animation: fadeUp 0.5s 0.8s ease both; }
 .splash-dots { display: flex; gap: 8px; margin-top: 40px; animation: fadeUp 0.5s 1s ease both; }
 .splash-dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.4); animation: dotAnim 1.3s infinite; }
 .splash-dots span:nth-child(2) { animation-delay: 0.2s; }
@@ -73,33 +72,47 @@ body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--tex
 .voice-btn.playing { animation: voiceRing 1s infinite; }
 @keyframes voiceRing { 0%,100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); } 50% { box-shadow: 0 0 0 6px rgba(255,255,255,0); } }
 
-/* ===== نبض عروض طول الشهر في الهيدر ===== */
-.offers-hero-btn {
+/* ===== بانر عروض وخصومات طول الشهر (احترافي) ===== */
+.hero-banner {
+  margin: 16px; padding: 28px 20px;
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 50%, #a93226 100%);
+  border-radius: 24px; position: relative; overflow: hidden;
+  box-shadow: 0 8px 40px rgba(231,76,60,0.35);
+  cursor: pointer; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  text-align: center;
+}
+.hero-banner:active { transform: scale(0.97); }
+.hero-banner::before {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  z-index: 0;
+}
+.hero-banner-shine {
+  position: absolute; top: -60%; left: -60%; width: 40%; height: 200%;
+  background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.15) 50%, transparent 65%);
+  z-index: 1; pointer-events: none; animation: heroShine 5s ease infinite;
+}
+@keyframes heroShine { 0%,100% { left: -60%; } 50% { left: 120%; } }
+.hero-banner-content { position: relative; z-index: 2; }
+.hero-banner-icon { font-size: 48px; margin-bottom: 10px; display: block; animation: heroIconBounce 2s ease-in-out infinite; }
+@keyframes heroIconBounce { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-6px) scale(1.05); } }
+.hero-banner-title { color: white; font-size: 26px; font-weight: 900; line-height: 1.3; margin-bottom: 6px; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.hero-banner-sub { color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 600; margin-bottom: 18px; line-height: 1.5; }
+.hero-banner-cta {
   display: inline-flex; align-items: center; gap: 8px;
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
-  border: 1.5px solid rgba(255,255,255,0.4);
-  border-radius: 30px; padding: 6px 16px 6px 12px;
-  cursor: pointer; position: relative; overflow: hidden;
-  text-decoration: none; white-space: nowrap;
-  box-shadow: 0 0 20px rgba(231,76,60,0.4);
-  animation: ohbGlow 2s ease-in-out infinite;
+  background: white; color: #c0392b; border: none; border-radius: 50px;
+  padding: 12px 28px; font-size: 15px; font-weight: 800; font-family: 'Cairo', sans-serif;
+  cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  transition: all 0.25s;
 }
-.offers-hero-btn:active { transform: scale(0.95); }
-.offers-hero-btn .ohb-icon { font-size: 16px; line-height: 1; }
-.offers-hero-btn .ohb-text { color: white; font-size: 13px; font-weight: 800; letter-spacing: 0.3px; }
-.offers-hero-btn .ohb-pulse {
-  position: absolute; inset: 0; border-radius: 30px;
-  border: 2px solid rgba(255,200,100,0.5);
-  animation: ohbOuterPulse 1.5s ease-out infinite;
+.hero-banner-cta:active { transform: scale(0.95); box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.hero-banner-cta::after { content: ' ←'; }
+.hero-banner-glow {
+  position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 120px; background: radial-gradient(circle, rgba(255,200,100,0.3), transparent);
+  border-radius: 50%; animation: heroGlow 2.5s ease-in-out infinite; z-index: 0;
 }
-@keyframes ohbGlow {
-  0%,100% { box-shadow: 0 0 16px rgba(231,76,60,0.3); transform: scale(1); }
-  50% { box-shadow: 0 0 30px rgba(231,76,60,0.6); transform: scale(1.02); }
-}
-@keyframes ohbOuterPulse {
-  0% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(1.4); opacity: 0; }
-}
+@keyframes heroGlow { 0%,100% { transform: translateX(-50%) scale(1); opacity: 0.6; } 50% { transform: translateX(-50%) scale(1.3); opacity: 1; } }
 /* ===== الإعلانات ===== */
 .ads-wrapper { margin: 16px; position: relative; }
 .ads-label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
@@ -319,6 +332,64 @@ textarea.form-input { resize: none; height: 80px; }
 .dev-floating-btn { margin-top: 15px; cursor: pointer; text-align: center; padding: 12px; background: linear-gradient(135deg, #1e1e2f, #11111b); color: white; border-radius: 12px; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; transition: transform 0.2s; }
 .dev-floating-btn:active { transform: scale(0.98); }
 
+/* ===== شريط تأكيد الطلب ===== */
+.confirm-order-strip {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 16px 12px; padding: 12px 14px;
+  background: linear-gradient(135deg, #e8faf1, #d4f5e3);
+  border: 1px solid #b8e6ce;
+  border-radius: 14px;
+}
+.confirm-order-strip-icon { font-size: 20px; flex-shrink: 0; }
+.confirm-order-strip-text { flex: 1; font-size: 11px; font-weight: 600; color: #007a3d; line-height: 1.4; }
+.confirm-order-strip-btn {
+  flex-shrink: 0; border: none; border-radius: 10px;
+  padding: 8px 14px; background: var(--green); color: white;
+  font-size: 11px; font-weight: 800; font-family: 'Cairo', sans-serif;
+  cursor: pointer; white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,166,81,0.3);
+}
+.confirm-order-strip-btn:active { transform: scale(0.95); }
+
+/* ===== تحكم الكمية للعروض ===== */
+.offer-qty-row {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 8px; direction: ltr;
+}
+.offer-qty-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1.5px solid var(--green);
+  background: white; color: var(--green);
+  font-size: 16px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cairo', sans-serif; line-height: 1;
+  transition: all 0.15s;
+}
+.offer-qty-btn:active { transform: scale(0.9); background: var(--green); color: white; }
+.offer-qty-num {
+  width: 28px; text-align: center;
+  font-size: 16px; font-weight: 900; color: var(--text);
+}
+.offer-qty-label {
+  font-size: 10px; color: var(--muted); margin-right: 2px;
+}
+
+/* ===== موجز طلبات العروض في الرئيسية ===== */
+#offers-order-summary { display: none; margin-top: 0; }
+#offers-order-summary.visible { display: block; }
+.offers-summary-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.offers-summary-item:last-child { border-bottom: none; }
+.offers-summary-name { font-weight: 600; flex: 1; }
+.offers-summary-qty {
+  background: var(--green); color: white;
+  border-radius: 20px; padding: 1px 10px;
+  font-size: 12px; font-weight: 800;
+}
+
 /* ===== تحسينات وصولية ===== */
 :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
@@ -327,10 +398,10 @@ textarea.form-input { resize: none; height: 80px; }
 <body>
 
 <div id="splash">
-  <div style="font-size:60px; margin-bottom:24px; animation: splashSpin 0.8s cubic-bezier(0.34,1.56,0.64,1) both;">💊🎁</div>
+  <div style="font-size:60px; margin-bottom:16px; animation: splashSpin 0.8s cubic-bezier(0.34,1.56,0.64,1) both;">💊🎁</div>
   <h1>صيدلية كشك</h1>
   <p>صحتك أمانة عندنا 💚</p>
-  <div class="splash-gift">خصومات وعروض</div>
+  <div style="margin-top:20px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); border-radius:30px; padding:10px 24px; color:#ffd700; font-size:15px; font-weight:900; animation:fadeUp 0.5s 0.8s ease both; text-shadow:0 1px 8px rgba(0,0,0,0.2);">🎁 عروض وخصومات طول الشهر</div>
   <div class="splash-dots"><span></span><span></span><span></span></div>
 </div>
 
@@ -341,6 +412,7 @@ textarea.form-input { resize: none; height: 80px; }
   <!-- ===== صفحة الرئيسية ===== -->
   <div class="page active" id="page-main">
 
+    <!-- ===== هيدر ===== -->
     <div class="header">
       <div class="header-top">
         <div class="brand">
@@ -350,199 +422,174 @@ textarea.form-input { resize: none; height: 80px; }
             <div class="sub">كفر الزيات — الغربية</div>
           </div>
         </div>
-        <div class="header-badge">
-          <div class="live-dot"></div>
-          متاح الآن
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="voice-btn" id="voice-btn" data-action="voice" aria-label="تشغيل أو إيقاف الإعلان الصوتي">🔊</button>
         </div>
       </div>
-      <div class="promo-strip">
-        <div class="promo-text">
-          <span id="typewriter-text" style="display:none;"></span>
-          <span id="offers-hero-btn" class="offers-hero-btn" data-action="show-page" data-page="offers">
-            <span class="ohb-icon" aria-hidden="true">🔥</span>
-            <span class="ohb-text">عروض طول الشهر</span>
-            <span class="ohb-pulse"></span>
-          </span>
-        </div>
-        <button class="voice-btn" id="voice-btn" data-action="voice" aria-label="تشغيل الإعلان الصوتي">🔊</button>
+      <div id="typewriter-text" style="display:none;" aria-hidden="true"></div>
+      <div class="promo-strip" style="margin-top:12px;">
+        <span>🟢</span>
+        <span class="promo-text">اسرع دليفيري في كفر الزيات — خصومات وعروض طول الشهر٪</span>
       </div>
     </div>
 
-    <!-- شبكة الإعلانات -->
+    <!-- ===== بانر عروض وخصومات طول الشهر ===== -->
+    <div class="hero-banner" data-action="show-page" data-page="offers" role="button" tabindex="0" aria-label="عروض وخصومات طول الشهر">
+      <div class="hero-banner-glow"></div>
+      <div class="hero-banner-shine"></div>
+      <div class="hero-banner-content">
+        <span class="hero-banner-icon">🎁</span>
+        <div class="hero-banner-title">عروض وخصومات<br>طول الشهر</div>
+        <div class="hero-banner-sub">خصومات تصل إلى ٥٠٪ على منتجات مختارة — لفترة محدودة</div>
+        <button class="hero-banner-cta">اكتشف العروض</button>
+      </div>
+    </div>
+
+    <!-- ===== شبكة الإعلانات ===== -->
     <div class="ads-wrapper">
       <div class="ads-label">
-        <div class="ads-label-text">عروض مميزة</div>
-        <div class="ads-label-line"></div>
+        <span class="ads-label-text">إعلانات ممولة</span>
+        <span class="ads-label-line"></span>
       </div>
-
       <div class="ads-grid">
-        <!-- كارت 1 — للرجال -->
-        <div class="ad-card ad-men" data-action="show-page" data-page="men">
+        <div class="ad-card ad-men" data-action="show-page" data-page="men" role="button" tabindex="0" aria-label="منتجات الرجال">
           <div class="ad-card-noise"></div>
           <div class="ad-card-shine"></div>
-          <div class="ad-card-icon" aria-hidden="true">💪</div>
+          <div class="ad-card-icon">⚡</div>
           <div class="ad-card-content">
-            <div class="ad-card-badge">🔒 للرجال فقط</div>
-            <div class="ad-card-title">منتجات الصحة للرجال</div>
-            <div class="ad-card-sub">خصوصيتك أولوية قصوى</div>
-            <button class="ad-card-btn" data-action="show-page" data-page="men">اشتري الآن</button>
+            <div class="ad-card-badge">🔥 منتجات الرجال</div>
+            <div class="ad-card-title">صحتك وثقتك<br>تبدأ من هنا</div>
+            <div class="ad-card-sub">توصيل سريع — خصم خاص</div>
+            <button class="ad-card-btn">تسوق الآن</button>
           </div>
         </div>
-
-        <!-- كارت 2 -->
-        <div class="ad-card ad-slot2" data-action="ad-wa" data-slot="2">
+        <div class="ad-card ad-slot2" data-action="show-page" data-page="ad-waiting" data-slot="2" role="button" tabindex="0" aria-label="عرض بامبرز">
           <div class="ad-card-noise"></div>
           <div class="ad-card-shine"></div>
-          <div class="ad-card-icon" aria-hidden="true">👶</div>
+          <div class="ad-card-icon">🚼</div>
           <div class="ad-card-content">
-            <div class="ad-card-badge">💸 توفير بجد</div>
-            <div class="ad-card-title">عروض البامبرز</div>
-            <div class="ad-card-sub">تواصل معنا الآن</div>
-            <button class="ad-card-btn" data-action="ad-wa" data-slot="2">اطلب الأن</button>
+            <div class="ad-card-badge">🎁 عرض خاص</div>
+            <div class="ad-card-title">بامبرز<br>أقل من سعر السوق</div>
+            <div class="ad-card-sub">عرض محدود — كمية محدودة</div>
+            <button class="ad-card-btn">شوف العرض</button>
           </div>
         </div>
-
-        <!-- كارت 3 -->
-        <div class="ad-card ad-slot3" data-action="ad-wa" data-slot="3">
+        <div class="ad-card ad-slot3" data-action="show-page" data-page="ad-waiting" data-slot="3" role="button" tabindex="0" aria-label="عضوية VIP">
           <div class="ad-card-noise"></div>
           <div class="ad-card-shine"></div>
-          <div class="ad-card-icon" aria-hidden="true">👑</div>
+          <div class="ad-card-icon">👑</div>
           <div class="ad-card-content">
-            <div class="ad-card-badge">💸 توفير أكتر</div>
-            <div class="ad-card-title">عضويه VIP</div>
-            <div class="ad-card-sub">تواصل معنا الآن</div>
-            <button class="ad-card-btn" data-action="ad-wa" data-slot="3">احجز مكانك</button>
+            <div class="ad-card-badge">💎 عضوية VIP</div>
+            <div class="ad-card-title">اشترك الآن<br>واحصل على خصم ٢٠٪</div>
+            <div class="ad-card-sub">لجميع الطلبات لمدة عام</div>
+            <button class="ad-card-btn">اعرف المزيد</button>
           </div>
         </div>
-
-        <!-- كارت 4 -->
-        <div class="ad-card ad-slot4" data-action="ad-wa" data-slot="4">
+        <div class="ad-card ad-slot4" data-action="show-page" data-page="ad-waiting" data-slot="4" role="button" tabindex="0" aria-label="العلاج الشهري">
           <div class="ad-card-noise"></div>
           <div class="ad-card-shine"></div>
-          <div class="ad-card-icon" aria-hidden="true">💸</div>
+          <div class="ad-card-icon">📋</div>
           <div class="ad-card-content">
-            <div class="ad-card-badge">📣 خصم خاص</div>
-            <div class="ad-card-title">علاجك الشهري</div>
-            <div class="ad-card-sub">تواصل معنا الآن</div>
-            <button class="ad-card-btn" data-action="ad-wa" data-slot="4">احجز مكانك</button>
+            <div class="ad-card-badge">💊 عرض خاص</div>
+            <div class="ad-card-title">العلاج الشهري<br>وفر فلوسك معانا</div>
+            <div class="ad-card-sub">اطلب كل شهر واستفيد</div>
+            <button class="ad-card-btn">سجل اهتمامك</button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="sec-title" style="background:linear-gradient(135deg,#e74c3c,#d35400);color:white;cursor:pointer;" data-action="show-page" data-page="offers">🔥 عروض طول الشهر — حتى نفاذ الكمية</div>
-
-    <div class="sec-title">المكملات والفيتامينات المتاحة</div>
-    <div id="products-list"></div>
-
-    <div class="order-summary" id="order-summary">
-      <div class="order-summary-title">🧾 ملخص طلبك</div>
-      <div class="order-summary-content" id="summary-content"></div>
+    <!-- ===== موجز طلبات العروض ===== -->
+    <div id="offers-order-summary">
+      <div class="order-summary-title" style="margin:0 16px 8px;">🛒 طلبات العروض</div>
+      <div id="offers-summary-content" style="margin:0 16px;"></div>
     </div>
 
-    <div class="sec-title">أدوية أو طلبات إضافية؟</div>
-    <div class="form-section">
-      <div class="extra-card">
-        <label class="form-label" style="color:#c0521a;" for="extra-orders">📝 اكتب أي أدوية أو روشتة إضافية هنا:</label>
-        <textarea id="extra-orders" class="form-input" style="background:white;border-color:#ffd0b8;" placeholder="مثال: شريط بنادول، علبة مسكن..."></textarea>
-      </div>
-    </div>
-
-    <div class="sec-title">بيانات التوصيل 📦</div>
+    <!-- ===== فورم بيانات التوصيل ===== -->
+    <div class="sec-title">📋 بيانات التوصيل</div>
     <div class="form-section">
       <div class="form-card">
-        <label class="form-label" for="customer-name">اسم حضرتك *</label>
-        <input type="text" id="customer-name" class="form-input" placeholder="اكتب اسمك هنا" autocomplete="name">
-        <label class="form-label" for="customer-phone">رقم الهاتف (واتساب) *</label>
-        <input type="tel" id="customer-phone" class="form-input" placeholder="رقم موبايلك" autocomplete="tel">
-        <label class="form-label" for="customer-address">العنوان بالتفصيل *</label>
-        <textarea id="customer-address" class="form-input" placeholder="مثال: كفر الزيات - شارع... - بجوار مسجد..." autocomplete="street-address"></textarea>
-        <div class="dev-floating-btn" data-action="dev-toggle-popup">💻 <span> لو نشاطك أونلاين تواصل مع شركة البرمجة</span></div>
+        <label class="form-label" for="customer-name">👤 الاسم الثلاثي</label>
+        <input class="form-input" type="text" id="customer-name" placeholder="مثال: محمد أحمد علي" autocomplete="name">
+        <label class="form-label" for="customer-phone">📱 رقم الموبايل</label>
+        <input class="form-input" type="tel" id="customer-phone" placeholder="مثال: 01012345678" autocomplete="tel">
+        <label class="form-label" for="customer-ref">🏠 المرافق / العنوان</label>
+        <input class="form-input" type="text" id="customer-ref" placeholder="مثال: بجوار مستشفى كشك" autocomplete="street-address">
+        <textarea class="form-input" id="extra-orders" placeholder="طلبات إضافية (اختياري) — اذكر أي منتج تريد"></textarea>
+        <textarea class="form-input" id="comment" placeholder="ملاحظات (اختياري)"></textarea>
+        <div class="dev-floating-btn" data-action="dev-toggle-popup" role="button" tabindex="0" aria-label="تواصل مع شركة البرمجة">
+          ⚙️ تواصل مع شركة البرمجة
+        </div>
       </div>
     </div>
 
-    <!-- حقوق المطور -->
-    <div class="dev-footer">
-      <p>هل تريد تطبيقاً احترافياً ومميزاً مثل هذا لنشاطك التجاري؟</p>
-      <button class="dev-btn" data-action="dev-toggle-popup" aria-label="تواصل مع المطور">💻 Powered By: SMF 💬</button>
+    <!-- ===== زرار التأكيد ===== -->
+    <div class="footer-action">
+      <button class="submit-btn" data-action="submit-order">
+        📩 تأكيد الطلب وإرساله عبر واتساب
+      </button>
     </div>
 
-    <div class="footer-action">
-      <button class="submit-btn" data-action="submit-order">تأكيد الطلب عبر الواتساب 🎁</button>
+    <!-- حاوية المنتجات للكود المشفر (مخفية) -->
+    <div id="products-list" style="display:none;"></div>
+    <div id="order-summary" style="display:none;">
+      <div id="summary-content"></div>
+    </div>
+
+    <!-- ===== تذييل المطور ===== -->
+    <div class="dev-footer">
+      <p>صيدلية كشك — جميع الحقوق محفوظة © 2026</p>
+      <button class="dev-btn" data-action="dev-toggle-popup">⚙️ شركة البرمجة</button>
     </div>
 
   </div>
 
-  <!-- ===== صفحة عروض طول الشهر ===== -->
+  <!-- ===== صفحة عروض طول الشهر (الهب) ===== -->
   <div class="page" id="page-offers">
-    <div class="men-header">
+    <div class="men-header" style="background:linear-gradient(135deg,#e74c3c,#c0392b);">
       <div class="men-header-top">
         <button class="back-btn" data-action="show-page" data-page="main">‹ رجوع للرئيسية</button>
         <div class="men-brand">💊 صيدلية كشك</div>
       </div>
-      <div class="privacy-strip">
-        <span style="font-size:16px;" aria-hidden="true">🔥</span>
-        <span>عروض طول الشهر — خصومات حتى نفاذ الكمية</span>
+      <div class="privacy-strip" style="background:rgba(255,255,255,0.1);">
+        <span style="font-size:16px;" aria-hidden="true">🎁</span>
+        <span>عروض وخصومات طول الشهر — خصومات تصل إلى ٥٠٪</span>
       </div>
     </div>
 
-    <div class="sec-title" style="background:linear-gradient(135deg,#e74c3c,#d35400);color:white;">🔥 عروض طول الشهر</div>
+    <div class="sec-title">🎁 تصفح العروض</div>
 
-    <!-- 4 أقسام قابلة للنقر -->
-    <div class="ads-grid" style="padding:0 16px;">
-
-      <!-- قسم 1: نواقص -->
-      <div class="ad-card" style="background:linear-gradient(135deg,#667eea,#764ba2);" data-action="show-page" data-page="offers-deficiencies">
-        <div class="ad-card-noise"></div>
-        <div class="ad-card-shine"></div>
-        <div class="ad-card-icon" aria-hidden="true">🔬</div>
-        <div class="ad-card-content">
-          <div class="ad-card-badge">عروض خاصة</div>
-          <div class="ad-card-title">نواقص</div>
-          <div class="ad-card-sub">حديد، فيتامين د، مغنيسيوم</div>
-          <button class="ad-card-btn" data-action="show-page" data-page="offers-deficiencies">تصفح الآن</button>
-        </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 16px 16px;">
+      <div class="men-product-card" data-action="show-page" data-page="offers-deficiencies" role="button" tabindex="0" style="cursor:pointer;text-align:center;padding:20px 12px;">
+        <div style="font-size:36px;margin-bottom:8px;">🔬</div>
+        <div style="font-size:13px;font-weight:800;">النواقص</div>
+        <div style="font-size:10px;color:var(--muted);">حديد، فيتامين د، مغنيسيوم</div>
       </div>
-
-      <!-- قسم 2: مكملات -->
-      <div class="ad-card" style="background:linear-gradient(135deg,#f093fb,#f5576c);" data-action="show-page" data-page="offers-supplements">
-        <div class="ad-card-noise"></div>
-        <div class="ad-card-shine"></div>
-        <div class="ad-card-icon" aria-hidden="true">💪</div>
-        <div class="ad-card-content">
-          <div class="ad-card-badge">🔥 خصم يصل 30%</div>
-          <div class="ad-card-title">مكملات غذائية</div>
-          <div class="ad-card-sub">فيتامينات ومعادن للرجال والنساء</div>
-          <button class="ad-card-btn" data-action="show-page" data-page="offers-supplements">تصفح الآن</button>
-        </div>
+      <div class="men-product-card" data-action="show-page" data-page="offers-supplements" role="button" tabindex="0" style="cursor:pointer;text-align:center;padding:20px 12px;">
+        <div style="font-size:36px;margin-bottom:8px;">💪</div>
+        <div style="font-size:13px;font-weight:800;">المكملات</div>
+        <div style="font-size:10px;color:var(--muted);">فيتامينات ومعادن</div>
       </div>
-
-      <!-- قسم 3: عروض على الأدوية -->
-      <div class="ad-card" style="background:linear-gradient(135deg,#4facfe,#00f2fe);" data-action="show-page" data-page="offers-medicines">
-        <div class="ad-card-noise"></div>
-        <div class="ad-card-shine"></div>
-        <div class="ad-card-icon" aria-hidden="true">💊</div>
-        <div class="ad-card-content">
-          <div class="ad-card-badge">🔥 خصم يصل 25%</div>
-          <div class="ad-card-title">عروض على الأدوية</div>
-          <div class="ad-card-sub">مسكنات وأدوية بسعر الجملة</div>
-          <button class="ad-card-btn" data-action="show-page" data-page="offers-medicines">تصفح الآن</button>
-        </div>
+      <div class="men-product-card" data-action="show-page" data-page="offers-medicines" role="button" tabindex="0" style="cursor:pointer;text-align:center;padding:20px 12px;">
+        <div style="font-size:36px;margin-bottom:8px;">💊</div>
+        <div style="font-size:13px;font-weight:800;">الأدوية</div>
+        <div style="font-size:10px;color:var(--muted);">خصومات حتى ٢٥٪</div>
       </div>
-
-      <!-- قسم 4: مستلزمات البيت -->
-      <div class="ad-card" style="background:linear-gradient(135deg,#a8edea,#fed6e3);" data-action="show-page" data-page="offers-home">
-        <div class="ad-card-noise"></div>
-        <div class="ad-card-shine"></div>
-        <div class="ad-card-icon" aria-hidden="true">🏠</div>
-        <div class="ad-card-content">
-          <div class="ad-card-badge">توفير في كل حاجة</div>
-          <div class="ad-card-title">مستلزمات البيت</div>
-          <div class="ad-card-sub">منظفات، معقمات، مستحضرات عناية</div>
-          <button class="ad-card-btn" data-action="show-page" data-page="offers-home">تصفح الآن</button>
-        </div>
+      <div class="men-product-card" data-action="show-page" data-page="offers-home" role="button" tabindex="0" style="cursor:pointer;text-align:center;padding:20px 12px;">
+        <div style="font-size:36px;margin-bottom:8px;">🏠</div>
+        <div style="font-size:13px;font-weight:800;">مستلزمات البيت</div>
+        <div style="font-size:10px;color:var(--muted);">عروض العناية الشخصية</div>
       </div>
-
+      <div class="men-product-card" data-action="show-page" data-page="offers-dairy" role="button" tabindex="0" style="cursor:pointer;text-align:center;padding:20px 12px;">
+        <div style="font-size:36px;margin-bottom:8px;">🥛</div>
+        <div style="font-size:13px;font-weight:800;">الألبان</div>
+        <div style="font-size:10px;color:var(--muted);">حليب ومنتجات الألبان</div>
+      </div>
+      <div class="men-product-card" data-action="show-page" data-page="offers-savings" role="button" tabindex="0" style="cursor:pointer;text-align:center;padding:20px 12px;border-color:#f39c12;">
+        <div style="font-size:36px;margin-bottom:8px;">💰</div>
+        <div style="font-size:13px;font-weight:800;">عروض التوفير</div>
+        <div style="font-size:10px;color:var(--muted);">عناية ومنتجات بأسعار خاصة</div>
+      </div>
     </div>
 
     <div class="privacy-note" style="margin-top:0;">
@@ -552,6 +599,57 @@ textarea.form-input { resize: none; height: 80px; }
 
     <div class="men-footer">
       <button class="back-btn" data-action="show-page" data-page="main" style="width:100%;">‹ رجوع للرئيسية</button>
+    </div>
+  </div>
+
+  <!-- ===== صفحة عروض التوفير ===== -->
+  <div class="page" id="page-offers-savings">
+    <div class="men-header" style="background:linear-gradient(135deg,#f39c12,#e67e22);">
+      <div class="men-header-top">
+        <button class="back-btn" data-action="show-page" data-page="offers">‹ رجوع للعروض</button>
+        <div class="men-brand">💊 صيدلية كشك</div>
+      </div>
+      <div class="privacy-strip" style="background:rgba(255,255,255,0.15);">
+        <span style="font-size:16px;" aria-hidden="true">💰</span>
+        <span>عروض التوفير — منتجات العناية بأسعار خاصة</span>
+      </div>
+    </div>
+
+    <div class="sec-title">💰 عروض التوفير</div>
+
+    <div class="confirm-order-strip">
+      <div class="confirm-order-strip-icon">💬</div>
+      <div class="confirm-order-strip-text">للاستفسار عن السعر، اضغط على "اطلب السعر" وتواصل معنا على واتساب</div>
+    </div>
+
+    <!-- ===== عرض الباندل 3*1 ===== -->
+    <div class="men-product-card" style="border-color:#f39c12;background:linear-gradient(135deg,#fff9ed,#fff3e0);">
+      <div style="display:flex;flex-direction:column;gap:10px;padding:6px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <img src="savings-bundle.webp" alt="باندل العناية" style="width:100px;height:100px;object-fit:contain;border-radius:12px;flex-shrink:0;" loading="lazy" onerror="this.style.display='none'">
+          <div style="flex:1;">
+            <div style="font-size:14px;font-weight:900;color:#e67e22;margin-bottom:4px;">🎁 باندل العناية — 3×1</div>
+            <div style="font-size:11px;color:#666;line-height:1.8;">
+              <div>🪥 <strong>معجون أسنان سيجنال</strong> — لحماية الأسنان</div>
+              <div>🧼 <strong>صابونة سافانا كلاسيك</strong> — للاستحمام</div>
+              <div>🧻 <strong>مناديل فاين بريستيج</strong> — معقمة وفاخرة</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:center;margin-top:4px;">
+          <a href="https://wa.me/201020302005?text=%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%B3%D8%B9%D8%B1%20%D8%A8%D8%A7%D9%86%D8%AF%D9%84%20%D8%A7%D9%84%D8%B9%D9%86%D8%A7%D9%8A%D8%A9%20(3%C3%971):%20%D9%85%D8%B9%D8%AC%D9%88%D9%86%20%D8%B3%D9%8A%D8%AC%D9%86%D8%A7%D9%84%20%D8%9B%20%D8%B5%D8%A7%D8%A8%D9%88%D9%86%D8%A9%20%D8%B3%D8%A7%D9%81%D8%A7%D9%86%D8%A7%20%D9%83%D9%84%D8%A7%D8%B3%D9%8A%D9%83%20%D8%9B%20%D9%85%D9%86%D8%A7%D8%AF%D9%8A%D9%84%20%D9%81%D8%A7%D9%8A%D9%86%20%D8%A8%D8%B1%D9%8A%D8%B3%D8%AA%D9%8A%D8%AC" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#25d366;color:white;border:none;border-radius:10px;padding:8px 22px;font-size:13px;font-weight:800;text-decoration:none;font-family:'Cairo',sans-serif;box-shadow:0 2px 10px rgba(37,211,102,0.3);">💬 اطلب سعر الباندل</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="confirm-order-strip">
+      <div class="confirm-order-strip-icon">✅</div>
+      <div class="confirm-order-strip-text">بعد معرفة السعر، ارجع للرئيسية وأدخل بياناتك لتأكيد الطلب عبر واتساب</div>
+      <button class="confirm-order-strip-btn" data-action="show-page" data-page="main">الرئيسية ⬅</button>
+    </div>
+
+    <div class="men-footer">
+      <button class="back-btn" data-action="show-page" data-page="offers" style="width:100%;">‹ رجوع للعروض</button>
     </div>
   </div>
 
@@ -568,8 +666,49 @@ textarea.form-input { resize: none; height: 80px; }
       </div>
     </div>
 
-    <div class="sec-title">🔬 نواقص</div>
-    <p style="margin:-8px 16px 20px;font-size:14px;color:#888;text-align:center;">قريباً — منتجات علاج النواقص (حديد، فيتامين د، مغنيسيوم، إلخ)</p>
+    <div class="sec-title">🔬 نواقص — متوفر بكمية محدودة</div>
+
+    <!-- أيفرزين لوسيون -->
+    <div class="men-product-card">
+      <div class="men-product-row">
+        <img src="iverzin-lotion.webp" alt="أيفرزين لوسيون" class="men-product-img" loading="lazy" onerror="this.style.display='none';var ph=this.nextElementSibling;if(ph)ph.style.display='flex';">
+        <div class="men-product-img-ph" aria-hidden="true">🔬</div>
+        <div class="men-product-info">
+          <div class="men-product-name">أيفرزين لوسيون (إيفرمكتين 1%)</div>
+          <div class="men-product-desc">لوشن لعلاج الجرب — 60 مل — متوفر بكمية قليلة جداً</div>
+          <div class="offer-qty-row" data-offer-key="off-iverzin">
+            <button class="offer-qty-btn" data-offer-action="dec">−</button>
+            <span class="offer-qty-num" data-offer-qty>0</span>
+            <button class="offer-qty-btn" data-offer-action="inc">+</button>
+            <span class="offer-qty-label">عدد</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ريباريل جل -->
+    <div class="men-product-card">
+      <div class="men-product-row">
+        <img src="reparil-gel.webp" alt="ريباريل جل" class="men-product-img" loading="lazy" onerror="this.style.display='none';var ph=this.nextElementSibling;if(ph)ph.style.display='flex';">
+        <div class="men-product-img-ph" aria-hidden="true">🔬</div>
+        <div class="men-product-info">
+          <div class="men-product-name">ريباريل جل (Reparil-Gel N)</div>
+          <div class="men-product-desc">جل موضعي مضاد للتورم والالتهاب ومسكن للألم — 40 جرام — متوفر بكمية محدودة</div>
+          <div class="offer-qty-row" data-offer-key="off-reparil-gel">
+            <button class="offer-qty-btn" data-offer-action="dec">−</button>
+            <span class="offer-qty-num" data-offer-qty>0</span>
+            <button class="offer-qty-btn" data-offer-action="inc">+</button>
+            <span class="offer-qty-label">عدد</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="confirm-order-strip">
+      <div class="confirm-order-strip-icon">✅</div>
+      <div class="confirm-order-strip-text">بعد اختيار منتجك، ارجع للرئيسية وأدخل بياناتك لتأكيد الطلب عبر واتساب</div>
+      <button class="confirm-order-strip-btn" data-action="show-page" data-page="main">الرئيسية ⬅</button>
+    </div>
 
     <div class="men-footer">
       <button class="back-btn" data-action="show-page" data-page="offers" style="width:100%;">‹ رجوع للعروض</button>
@@ -589,7 +728,7 @@ textarea.form-input { resize: none; height: 80px; }
       </div>
     </div>
 
-    <div class="sec-title">💪 مكملات غذائية</div>
+    <div class="sec-title">💪 المكملات والفيتامينات</div>
 
     <!-- ليمتليس مان ماكس -->
     <div class="men-product-card">
@@ -597,9 +736,18 @@ textarea.form-input { resize: none; height: 80px; }
         <img src="man.webp" alt="ليمتليس مان ماكس" class="men-product-img" loading="lazy" onerror="this.style.display='none';var ph=this.nextElementSibling;if(ph)ph.style.display='flex';">
         <div class="men-product-img-ph" aria-hidden="true">💪</div>
         <div class="men-product-info">
-          <div class="men-product-name">ليمتليس مان ماكس</div>
+          <div class="men-product-name">ليمتليس مان ماكس 🔥</div>
           <div class="men-product-desc">مالتي فيتامين للرجال لدعم الطاقة والمناعة وصحة العضلات.</div>
-          <a href="https://wa.me/201020302005?text=عايز%20ليمتليس%20مان%20ماكس%20من%20صيدلية%20كشك" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب السعر 💬</a>
+          <div style="display:flex;align-items:center;gap:8px;margin:4px 0;">
+            <span style="text-decoration:line-through;color:#999;font-size:13px;">240 ج</span>
+            <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">200 ج</span>
+          </div>
+           <div class="offer-qty-row" data-offer-key="off-man-max">
+          <button class="offer-qty-btn" data-offer-action="dec">−</button>
+          <span class="offer-qty-num" data-offer-qty>0</span>
+          <button class="offer-qty-btn" data-offer-action="inc">+</button>
+          <span class="offer-qty-label">عدد</span>
+        </div>
         </div>
       </div>
     </div>
@@ -610,9 +758,18 @@ textarea.form-input { resize: none; height: 80px; }
         <img src="woman.webp" alt="ليمتليس وومان ماكس" class="men-product-img" loading="lazy" onerror="this.style.display='none';var ph=this.nextElementSibling;if(ph)ph.style.display='flex';">
         <div class="men-product-img-ph" aria-hidden="true">💄</div>
         <div class="men-product-info">
-          <div class="men-product-name">ليمتليس وومان ماكس</div>
+          <div class="men-product-name">ليمتليس وومان ماكس 🔥</div>
           <div class="men-product-desc">مالتي فيتامين للنساء لدعم الطاقة والحيوية.</div>
-          <a href="https://wa.me/201020302005?text=عايز%20ليمتليس%20وومان%20ماكس%20من%20صيدلية%20كشك" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب السعر 💬</a>
+          <div style="display:flex;align-items:center;gap:8px;margin:4px 0;">
+            <span style="text-decoration:line-through;color:#999;font-size:13px;">240 ج</span>
+            <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">200 ج</span>
+          </div>
+          <div class="offer-qty-row" data-offer-key="off-woman-max">
+          <button class="offer-qty-btn" data-offer-action="dec">−</button>
+          <span class="offer-qty-num" data-offer-qty>0</span>
+          <button class="offer-qty-btn" data-offer-action="inc">+</button>
+          <span class="offer-qty-label">عدد</span>
+        </div>
         </div>
       </div>
     </div>
@@ -623,9 +780,18 @@ textarea.form-input { resize: none; height: 80px; }
         <img src="omega.webp" alt="أوميغا 3" class="men-product-img" loading="lazy" onerror="this.style.display='none';var ph=this.nextElementSibling;if(ph)ph.style.display='flex';">
         <div class="men-product-img-ph" aria-hidden="true">❤️</div>
         <div class="men-product-info">
-          <div class="men-product-name">أوميغا 3</div>
+          <div class="men-product-name">ليمتليس أوميغا-3 (Limitless Omega-3 Fish Oil 2000mg) 🔥</div>
           <div class="men-product-desc">تركيبة متطورة لدعم صحة القلب والعقل والمفاصل.</div>
-          <a href="https://wa.me/201020302005?text=عايز%20أوميغا%203%20من%20صيدلية%20كشك" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب السعر 💬</a>
+          <div style="display:flex;align-items:center;gap:8px;margin:4px 0;">
+            <span style="text-decoration:line-through;color:#999;font-size:13px;">230 ج</span>
+            <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">200 ج</span>
+          </div>
+          <div class="offer-qty-row" data-offer-key="off-omega-3">
+  <button class="offer-qty-btn" data-offer-action="dec">−</button>
+  <span class="offer-qty-num" data-offer-qty>0</span>
+  <button class="offer-qty-btn" data-offer-action="inc">+</button>
+  <span class="offer-qty-label">عدد</span>
+</div>
         </div>
       </div>
     </div>
@@ -638,7 +804,12 @@ textarea.form-input { resize: none; height: 80px; }
         <div class="men-product-info">
           <div class="men-product-name">باور فور مور</div>
           <div class="men-product-desc">تركيبة طبيعية مقوية للرجال لدعم الطاقة.</div>
-          <a href="https://wa.me/201020302005?text=عايز%20باور%20فور%20مور%20من%20صيدلية%20كشك" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب السعر 💬</a>
+          <div class="offer-qty-row" data-offer-key="off-power">
+  <button class="offer-qty-btn" data-offer-action="dec">−</button>
+  <span class="offer-qty-num" data-offer-qty>0</span>
+  <button class="offer-qty-btn" data-offer-action="inc">+</button>
+  <span class="offer-qty-label">عدد</span>
+</div>
         </div>
       </div>
     </div>
@@ -651,14 +822,72 @@ textarea.form-input { resize: none; height: 80px; }
         <div class="men-product-info">
           <div class="men-product-name">ليمتليس كيدز</div>
           <div class="men-product-desc">فيتامينات متعددة للأطفال لدعم النمو والمناعة.</div>
-          <a href="https://wa.me/201020302005?text=عايز%20ليمتليس%20كيدز%20من%20صيدلية%20كشك" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب السعر 💬</a>
+          <div class="offer-qty-row" data-offer-key="off-kids">
+  <button class="offer-qty-btn" data-offer-action="dec">−</button>
+  <span class="offer-qty-num" data-offer-qty>0</span>
+  <button class="offer-qty-btn" data-offer-action="inc">+</button>
+  <span class="offer-qty-label">عدد</span>
+</div>
         </div>
       </div>
+    </div>
+
+    <!-- شاي رويال ريجيم -->
+    <div class="men-product-card">
+      <div class="men-product-row">
+        <img src="royal-regime-tea.webp" alt="شاي رويال ريجيم" class="men-product-img" loading="lazy" onerror="this.style.display='none';var ph=this.nextElementSibling;if(ph)ph.style.display='flex';">
+        <div class="men-product-img-ph" aria-hidden="true">💪</div>
+        <div class="men-product-info">
+          <div class="men-product-name">شاي رويال ريجيم (Royal Regime Tea) 🔥</div>
+          <div class="men-product-desc">50 فتلة — لتخسيس الوزن وإنقاص الدهون</div>
+          <div style="display:flex;align-items:center;gap:8px;margin:4px 0;">
+            <span style="text-decoration:line-through;color:#999;font-size:13px;">55 ج</span>
+            <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">45 ج</span>
+          </div>
+          <div class="offer-qty-row" data-offer-key="off-royal-regime">
+            <button class="offer-qty-btn" data-offer-action="dec">−</button>
+            <span class="offer-qty-num" data-offer-qty>0</span>
+            <button class="offer-qty-btn" data-offer-action="inc">+</button>
+            <span class="offer-qty-label">عدد</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- سويتتال -->
+    <div class="men-product-card">
+      <div class="men-product-row">
+        <div class="men-product-img-ph" aria-hidden="true" style="display:flex;">💪</div>
+        <div class="men-product-info">
+          <div class="men-product-name">سويتتال (Sweetal) 🔥</div>
+          <div class="men-product-desc">محلي طبيعي بديل السكر — 250 جرام — خالي من السعرات</div>
+          <div style="display:flex;align-items:center;gap:8px;margin:4px 0;">
+            <span style="text-decoration:line-through;color:#999;font-size:13px;">170 ج</span>
+            <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">130 ج</span>
+          </div>
+          <div class="offer-qty-row" data-offer-key="off-sweetal">
+            <button class="offer-qty-btn" data-offer-action="dec">−</button>
+            <span class="offer-qty-num" data-offer-qty>0</span>
+            <button class="offer-qty-btn" data-offer-action="inc">+</button>
+            <span class="offer-qty-label">عدد</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:0 16px 12px;padding:10px 14px;background:#fff3cd;border:1px solid #ffc107;border-radius:12px;font-size:12px;font-weight:600;color:#856404;text-align:center;">
+      ⏳ العرض سارٍ لمدة يوم واحد فقط! اغتنم الفرصة
     </div>
 
     <div class="privacy-note" style="margin-top:0;">
       <div style="font-size:22px;flex-shrink:0;" aria-hidden="true">🔥</div>
       <div class="privacy-note-text">للطلب والاستفسار، تواصل معنا على واتساب.<br>⚠️ الأسعار قابلة للتغير حسب تغير السوق</div>
+    </div>
+
+    <div class="confirm-order-strip">
+      <div class="confirm-order-strip-icon">✅</div>
+      <div class="confirm-order-strip-text">بعد اختيار منتجك، ارجع للرئيسية وأدخل بياناتك لتأكيد الطلب عبر واتساب</div>
+      <button class="confirm-order-strip-btn" data-action="show-page" data-page="main">الرئيسية ⬅</button>
     </div>
 
     <div class="men-footer">
@@ -693,7 +922,12 @@ textarea.form-input { resize: none; height: 80px; }
             <span style="text-decoration:line-through;color:#999;font-size:13px;">58 ج</span>
             <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">45 ج</span>
           </div>
-          <a href="https://wa.me/201020302005?text=عايز%20عرض%20بانادول%20اكسترا%20-%2024%20قرص%20بـ%2045%20ج%20(بدل%2058)%20من%20صيدلية%20كشك" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب العرض 🔥</a>
+          <div class="offer-qty-row" data-offer-key="off-panadol-extra">
+  <button class="offer-qty-btn" data-offer-action="dec">−</button>
+  <span class="offer-qty-num" data-offer-qty>0</span>
+  <button class="offer-qty-btn" data-offer-action="inc">+</button>
+  <span class="offer-qty-label">عدد</span>
+</div>
         </div>
       </div>
     </div>
@@ -710,7 +944,78 @@ textarea.form-input { resize: none; height: 80px; }
             <span style="text-decoration:line-through;color:#999;font-size:13px;">92 ج</span>
             <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">70 ج</span>
           </div>
-          <a href="https://wa.me/201020302005?text=عايز%20عرض%20بانادول%20ادفانس%20-%2048%20قرص%20بـ%2070%20ج%20(بدل%2092)%20من%20صيدلية%20كشك" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب العرض 🔥</a>
+          <div class="offer-qty-row" data-offer-key="off-panadol-advance">
+  <button class="offer-qty-btn" data-offer-action="dec">−</button>
+  <span class="offer-qty-num" data-offer-qty>0</span>
+  <button class="offer-qty-btn" data-offer-action="inc">+</button>
+  <span class="offer-qty-label">عدد</span>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- كونكور 5 بلاس -->
+    <div class="men-product-card">
+      <div class="men-product-row">
+        <img src="concor-5-plus.webp" alt="كونكور 5 بلاس" class="men-product-img" loading="lazy" onerror="this.style.display='none';var ph=this.nextElementSibling;if(ph)ph.style.display='flex';">
+        <div class="men-product-img-ph" aria-hidden="true">💊</div>
+        <div class="men-product-info">
+          <div class="men-product-name">كونكور 5 بلاس (Concor Plus) 🔥</div>
+          <div class="men-product-desc">علاج ارتفاع ضغط الدم ومدر للبول</div>
+          <div style="display:flex;align-items:center;gap:8px;margin:4px 0;">
+            <span style="text-decoration:line-through;color:#999;font-size:13px;">72 ج</span>
+            <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">60 ج</span>
+          </div>
+          <div class="offer-qty-row" data-offer-key="off-concor-plus">
+            <button class="offer-qty-btn" data-offer-action="dec">−</button>
+            <span class="offer-qty-num" data-offer-qty>0</span>
+            <button class="offer-qty-btn" data-offer-action="inc">+</button>
+            <span class="offer-qty-label">عدد</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- دياميكرون 60 مجم -->
+    <div class="men-product-card">
+      <div class="men-product-row">
+        <img src="diamicron-60-mr.webp" alt="دياميكرون 60 مجم" class="men-product-img" loading="lazy" onerror="this.style.display='none';var ph=this.nextElementSibling;if(ph)ph.style.display='flex';">
+        <div class="men-product-img-ph" aria-hidden="true">💊</div>
+        <div class="men-product-info">
+          <div class="men-product-name">دياميكرون 60 مجم (Diamicron 60mg MR) 🔥</div>
+          <div class="men-product-desc">علاج السكري من النوع الثاني — إطلاق ممتد</div>
+          <div style="display:flex;align-items:center;gap:8px;margin:4px 0;">
+            <span style="text-decoration:line-through;color:#999;font-size:13px;">156 ج</span>
+            <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">130 ج</span>
+          </div>
+          <div class="offer-qty-row" data-offer-key="off-diamicron">
+            <button class="offer-qty-btn" data-offer-action="dec">−</button>
+            <span class="offer-qty-num" data-offer-qty>0</span>
+            <button class="offer-qty-btn" data-offer-action="inc">+</button>
+            <span class="offer-qty-label">عدد</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- كونكور كور 2.5 مجم -->
+    <div class="men-product-card">
+      <div class="men-product-row">
+        <img src="concor-cor-2-5mg.webp" alt="كونكور كور 2.5 مجم" class="men-product-img" loading="lazy" onerror="this.style.display='none';var ph=this.nextElementSibling;if(ph)ph.style.display='flex';">
+        <div class="men-product-img-ph" aria-hidden="true">💊</div>
+        <div class="men-product-info">
+          <div class="men-product-name">كونكور كور 2.5 مجم (Concor Cor 2.5mg) 🔥</div>
+          <div class="men-product-desc">علاج ارتفاع ضغط الدم — حماية القلب</div>
+          <div style="display:flex;align-items:center;gap:8px;margin:4px 0;">
+            <span style="text-decoration:line-through;color:#999;font-size:13px;">60 ج</span>
+            <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">50 ج</span>
+          </div>
+          <div class="offer-qty-row" data-offer-key="off-concor-cor">
+            <button class="offer-qty-btn" data-offer-action="dec">−</button>
+            <span class="offer-qty-num" data-offer-qty>0</span>
+            <button class="offer-qty-btn" data-offer-action="inc">+</button>
+            <span class="offer-qty-label">عدد</span>
+          </div>
         </div>
       </div>
     </div>
@@ -718,6 +1023,12 @@ textarea.form-input { resize: none; height: 80px; }
     <div class="privacy-note" style="margin-top:0;">
       <div style="font-size:22px;flex-shrink:0;" aria-hidden="true">🔥</div>
       <div class="privacy-note-text">للطلب والاستفسار، تواصل معنا على واتساب.<br>⚠️ الأسعار قابلة للتغير حسب تغير السوق</div>
+    </div>
+
+    <div class="confirm-order-strip">
+      <div class="confirm-order-strip-icon">✅</div>
+      <div class="confirm-order-strip-text">بعد اختيار منتجك، ارجع للرئيسية وأدخل بياناتك لتأكيد الطلب عبر واتساب</div>
+      <button class="confirm-order-strip-btn" data-action="show-page" data-page="main">الرئيسية ⬅</button>
     </div>
 
     <div class="men-footer">
@@ -752,7 +1063,12 @@ textarea.form-input { resize: none; height: 80px; }
             <span style="text-decoration:line-through;color:#999;font-size:13px;">200 ج</span>
             <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">150 ج</span>
           </div>
-          <a href="https://wa.me/201020302005?text=عايز%20شامبو%20بانتين%20Pro-V%20400%20مل%20بـ%20150%20ج%20(بدل%20200)%20من%20صيدلية%20كشك%20-%20مستلزمات%20البيت" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب العرض 🔥</a>
+          <div class="offer-qty-row" data-offer-key="off-pantene">
+  <button class="offer-qty-btn" data-offer-action="dec">−</button>
+  <span class="offer-qty-num" data-offer-qty>0</span>
+  <button class="offer-qty-btn" data-offer-action="inc">+</button>
+  <span class="offer-qty-label">عدد</span>
+</div>
         </div>
       </div>
     </div>
@@ -769,7 +1085,12 @@ textarea.form-input { resize: none; height: 80px; }
             <span style="text-decoration:line-through;color:#999;font-size:13px;">115 ج</span>
             <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">90 ج</span>
           </div>
-          <a href="https://wa.me/201020302005?text=عايز%20شاور%20ماي%20وي%20(سهر%20الليالي)%20بـ%2090%20ج%20(بدل%20115)%20من%20صيدلية%20كشك%20-%20مستلزمات%20البيت" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب العرض 🔥</a>
+          <div class="offer-qty-row" data-offer-key="off-my-way">
+  <button class="offer-qty-btn" data-offer-action="dec">−</button>
+  <span class="offer-qty-num" data-offer-qty>0</span>
+  <button class="offer-qty-btn" data-offer-action="inc">+</button>
+  <span class="offer-qty-label">عدد</span>
+</div>
         </div>
       </div>
     </div>
@@ -786,7 +1107,12 @@ textarea.form-input { resize: none; height: 80px; }
             <span style="text-decoration:line-through;color:#999;font-size:13px;">65 ج</span>
             <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">40 ج</span>
           </div>
-          <a href="https://wa.me/201020302005?text=عايز%20شيروسا%20شامبو%20شيا%20بتر%20400%20مل%20بـ%2040%20ج%20(بدل%2065)%20من%20صيدلية%20كشك%20-%20مستلزمات%20البيت" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب العرض 🔥</a>
+          <div class="offer-qty-row" data-offer-key="off-sherosa">
+  <button class="offer-qty-btn" data-offer-action="dec">−</button>
+  <span class="offer-qty-num" data-offer-qty>0</span>
+  <button class="offer-qty-btn" data-offer-action="inc">+</button>
+  <span class="offer-qty-label">عدد</span>
+</div>
         </div>
       </div>
     </div>
@@ -803,7 +1129,12 @@ textarea.form-input { resize: none; height: 80px; }
             <span style="text-decoration:line-through;color:#999;font-size:13px;">150 ج</span>
             <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">130 ج</span>
           </div>
-          <a href="https://wa.me/201020302005?text=عايز%20شاور%20فريدا%20Sweet%20Day%201.2%20لتر%20بـ%20130%20ج%20(بدل%20150)%20من%20صيدلية%20كشك%20-%20مستلزمات%20البيت" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب العرض 🔥</a>
+          <div class="offer-qty-row" data-offer-key="off-frida">
+  <button class="offer-qty-btn" data-offer-action="dec">−</button>
+  <span class="offer-qty-num" data-offer-qty>0</span>
+  <button class="offer-qty-btn" data-offer-action="inc">+</button>
+  <span class="offer-qty-label">عدد</span>
+</div>
         </div>
       </div>
     </div>
@@ -820,7 +1151,12 @@ textarea.form-input { resize: none; height: 80px; }
             <span style="text-decoration:line-through;color:#999;font-size:13px;">85 ج</span>
             <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">70 ج</span>
           </div>
-          <a href="https://wa.me/201020302005?text=عايز%20شاور%20لوكس%20Silky%20Gardenia%20500%20مل%20بـ%2070%20ج%20(بدل%2085)%20من%20صيدلية%20كشك%20-%20مستلزمات%20البيت" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب العرض 🔥</a>
+          <div class="offer-qty-row" data-offer-key="off-lux">
+  <button class="offer-qty-btn" data-offer-action="dec">−</button>
+  <span class="offer-qty-num" data-offer-qty>0</span>
+  <button class="offer-qty-btn" data-offer-action="inc">+</button>
+  <span class="offer-qty-label">عدد</span>
+</div>
         </div>
       </div>
     </div>
@@ -837,9 +1173,64 @@ textarea.form-input { resize: none; height: 80px; }
             <span style="text-decoration:line-through;color:#999;font-size:13px;">65 ج</span>
             <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">45 ج</span>
           </div>
-          <a href="https://wa.me/201020302005?text=عايز%20سباركل%20شامبو%20وبلسم%20400%20مل%20بـ%2045%20ج%20(بدل%2065)%20من%20صيدلية%20كشك%20-%20مستلزمات%20البيت" target="_blank" rel="noopener" class="wa-btn" style="padding:5px 14px;font-size:12px;text-decoration:none;display:inline-block;">اطلب العرض 🔥</a>
+          <div class="offer-qty-row" data-offer-key="off-sparkle">
+  <button class="offer-qty-btn" data-offer-action="dec">−</button>
+  <span class="offer-qty-num" data-offer-qty>0</span>
+  <button class="offer-qty-btn" data-offer-action="inc">+</button>
+  <span class="offer-qty-label">عدد</span>
+</div>
         </div>
       </div>
+    </div>
+
+    <div class="confirm-order-strip">
+      <div class="confirm-order-strip-icon">✅</div>
+      <div class="confirm-order-strip-text">بعد اختيار منتجك، ارجع للرئيسية وأدخل بياناتك لتأكيد الطلب عبر واتساب</div>
+      <button class="confirm-order-strip-btn" data-action="show-page" data-page="main">الرئيسية ⬅</button>
+    </div>
+
+    <div class="men-footer">
+      <button class="back-btn" data-action="show-page" data-page="offers" style="width:100%;">‹ رجوع للعروض</button>
+    </div>
+  </div>
+
+  <!-- ===== صفحة الألبان ===== -->
+  <div class="page" id="page-offers-dairy">
+    <div class="men-header">
+      <div class="men-header-top">
+        <button class="back-btn" data-action="show-page" data-page="offers">‹ رجوع للعروض</button>
+        <div class="men-brand">💊 صيدلية كشك</div>
+      </div>
+      <div class="privacy-strip" style="background:linear-gradient(135deg,#fceabb,#f8b500);">
+        <span style="font-size:16px;" aria-hidden="true">🥛</span>
+        <span>الألبان — جبن، زبادي، حليب ومنتجات الألبان</span>
+      </div>
+    </div>
+
+    <div class="sec-title">🥛 الألبان — حليب الأطفال</div>
+
+    <!-- هيرو بيبي AR -->
+    <div class="men-product-card">
+      <div class="men-product-row">
+        <img src="hero-baby-ar.webp" alt="هيرو بيبي AR" class="men-product-img" loading="lazy" onerror="this.style.display='none';var ph=this.nextElementSibling;if(ph)ph.style.display='flex';">
+        <div class="men-product-img-ph" aria-hidden="true">🍼</div>
+        <div class="men-product-info">
+          <div class="men-product-name">هيرو بيبي AR (Hero Baby AR) 🟢</div>
+          <div class="men-product-desc">حليب أطفال مضاد للارتجاع — متوفر الآن</div>
+          <div class="offer-qty-row" data-offer-key="off-hero-baby">
+  <button class="offer-qty-btn" data-offer-action="dec">−</button>
+  <span class="offer-qty-num" data-offer-qty>0</span>
+  <button class="offer-qty-btn" data-offer-action="inc">+</button>
+  <span class="offer-qty-label">عدد</span>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="confirm-order-strip">
+      <div class="confirm-order-strip-icon">✅</div>
+      <div class="confirm-order-strip-text">بعد اختيار منتجك، ارجع للرئيسية وأدخل بياناتك لتأكيد الطلب عبر واتساب</div>
+      <button class="confirm-order-strip-btn" data-action="show-page" data-page="main">الرئيسية ⬅</button>
     </div>
 
     <div class="men-footer">
@@ -913,7 +1304,7 @@ textarea.form-input { resize: none; height: 80px; }
     <!-- وضع الانتظار (للبامبرز - VIP) -->
     <div class="ad-waiting-body" id="waiting-mode">
       <div class="ad-waiting-icon" id="ad-waiting-icon" style="display:flex;align-items:center;justify-content:center;min-height:140px;">🔥</div>
-      <div class="ad-waiting-title" id="ad-waiting-title">بن جهزلك عرض جامد جداً 🎁</div>
+      <div class="ad-waiting-title" id="ad-waiting-title">بنجهزلك عرض جامد جداً 🎁</div>
       <div class="ad-waiting-sub" id="ad-waiting-sub">قريباً جداً هتقدر تطلبه من هنا مباشرة.<br>تابعنا عشان تكون أول من يعلم.</div>
       <button class="ad-waiting-btn" data-action="ad-waiting-wa" data-slot="">💬 كلمنا على واتساب</button>
     </div>
@@ -990,6 +1381,90 @@ textarea.form-input { resize: none; height: 80px; }
 
 <script>
 // Panadol already rendered in dedicated section above
+</script>
+
+<script>
+// ===== سلة طلبات العروض =====
+var OFFERS_CATALOG = {
+  'off-man-max':       { name:'ليمتليس مان ماكس', price:'200 ج' },
+  'off-woman-max':     { name:'ليمتليس وومان ماكس', price:'200 ج' },
+  'off-omega-3':       { name:'ليمتليس أوميغا-3 Fish Oil 2000mg', price:'200 ج' },
+  'off-power':         { name:'باور فور مور' },
+  'off-kids':          { name:'ليمتليس كيدز' },
+  'off-panadol-extra': { name:'بانادول اكسترا', price:'45 ج' },
+  'off-panadol-advance':{ name:'بانادول ادفانس', price:'70 ج' },
+  'off-pantene':       { name:'شامبو بانتين Pro-V', price:'150 ج' },
+  'off-my-way':        { name:'شاور ماي واي (سهر الليالي)', price:'90 ج' },
+  'off-sherosa':       { name:'شيروسا شامبو شيا بتر', price:'40 ج' },
+  'off-frida':         { name:'شاور فريدا Sweet Day', price:'130 ج' },
+  'off-lux':           { name:'شاور لوكس Silky Gardenia', price:'70 ج' },
+  'off-sparkle':       { name:'سباركل شامبو وبلسم', price:'45 ج' },
+  'off-hero-baby':     { name:'هيرو بيبي AR' },
+  'off-iverzin':       { name:'أيفرزين لوسيون (إيفرمكتين 1%) 60مل' },
+  'off-royal-regime':  { name:'شاي رويال ريجيم 50 فتلة', price:'45 ج' },
+  'off-sweetal':       { name:'سويتتال 250 جرام', price:'130 ج' },
+  'off-reparil-gel':   { name:'ريباريل جل (Reparil-Gel N) 40جم' },
+  'off-concor-plus':   { name:'كونكور 5 بلاس (Concor Plus)', price:'60 ج' },
+  'off-diamicron':     { name:'دياميكرون 60 مجم MR', price:'130 ج' },
+  'off-concor-cor':    { name:'كونكور كور 2.5 مجم (Concor Cor)', price:'50 ج' }
+};
+var offersCart = {};
+
+function renderOffersSummary() {
+  var container = document.getElementById('offers-summary-content');
+  var wrapper = document.getElementById('offers-order-summary');
+  if (!container || !wrapper) return;
+  var keys = Object.keys(offersCart).filter(function(k){return offersCart[k]>0});
+  if (!keys.length) { wrapper.classList.remove('visible'); return; }
+  wrapper.classList.add('visible');
+  var html = '';
+  keys.forEach(function(k){
+    var item = OFFERS_CATALOG[k];
+    if (!item) return;
+    html += '<div class="offers-summary-item"><span class="offers-summary-name">'+item.name+(item.price?' ('+item.price+')':'')+'</span><span class="offers-summary-qty">'+offersCart[k]+'</span></div>';
+  });
+  container.innerHTML = html;
+}
+
+function updateOfferQty(key, delta) {
+  var el = document.querySelector('[data-offer-key="'+key+'"]');
+  if (!el) return;
+  var numEl = el.querySelector('[data-offer-qty]');
+  if (!numEl) return;
+  var cur = parseInt(numEl.getAttribute('data-offer-qty')) || 0;
+  var next = Math.max(0, Math.min(99, cur + delta));
+  numEl.setAttribute('data-offer-qty', next);
+  numEl.textContent = next;
+  offersCart[key] = next;
+  renderOffersSummary();
+}
+
+document.addEventListener('click', function(e){
+  var btn = e.target.closest('[data-offer-action]');
+  if (!btn) return;
+  var row = btn.closest('[data-offer-key]');
+  if (!row) return;
+  var key = row.getAttribute('data-offer-key');
+  var action = btn.getAttribute('data-offer-action');
+  if (action === 'inc') updateOfferQty(key, 1);
+  else if (action === 'dec') updateOfferQty(key, -1);
+});
+
+// تضمين طلبات العروض في حقل الطلبات الإضافية عند التأكيد
+document.addEventListener('click', function(e){
+  var btn = e.target.closest('[data-action="submit-order"]');
+  if (!btn) return;
+  var keys = Object.keys(offersCart).filter(function(k){return offersCart[k]>0});
+  if (!keys.length) return;
+  var extra = document.getElementById('extra-orders');
+  if (!extra) return;
+  var text = '\n--- طلبات العروض ---\n';
+  keys.forEach(function(k){
+    var item = OFFERS_CATALOG[k];
+    if (item) text += item.name + (item.price ? ' ('+item.price+')' : '') + ' × ' + offersCart[k] + '\n';
+  });
+  extra.value = (extra.value || '') + text;
+}, true); // capture phase — ينفذ قبل الكود المشفر
 </script>
 
 </body>
