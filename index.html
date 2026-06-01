@@ -73,6 +73,8 @@ body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--tex
 .voice-btn { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.2); border: 1.5px solid rgba(255,255,255,0.5); color: white; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .voice-btn.playing { animation: voiceRing 1s infinite; }
 @keyframes voiceRing { 0%,100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); } 50% { box-shadow: 0 0 0 6px rgba(255,255,255,0); } }
+@keyframes offerPulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.7; transform:scale(1.05); } }
+.offer-pulse { display:inline-block; background:#e74c3c; color:white; font-size:10px; font-weight:900; padding:1px 8px; border-radius:8px; animation:offerPulse 1.2s ease-in-out infinite; margin-right:4px; }
 
 /* ===== الإعلانات ===== */
 .ads-wrapper { margin: 16px; position: relative; }
@@ -397,46 +399,6 @@ textarea.form-input { resize: none; height: 80px; }
       </div>
     </div>
 
-    <div class="sec-title" style="background:linear-gradient(135deg,#e74c3c,#c0392b);color:white;margin-top:0;display:flex;align-items:center;justify-content:center;gap:8px;">🔥 عرض خاص - بنادول <span style="background:#ffd700;color:#c0392b;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;">⚠️ الكمية محدودة</span></div>
-    <div style="margin:0 16px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-      <div style="background:white;border-radius:18px;padding:14px;border:2px solid #e74c3c;">
-        <div style="display:flex;gap:12px;align-items:center;">
-          <img src="panadol-extra.webp" alt="بانادول اكسترا" style="width:80px;height:80px;object-fit:contain;border-radius:12px;background:white;" onerror="this.style.display='none'">
-          <div style="flex:1;">
-            <div style="font-weight:900;font-size:15px;color:#c0392b;">بانادول اكسترا</div>
-            <div style="font-size:12px;color:#666;">مسكن فعال للألم والحمي - 24 قرص</div>
-            <div style="margin-top:6px;display:flex;align-items:center;gap:8px;">
-              <span style="text-decoration:line-through;color:#999;font-size:14px;">58 ج</span>
-              <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:20px;font-weight:900;font-size:16px;">45 ج</span>
-            </div>
-            <div style="margin-top:6px;display:flex;align-items:center;gap:6px;">
-              <span class="panadol-control" data-product="panadol-extra" data-delta="-1" style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#e74c3c;color:white;font-size:18px;font-weight:700;cursor:pointer;user-select:none;">−</span>
-              <span class="panadol-qty" data-product="panadol-extra" style="min-width:20px;text-align:center;font-weight:900;font-size:15px;color:#c0392b;">0</span>
-              <span class="panadol-control" data-product="panadol-extra" data-delta="1" style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#e74c3c;color:white;font-size:18px;font-weight:700;cursor:pointer;user-select:none;">+</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="background:white;border-radius:18px;padding:14px;border:2px solid #e74c3c;">
-        <div style="display:flex;gap:12px;align-items:center;">
-          <img src="panadol-advance.webp" alt="بانادول ادفانس" style="width:80px;height:80px;object-fit:contain;border-radius:12px;background:white;" onerror="this.style.display='none'">
-          <div style="flex:1;">
-            <div style="font-weight:900;font-size:15px;color:#c0392b;">بانادول ادفانس</div>
-            <div style="font-size:12px;color:#666;">500 مجم باراسيتامول مسكن للألم - 48 قرص</div>
-            <div style="margin-top:6px;display:flex;align-items:center;gap:8px;">
-              <span style="text-decoration:line-through;color:#999;font-size:14px;">92 ج</span>
-              <span style="background:#e74c3c;color:white;padding:2px 10px;border-radius:20px;font-weight:900;font-size:16px;">70 ج</span>
-            </div>
-            <div style="margin-top:6px;display:flex;align-items:center;gap:6px;">
-              <span class="panadol-control" data-product="panadol-advance" data-delta="-1" style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#e74c3c;color:white;font-size:18px;font-weight:700;cursor:pointer;user-select:none;">−</span>
-              <span class="panadol-qty" data-product="panadol-advance" style="min-width:20px;text-align:center;font-weight:900;font-size:15px;color:#c0392b;">0</span>
-              <span class="panadol-control" data-product="panadol-advance" data-delta="1" style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#e74c3c;color:white;font-size:18px;font-weight:700;cursor:pointer;user-select:none;">+</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="sec-title">المكملات والفيتامينات المتاحة</div>
     <div id="products-list"></div>
 
@@ -643,25 +605,24 @@ document.addEventListener('keydown', e => {
 })();
 </script>
 <script>
-// Panadol counter logic
-const _pn = { 'panadol-extra': 0, 'panadol-advance': 0 };
-document.addEventListener('click', function(e) {
-  const btn = e.target.closest('.panadol-control');
-  if (!btn) return;
-  const p = btn.dataset.product, d = parseInt(btn.dataset.delta);
-  const n = Math.max(0, (_pn[p] || 0) + d);
-  _pn[p] = n;
-  const sp = document.querySelector('.panadol-qty[data-product="'+p+'"]');
-  if (sp) sp.textContent = n;
-  // Sync to extra-orders
-  const ex = document.getElementById('extra-orders');
-  if (!ex) return;
-  const lines = ex.value.split('\n').filter(function(l) { return l.indexOf('بانادول') !== 0; });
-  const pl = [];
-  if (_pn['panadol-extra'] > 0) pl.push('بانادول اكسترا 24 قرص \u00d7 '+_pn['panadol-extra']+' = '+(_pn['panadol-extra']*45)+' ج');
-  if (_pn['panadol-advance'] > 0) pl.push('بانادول ادفانس 48 قرص \u00d7 '+_pn['panadol-advance']+' = '+(_pn['panadol-advance']*70)+' ج');
-  ex.value = pl.concat(lines).join('\n');
-});
+// Inject Panadol into products array
+if (typeof products !== 'undefined' && Array.isArray(products)) {
+  var _hasExtra = products.some(function(p) { return p.key === 'panadol-extra'; });
+  var _hasAdvance = products.some(function(p) { return p.key === 'panadol-advance'; });
+  if (!_hasExtra) products.unshift({ key:'panadol-extra', name:'بانادول اكسترا 🔥', nameEn:'عرض 45ج (بدل 58ج)', desc:'مسكن فعال للألم والحمي - 24 قرص <span class="offer-pulse">🔥 عرض خاص</span>', img:'panadol-extra.webp', emoji:'💊' });
+  if (!_hasAdvance) products.unshift({ key:'panadol-advance', name:'بانادول ادفانس 🔥', nameEn:'عرض 70ج (بدل 92ج)', desc:'500 مجم باراسيتامول مسكن للألم - 48 قرص <span class="offer-pulse">🔥 عرض خاص</span>', img:'panadol-advance.webp', emoji:'💊' });
+  if (typeof renderProducts === 'function') renderProducts();
+  if (typeof updateSummary === 'function') updateSummary();
+  // Replace Panadol + buttons with direct WhatsApp order buttons
+  setTimeout(function() {
+    ['panadol-extra','panadol-advance'].forEach(function(k) {
+      var btn = document.querySelector('[data-product="'+k+'"]');
+      if (!btn || btn.tagName !== 'BUTTON') return;
+      var msg = k === 'panadol-extra' ? 'عايز%20عرض%20بانادول%20اكسترا%20-%2024%20قرص%20بـ%2045%20ج%20(بدل%2058)%20من%20صيدلية%20كشك' : 'عايز%20عرض%20بانادول%20ادفانس%20-%2048%20قرص%20بـ%2070%20ج%20(بدل%2092)%20من%20صيدلية%20كشك';
+      btn.outerHTML = '<a href="https://wa.me/201020302005?text='+msg+'" target="_blank" rel="noopener" class="wa-btn" style="display:inline-block;padding:6px 14px;font-size:13px;border-radius:20px;text-decoration:none;margin-top:6px;">اطلب العرض 🔥</a>';
+    });
+  }, 50);
+}
 </script>
 
 </body>
