@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صيدلية كشك - طلب أدوية أونلاين</title>
+<meta name="description" content="صيدلية كشك - اطلب أدويتك ومكملاتك الغذائية أونلاين مع توصيل مجاني في كفر الزيات.">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #00a651;
+  --green-dark: #007a3d;
+  --green-light: #e8faf1;
+  --orange: #f15a24;
+  --white: #ffffff;
+  --bg: #f4f7f4;
+  --text: #0d1f0d;
+  --muted: #6b8068;
+  --border: #ddeedd;
+  --card: #ffffff;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; min-height: 100vh; }
+.app { width: 100%; max-width: 480px; background: var(--white); min-height: 100vh; position: relative; padding-bottom: 100px; overflow-x: hidden; }
+.page { display: none; }
+.page.active { display: block; }
+
+/* ===== سبلاش ===== */
+#splash {
+  position: fixed; inset: 0;
+  background: linear-gradient(160deg, #00a651 0%, #007a3d 60%, #004d26 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 9999; transition: opacity 0.6s ease, transform 0.6s ease;
+}
+@keyframes splashSpin {
+  from { transform: scale(0) rotate(-180deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+#splash h1 { color: white; font-size: 30px; font-weight: 900; animation: fadeUp 0.5s 0.4s ease both; }
+#splash p  { color: rgba(255,255,255,0.75); font-size: 14px; margin-top: 6px; animation: fadeUp 0.5s 0.6s ease both; }
+.splash-gift { margin-top: 32px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 30px; padding: 8px 20px; color: white; font-size: 13px; font-weight: 600; animation: fadeUp 0.5s 0.8s ease both; }
+.splash-dots { display: flex; gap: 8px; margin-top: 40px; animation: fadeUp 0.5s 1s ease both; }
+.splash-dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.4); animation: dotAnim 1.3s infinite; }
+.splash-dots span:nth-child(2) { animation-delay: 0.2s; }
+.splash-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotAnim { 0%,100% { background: rgba(255,255,255,0.3); transform: scale(1); } 50% { background: white; transform: scale(1.4); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== هيدر ===== */
+.header {
+  background: linear-gradient(135deg, #00a651, #007a3d);
+  padding: 0 16px 20px; border-radius: 0 0 28px 28px;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,100,50,0.2);
+}
+.header-top { display: flex; align-items: center; justify-content: space-between; padding: 16px 0 14px; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-logo { width: 42px; height: 42px; background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
+.brand-info .name { color: white; font-size: 18px; font-weight: 900; line-height: 1.1; }
+.brand-info .sub  { color: rgba(255,255,255,0.7); font-size: 10px; }
+.header-badge { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 5px 10px; color: white; font-size: 11px; font-weight: 600; }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: #7fff7f; animation: liveBlink 1.5s infinite; }
+@keyframes liveBlink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.promo-strip { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 14px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
+.promo-text { flex: 1; color: white; font-size: 12px; font-weight: 600; line-height: 1.5; }
+#typewriter-text::after { content: '|'; animation: blink 0.7s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.voice-btn { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.2); border: 1.5px solid rgba(255,255,255,0.5); color: white; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.voice-btn.playing { animation: voiceRing 1s infinite; }
+@keyframes voiceRing { 0%,100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); } 50% { box-shadow: 0 0 0 6px rgba(255,255,255,0); } }
+
+/* ===== الإعلانات ===== */
+.ads-wrapper { margin: 16px; position: relative; }
+.ads-label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.ads-label-line { flex: 1; height: 1px; background: linear-gradient(to left, transparent, #ddd); }
+.ads-label-text { font-size: 10px; font-weight: 700; color: #aaa; letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; }
+.ads-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 8px; }
+
+.ad-card {
+  border-radius: 20px; overflow: hidden; cursor: pointer; position: relative;
+  min-height: 140px; display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: flex-end;
+  padding: 14px 12px;
+  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s;
+}
+.ad-card:active { transform: scale(0.96); }
+.ad-card:hover  { transform: translateY(-3px); }
+.ad-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: inherit; z-index: 0;
+}
+.ad-card-noise {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  z-index: 1; pointer-events: none;
+}
+.ad-card-content { position: relative; z-index: 2; width: 100%; }
+.ad-card-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 9px; font-weight: 800; padding: 3px 10px; border-radius: 20px;
+  margin-bottom: 8px; letter-spacing: 0.5px; backdrop-filter: blur(8px);
+}
+.ad-card-icon {
+  font-size: 32px; position: absolute; top: 12px; left: 12px;
+  z-index: 2; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+  animation: adIconFloat 3s ease infinite;
+}
+@keyframes adIconFloat { 0%,100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-5px) rotate(5deg); } }
+.ad-card-title { font-size: 14px; font-weight: 900; line-height: 1.3; margin-bottom: 3px; text-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+.ad-card-sub { font-size: 10px; font-weight: 600; opacity: 0.8; margin-bottom: 10px; }
+.ad-card-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  border: none; border-radius: 12px; padding: 6px 14px;
+  font-size: 11px; font-weight: 800; font-family: 'Cairo', sans-serif;
+  cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px;
+}
+.ad-card-btn::after { content: ' ←'; }
+.ad-card-shine {
+  position: absolute; top: -50%; left: -60%; width: 40%; height: 200%;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%);
+  z-index: 3; pointer-events: none; animation: adShine 4s ease infinite;
+}
+@keyframes adShine { 0%,100% { left: -60%; } 50% { left: 120%; } }
+
+/* ألوان كروت الإعلانات */
+.ad-men { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); box-shadow: 0 8px 32px rgba(48,43,99,0.4); color: white; }
+.ad-men .ad-card-badge { background: rgba(255,68,68,0.9); color: white; }
+.ad-men .ad-card-btn   { background: white; color: #302b63; }
+.ad-men .ad-card-btn:hover { background: #f0edff; }
+
+.ad-slot2 { background: linear-gradient(135deg, #f7971e, #ffd200); box-shadow: 0 8px 32px rgba(247,151,30,0.35); color: #1a0a00; }
+.ad-slot2 .ad-card-badge { background: rgba(0,0,0,0.2); color: white; }
+.ad-slot2 .ad-card-btn   { background: #1a0a00; color: #ffd200; }
+
+.ad-slot3 { background: linear-gradient(135deg, #11998e, #38ef7d); box-shadow: 0 8px 32px rgba(17,153,142,0.35); color: white; }
+.ad-slot3 .ad-card-badge { background: rgba(0,0,0,0.2); color: white; }
+.ad-slot3 .ad-card-btn   { background: white; color: #11998e; }
+
+.ad-slot4 { background: linear-gradient(135deg, #c94b4b, #4b134f); box-shadow: 0 8px 32px rgba(201,75,75,0.35); color: white; }
+.ad-slot4 .ad-card-badge { background: rgba(255,255,255,0.2); color: white; }
+.ad-slot4 .ad-card-btn   { background: white; color: #c94b4b; }
+
+/* ===== عناوين الأقسام ===== */
+.sec-title { display: flex; align-items: center; gap: 10px; margin: 18px 16px 12px; font-size: 14px; font-weight: 800; color: var(--text); }
+.sec-title::before { content: ''; width: 4px; height: 18px; background: linear-gradient(to bottom, var(--green), var(--orange)); border-radius: 2px; flex-shrink: 0; }
+
+/* ===== كروت المنتجات الرئيسية ===== */
+.product-card {
+  display: flex; align-items: center; gap: 12px; margin: 0 16px 12px;
+  background: var(--card); border: 1.5px solid var(--border); border-radius: 20px;
+  padding: 14px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,100,50,0.04);
+}
+.product-card:active { transform: scale(0.99); }
+.product-img { width: 76px; height: 76px; border-radius: 14px; border: 1.5px solid var(--border); object-fit: contain; background: var(--green-light); flex-shrink: 0; }
+.product-img-ph { width: 76px; height: 76px; border-radius: 14px; border: 1.5px solid var(--border); background: var(--green-light); flex-shrink: 0; display: none; align-items: center; justify-content: center; font-size: 30px; }
+.product-info { flex: 1; min-width: 0; }
+.product-name { font-size: 13px; font-weight: 800; color: var(--text); margin-bottom: 3px; line-height: 1.3; }
+.product-name-en { font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+.product-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+.product-action { flex-shrink: 0; }
+.add-btn { width: 34px; height: 34px; background: var(--green); border: none; border-radius: 10px; color: white; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; line-height: 1; }
+.counter { display: flex; align-items: center; gap: 4px; background: var(--green-light); border: 1.5px solid #a7f3c0; border-radius: 12px; padding: 4px 8px; }
+.counter button { background: none; border: none; color: var(--green); font-size: 20px; font-weight: 700; cursor: pointer; width: 24px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+.counter span { font-size: 14px; font-weight: 800; min-width: 22px; text-align: center; color: var(--green-dark); }
+
+/* ===== ملخص الطلب ===== */
+.order-summary { display: none; margin: 0 16px 14px; background: var(--green-light); border: 1.5px solid #a7f3c0; border-radius: 16px; padding: 14px; }
+.order-summary-title { font-size: 13px; font-weight: 800; color: var(--green); margin-bottom: 8px; }
+.order-summary-content { font-size: 12px; color: var(--text); line-height: 2; }
+
+/* ===== فورم الطلب ===== */
+.form-section { margin: 0 16px 14px; }
+.form-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 18px; padding: 16px; }
+.form-label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+.form-input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 13px; font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); outline: none; transition: all 0.2s; margin-bottom: 12px; }
+.form-input:focus { border-color: var(--green); background: white; }
+.form-input:last-child { margin-bottom: 0; }
+textarea.form-input { resize: none; height: 80px; }
+.extra-card { background: linear-gradient(135deg, #fff3ee, #ffe8de); border: 1.5px solid #ffd0b8; border-radius: 18px; padding: 16px; }
+
+/* ===== أزرار ===== */
+.footer-action { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: white; padding: 12px 16px; border-top: 1px solid var(--border); box-shadow: 0 -4px 20px rgba(0,100,50,0.08); z-index: 500; }
+.submit-btn { width: 100%; background: linear-gradient(135deg, #00a651, #007a3d); color: white; border: none; border-radius: 16px; padding: 15px; font-size: 15px; font-weight: 800; font-family: 'Cairo', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 16px rgba(0,166,81,0.35); transition: all 0.2s; }
+.submit-btn:active { transform: scale(0.98); }
+
+/* ===== صفحة الرجال ===== */
+.men-header {
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+  padding: 0 16px 18px; border-radius: 0 0 24px 24px;
+  position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.men-header-top { display: flex; align-items: center; justify-content: space-between; padding: 16px 0 12px; }
+.back-btn { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 7px 12px; color: white; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Cairo', sans-serif; }
+.men-brand { color: white; font-size: 15px; font-weight: 900; }
+.privacy-strip { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 8px 12px; display: flex; align-items: center; gap: 8px; }
+.privacy-strip span { color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 600; }
+.men-hero { margin: 16px; background: linear-gradient(135deg, #1a6b3a, #007a3d); border-radius: 18px; padding: 18px; display: flex; align-items: center; gap: 14px; }
+.men-hero-icon { font-size: 46px; flex-shrink: 0; }
+.men-hero-title { color: white; font-size: 18px; font-weight: 900; margin-bottom: 4px; }
+.men-hero-sub { color: rgba(255,255,255,0.8); font-size: 12px; line-height: 1.5; }
+
+/* ===== كروت منتجات الرجال (بأنماط CSS بدلاً من inline) ===== */
+.men-product-card {
+  display: flex; flex-direction: column; align-items: stretch; gap: 8px;
+  margin: 0 16px 12px; background: var(--white);
+  border: 1.5px solid var(--border); border-radius: 18px;
+  padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.men-product-row { display: flex; align-items: center; gap: 12px; }
+.men-product-img { width: 72px; height: 72px; border-radius: 12px; object-fit: contain; background: #f8f8f8; border: 1px solid var(--border); flex-shrink: 0; }
+.men-product-img-ph { width: 72px; height: 72px; border-radius: 12px; background: #f0f4f8; border: 1px solid var(--border); flex-shrink: 0; display: none; align-items: center; justify-content: center; font-size: 28px; }
+.men-product-info { flex: 1; min-width: 0; }
+.men-product-badge { display: inline-flex; align-items: center; gap: 4px; background: #e8faf1; color: var(--green); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-bottom: 5px; }
+.men-product-name { font-size: 12px; font-weight: 800; color: var(--text); line-height: 1.4; }
+.men-product-actions { display: flex; gap: 6px; margin-top: 4px; padding: 0 4px; }
+.men-product-select {
+  margin-bottom: 0; padding: 6px 10px; font-size: 11px; height: 36px; border-radius: 10px;
+  background-color: #f8f9fa; border: 1.5px solid var(--border); color: var(--text); cursor: pointer;
+}
+.men-product-select.unit { flex: 2; }
+.men-product-select.qty { flex: 1; text-align: center; }
+.men-order-btn { height: 36px; padding: 0 16px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; border: none; font-size: 12px; font-weight: 800; font-family: 'Cairo', sans-serif; cursor: pointer; flex-shrink: 0; white-space: nowrap; }
+.men-order-btn:active { transform: scale(0.96); }
+
+.privacy-note { margin: 16px; background: linear-gradient(135deg, #fff8e1, #fff3cd); border: 1.5px solid #ffd700; border-radius: 16px; padding: 14px; display: flex; align-items: flex-start; gap: 10px; }
+.privacy-note-text { font-size: 12px; color: #5d4037; font-weight: 600; line-height: 1.7; }
+.men-footer { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: white; padding: 12px 16px; border-top: 1px solid var(--border); box-shadow: 0 -4px 20px rgba(0,0,0,0.06); z-index: 500; }
+.wa-btn { width: 100%; background: #25d366; color: white; border: none; border-radius: 14px; padding: 14px; font-size: 14px; font-weight: 800; font-family: 'Cairo', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(37,211,102,0.35); }
+.wa-btn:active { transform: scale(0.98); }
+
+/* ===== توست ===== */
+.toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: var(--text); color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; z-index: 9000; opacity: 0; transition: opacity 0.3s; white-space: nowrap; pointer-events: none; }
+.toast.show { opacity: 1; }
+
+/* ===== حقوق المطور ===== */
+.dev-footer { text-align: center; padding: 24px 16px; margin-top: 20px; border-top: 1px dashed var(--border); background: #fafafa; }
+.dev-footer p { font-size: 11px; color: var(--muted); font-weight: 600; margin-bottom: 8px; }
+.dev-btn { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #1e1e2f, #11111b); color: #fff; text-decoration: none; font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.2s; cursor: pointer; }
+.dev-btn:active { transform: scale(0.95); }
+
+/* ===== سلة منتجات الرجال (ملخص) ===== */
+.men-cart-summary { display: none; margin: 0 16px 14px; background: linear-gradient(135deg, #1a1a2e, #0f3460); border-radius: 16px; padding: 14px; }
+.men-cart-summary-title { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.men-cart-item { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 8px 10px; margin-bottom: 6px; }
+.men-cart-item-name { flex: 1; font-size: 11px; font-weight: 700; color: #fff; line-height: 1.3; }
+.men-cart-item-qty { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.15); padding: 2px 8px; border-radius: 8px; white-space: nowrap; }
+.men-cart-remove { width: 24px; height: 24px; border: none; border-radius: 6px; background: rgba(255,68,68,0.8); color: white; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+.men-add-btn { height: 36px; padding: 0 12px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; border: none; font-size: 11px; font-weight: 800; font-family: 'Cairo', sans-serif; cursor: pointer; flex-shrink: 0; white-space: nowrap; gap: 4px; }
+.men-add-btn:active { transform: scale(0.96); }
+.men-add-btn.in-cart { background: linear-gradient(135deg, #6b8068, #4a5f48); }
+
+/* ===== صفحة "بنجهزلك عرض جامد" ===== */
+.ad-waiting-header {
+  background: linear-gradient(135deg, #f7971e, #ffd200);
+  padding: 0 16px 18px; border-radius: 0 0 24px 24px;
+  position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(247,151,30,0.3);
+}
+/* ===== فورم العلاج الشهري ===== */
+.treatment-form { display: none; padding: 20px 16px; }
+.treatment-form.show { display: block; }
+.treatment-header { text-align: center; margin-bottom: 20px; }
+.treatment-header-icon { font-size: 36px; margin-bottom: 10px; }
+.treatment-header-title { font-size: 16px; font-weight: 900; color: #c94b4b; line-height: 1.5; margin-bottom: 6px; }
+.treatment-header-sub { font-size: 12px; color: var(--muted); line-height: 1.7; background: #fff8f0; padding: 10px; border-radius: 12px; border-right: 3px solid #c94b4b; text-align: right; }
+.treatment-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.treatment-row .form-input { margin-bottom: 0; }
+.treatment-row .num { font-size: 11px; font-weight: 800; color: var(--muted); flex-shrink: 0; width: 20px; }
+.treatment-drug { flex: 2; }
+.treatment-qty { flex: 1; text-align: center; }
+.treatment-submit { width: 100%; background: linear-gradient(135deg, #c94b4b, #4b134f); color: white; border: none; border-radius: 14px; padding: 15px; font-size: 15px; font-weight: 800; font-family: 'Cairo', sans-serif; cursor: pointer; margin-top: 16px; box-shadow: 0 4px 16px rgba(201,75,75,0.35); }
+.ad-waiting-body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; text-align: center; min-height: 60vh; }
+.ad-waiting-icon { font-size: 72px; margin-bottom: 20px; animation: waitingPulse 2s ease infinite; }
+@keyframes waitingPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+.ad-waiting-title { font-size: 22px; font-weight: 900; color: var(--text); margin-bottom: 10px; }
+.ad-waiting-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 30px; }
+.ad-waiting-btn { display: inline-flex; align-items: center; gap: 8px; background: #25d366; color: white; border: none; border-radius: 14px; padding: 14px 28px; font-size: 14px; font-weight: 800; font-family: 'Cairo', sans-serif; cursor: pointer; box-shadow: 0 4px 14px rgba(37,211,102,0.35); text-decoration: none; }
+
+/* ===== Popup شركة البرمجة ===== */
+.dev-popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; }
+.dev-popup-overlay.show { display: flex; }
+.dev-popup-card { background: white; padding: 24px 20px 20px; border-radius: 20px; width: 90%; max-width: 400px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.dev-popup-close { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border: none; background: #f0f0f0; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--muted); }
+.dev-popup-title { font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 16px; text-align: center; }
+.dev-submit-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #00a651, #007a3d); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: 800; font-family: 'Cairo', sans-serif; cursor: pointer; box-shadow: 0 4px 14px rgba(0,166,81,0.3); transition: all 0.2s; }
+.dev-submit-btn:active { transform: scale(0.98); }
+.dev-popup-footer { text-align: center; margin-top: 14px; font-size: 10px; color: #aaa; }
+.dev-floating-btn { margin-top: 15px; cursor: pointer; text-align: center; padding: 12px; background: linear-gradient(135deg, #1e1e2f, #11111b); color: white; border-radius: 12px; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; transition: transform 0.2s; }
+.dev-floating-btn:active { transform: scale(0.98); }
+
+/* ===== تحسينات وصولية ===== */
+:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <div style="font-size:60px; margin-bottom:24px; animation: splashSpin 0.8s cubic-bezier(0.34,1.56,0.64,1) both;">💊🎁</div>
+  <h1>صيدلية كشك</h1>
+  <p>صحتك أمانة عندنا 💚</p>
+  <div class="splash-gift">خصومات وعروض</div>
+  <div class="splash-dots"><span></span><span></span><span></span></div>
+</div>
+
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<div class="app" id="app" style="display:none;">
+
+  <!-- ===== صفحة الرئيسية ===== -->
+  <div class="page active" id="page-main">
+
+    <div class="header">
+      <div class="header-top">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true">💊</div>
+          <div class="brand-info">
+            <div class="name">صيدلية كشك</div>
+            <div class="sub">كفر الزيات — الغربية</div>
+          </div>
+        </div>
+        <div class="header-badge">
+          <div class="live-dot"></div>
+          متاح الآن
+        </div>
+      </div>
+      <div class="promo-strip">
+        <div class="promo-text"><span id="typewriter-text"></span></div>
+        <button class="voice-btn" id="voice-btn" data-action="voice" aria-label="تشغيل الإعلان الصوتي">🔊</button>
+      </div>
+    </div>
+
+    <!-- شبكة الإعلانات -->
+    <div class="ads-wrapper">
+      <div class="ads-label">
+        <div class="ads-label-text">عروض مميزة</div>
+        <div class="ads-label-line"></div>
+      </div>
+
+      <div class="ads-grid">
+        <!-- كارت 1 — للرجال -->
+        <div class="ad-card ad-men" data-action="show-page" data-page="men">
+          <div class="ad-card-noise"></div>
+          <div class="ad-card-shine"></div>
+          <div class="ad-card-icon" aria-hidden="true">💪</div>
+          <div class="ad-card-content">
+            <div class="ad-card-badge">🔒 للرجال فقط</div>
+            <div class="ad-card-title">منتجات الصحة للرجال</div>
+            <div class="ad-card-sub">خصوصيتك أولوية قصوى</div>
+            <button class="ad-card-btn" data-action="show-page" data-page="men">اشتري الآن</button>
+          </div>
+        </div>
+
+        <!-- كارت 2 -->
+        <div class="ad-card ad-slot2" data-action="ad-wa" data-slot="2">
+          <div class="ad-card-noise"></div>
+          <div class="ad-card-shine"></div>
+          <div class="ad-card-icon" aria-hidden="true">👶</div>
+          <div class="ad-card-content">
+            <div class="ad-card-badge">💸 توفير بجد</div>
+            <div class="ad-card-title">عروض البامبرز</div>
+            <div class="ad-card-sub">تواصل معنا الآن</div>
+            <button class="ad-card-btn" data-action="ad-wa" data-slot="2">اطلب الأن</button>
+          </div>
+        </div>
+
+        <!-- كارت 3 -->
+        <div class="ad-card ad-slot3" data-action="ad-wa" data-slot="3">
+          <div class="ad-card-noise"></div>
+          <div class="ad-card-shine"></div>
+          <div class="ad-card-icon" aria-hidden="true">👑</div>
+          <div class="ad-card-content">
+            <div class="ad-card-badge">💸 توفير أكتر</div>
+            <div class="ad-card-title">عضويه VIP</div>
+            <div class="ad-card-sub">تواصل معنا الآن</div>
+            <button class="ad-card-btn" data-action="ad-wa" data-slot="3">احجز مكانك</button>
+          </div>
+        </div>
+
+        <!-- كارت 4 -->
+        <div class="ad-card ad-slot4" data-action="ad-wa" data-slot="4">
+          <div class="ad-card-noise"></div>
+          <div class="ad-card-shine"></div>
+          <div class="ad-card-icon" aria-hidden="true">💸</div>
+          <div class="ad-card-content">
+            <div class="ad-card-badge">📣 خصم خاص</div>
+            <div class="ad-card-title">علاجك الشهري</div>
+            <div class="ad-card-sub">تواصل معنا الآن</div>
+            <button class="ad-card-btn" data-action="ad-wa" data-slot="4">احجز مكانك</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">المكملات والفيتامينات المتاحة</div>
+    <div id="products-list"></div>
+
+    <div class="order-summary" id="order-summary">
+      <div class="order-summary-title">🧾 ملخص طلبك</div>
+      <div class="order-summary-content" id="summary-content"></div>
+    </div>
+
+    <div class="sec-title">أدوية أو طلبات إضافية؟</div>
+    <div class="form-section">
+      <div class="extra-card">
+        <label class="form-label" style="color:#c0521a;" for="extra-orders">📝 اكتب أي أدوية أو روشتة إضافية هنا:</label>
+        <textarea id="extra-orders" class="form-input" style="background:white;border-color:#ffd0b8;" placeholder="مثال: شريط بنادول، علبة مسكن..."></textarea>
+      </div>
+    </div>
+
+    <div class="sec-title">بيانات التوصيل 📦</div>
+    <div class="form-section">
+      <div class="form-card">
+        <label class="form-label" for="customer-name">اسم حضرتك *</label>
+        <input type="text" id="customer-name" class="form-input" placeholder="اكتب اسمك هنا" autocomplete="name">
+        <label class="form-label" for="customer-phone">رقم الهاتف (واتساب) *</label>
+        <input type="tel" id="customer-phone" class="form-input" placeholder="رقم موبايلك" autocomplete="tel">
+        <label class="form-label" for="customer-address">العنوان بالتفصيل *</label>
+        <textarea id="customer-address" class="form-input" placeholder="مثال: كفر الزيات - شارع... - بجوار مسجد..." autocomplete="street-address"></textarea>
+        <div class="dev-floating-btn" data-action="dev-toggle-popup">💻 <span> لو نشاطك أونلاين تواصل مع شركة البرمجة</span></div>
+      </div>
+    </div>
+
+    <!-- حقوق المطور -->
+    <div class="dev-footer">
+      <p>هل تريد تطبيقاً احترافياً ومميزاً مثل هذا لنشاطك التجاري؟</p>
+      <button class="dev-btn" data-action="dev-toggle-popup" aria-label="تواصل مع المطور">💻 Powered By: SMF 💬</button>
+    </div>
+
+    <div class="footer-action">
+      <button class="submit-btn" data-action="submit-order">تأكيد الطلب واستلام الهدية عبر الواتساب 🎁</button>
+    </div>
+
+  </div>
+
+  <!-- ===== صفحة منتجات الرجال ===== -->
+  <div class="page" id="page-men">
+
+    <div class="men-header">
+      <div class="men-header-top">
+        <button class="back-btn" data-action="show-page" data-page="main">‹ رجوع للرئيسية</button>
+        <div class="men-brand">💊 صيدلية كشك</div>
+      </div>
+      <div class="privacy-strip">
+        <span style="font-size:16px;" aria-hidden="true">🔒</span>
+        <span>خصوصيتك أولوية قصوى — طلبك سري تماماً</span>
+      </div>
+    </div>
+
+    <div class="men-hero">
+      <div class="men-hero-icon" aria-hidden="true">💪</div>
+      <div>
+        <div class="men-hero-title">منتجات الصحة للرجال</div>
+        <div class="men-hero-sub">كل المنتجات متاحة بالدليفري بكفر الزيات</div>
+      </div>
+    </div>
+
+    <div class="sec-title">المنتجات المتاحة</div>
+    <div id="men-products-list"></div>
+
+    <div id="men-cart-summary" class="men-cart-summary">
+      <div class="men-cart-summary-title">🧾 المنتجات المختارة</div>
+      <div id="men-cart-items"></div>
+    </div>
+
+    <div class="privacy-note">
+      <div style="font-size:22px;flex-shrink:0;" aria-hidden="true">🛡️</div>
+      <div class="privacy-note-text">جميع الطلبات سرية 100%.<br>التوصيل مباشرة على بابك في كفر الزيات بكل خصوصية.</div>
+    </div>
+
+    <div class="men-footer">
+      <button class="wa-btn" data-action="send-men-order">📩 أرسل طلبي عبر الواتساب بسرية تامة</button>
+    </div>
+
+  </div>
+
+  <!-- ===== صفحة "بنجهزلك عرض جامد" (للإعلانات 2 و3 و4) ===== -->
+  <div class="page" id="page-ad-waiting">
+    <div class="ad-waiting-header">
+      <div class="men-header-top">
+        <button class="back-btn" data-action="show-page" data-page="main">‹ رجوع للرئيسية</button>
+        <div class="men-brand" style="color:#1a0a00;">💊 صيدلية كشك</div>
+      </div>
+    </div>
+
+    <!-- وضع الانتظار (للبامبرز - VIP) -->
+    <div class="ad-waiting-body" id="waiting-mode">
+      <div class="ad-waiting-icon" id="ad-waiting-icon" style="display:flex;align-items:center;justify-content:center;min-height:140px;">🔥</div>
+      <div class="ad-waiting-title" id="ad-waiting-title">بن جهزلك عرض جامد جداً 🎁</div>
+      <div class="ad-waiting-sub" id="ad-waiting-sub">قريباً جداً هتقدر تطلبه من هنا مباشرة.<br>تابعنا عشان تكون أول من يعلم.</div>
+      <button class="ad-waiting-btn" data-action="ad-waiting-wa" data-slot="">💬 كلمنا على واتساب</button>
+    </div>
+
+    <!-- فورم العلاج الشهري (للسلوت 4) -->
+    <div class="treatment-form" id="treatment-mode">
+      <div class="treatment-header">
+        <div class="treatment-header-icon">🎀</div>
+        <div class="treatment-header-title">📢 مبادرة العلاج الشهري<br>من صيدليات كشك 🤗</div>
+        <div class="treatment-header-sub">
+          هتقول لنا علاجك وهنقول لك الخصم اللي هنعمله لك 🧐<br>
+          وبالمناسبة هيبقى خصم مميز جداً إن شاء الله 🤩<br>
+          محتاجين حضرتك تملأ البيانات دي وتبعتهالنا 👇<br>
+          واحنا هنتواصل معاك عشان نبلغك بنسبة الخصم 🤳<br>
+          <strong style="color:#c94b4b;">#بنميز_عملاءنا 😃</strong>
+        </div>
+      </div>
+
+      <label class="form-label" for="treatment-phone">📞 التليفون *</label>
+      <input type="tel" id="treatment-phone" class="form-input" placeholder="رقم موبايلك">
+
+      <label class="form-label" for="treatment-address">📍 العنوان *</label>
+      <input type="text" id="treatment-address" class="form-input" placeholder="العنوان بالتفصيل">
+
+      <label class="form-label" style="font-size:13px;">💊 ما هي أسماء الأدوية وما عددها؟</label>
+
+      <div class="treatment-row">
+        <span class="num">١.</span>
+        <input type="text" class="form-input treatment-drug" id="drug-1" placeholder="اسم الدواء">
+        <input type="number" class="form-input treatment-qty" id="qty-1" placeholder="العدد" min="1" value="1">
+      </div>
+      <div class="treatment-row">
+        <span class="num">٢.</span>
+        <input type="text" class="form-input treatment-drug" id="drug-2" placeholder="اسم الدواء">
+        <input type="number" class="form-input treatment-qty" id="qty-2" placeholder="العدد" min="1" value="1">
+      </div>
+      <div class="treatment-row">
+        <span class="num">٣.</span>
+        <input type="text" class="form-input treatment-drug" id="drug-3" placeholder="اسم الدواء">
+        <input type="number" class="form-input treatment-qty" id="qty-3" placeholder="العدد" min="1" value="1">
+      </div>
+      <div class="treatment-row">
+        <span class="num">٤.</span>
+        <input type="text" class="form-input treatment-drug" id="drug-4" placeholder="اسم الدواء">
+        <input type="number" class="form-input treatment-qty" id="qty-4" placeholder="العدد" min="1" value="1">
+      </div>
+
+      <label class="form-label" for="treatment-date">📅 موعد احتياجك للدواء *</label>
+      <input type="text" id="treatment-date" class="form-input" placeholder="مثال: بعد أسبوع / أول الشهر القادم">
+
+      <button class="treatment-submit" data-action="send-treatment">🎁 إرسال وانتظار الخصم</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="dev-popup-overlay" id="devPopup">
+  <div class="dev-popup-card">
+    <button class="dev-popup-close" data-action="dev-toggle-popup">✕</button>
+    <div class="dev-popup-title">🚀  لو نشاطك أونلاين تواصل مع شركة البرمجة</div>
+    <label class="form-label">اسم حضرتك *</label>
+    <input type="text" id="dev-name" class="form-input" placeholder="الاسم كاملاً">
+    <label class="form-label">رقم تليفونك (واتساب) *</label>
+    <input type="tel" id="dev-phone" class="form-input" placeholder="رقم موبايلك">
+    <label class="form-label">نوع نشاطك التجاري *</label>
+    <input type="text" id="dev-business" class="form-input" placeholder="مثال: صيدلية، مطعم، محل ملابس...">
+    <button class="dev-submit-btn" data-action="dev-send-lead">إرسال 💬</button>
+    <div class="dev-popup-footer">Powered By SMF</div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* ===== ثوابت ===== */
+const WHATSAPP_NUMBER = '201020302005';
+const DEV_NUMBER = '201090908002';
+const SPLASH_DURATION = 2400;
+const TOAST_DURATION = 2200;
+const TW_INIT_DELAY = 600;
+const CHARS_PER_BEAT = { default: { min: 35, max: 85 }, period: 400 };
+
+const PHONE_REGEX = /^[0-9+]{10,15}$/;
+
+const products = [
+  { key:'man',   name:'ليمتلس مان ماكس',  nameEn:'Limitless Man Max',  desc:'مالتي فيتامين للرجال لدعم الطاقة والمناعة وصحة العضلات.', img:'man.webp',   emoji:'💪' },
+  { key:'woman', name:'ليمتلس وومان ماكس', nameEn:'Limitless Woman Max', desc:'تركيبة متكاملة تدعم صحة وجمال السيدات.',                   img:'woman.webp', emoji:'💄' },
+  { key:'omega', name:'ليمتلس أوميجا 3',   nameEn:'Limitless Omega-3',   desc:'تركيبة متطورة لدعم صحة القلب والعقل والمفاصل.',           img:'omega.webp', emoji:'❤️' },
+  { key:'power', name:'ليمتلس باور ماكس',  nameEn:'Limitless Power Max',  desc:'تركيبة طبيعية مقوية للرجال لدعم الطاقة.',                  img:'power.webp', emoji:'⚡' },
+  { key:'kids',  name:'ليمتلس كيدز',       nameEn:'Limitless Kids',       desc:'مالتي فيتامين لنمو صحي وتقوية مناعة الأطفال.',            img:'kids.webp',  emoji:'👶' }
+];
+
+const menProducts = [
+  { name:'ديامونركتا 20مجم | 4 قرص',                                       img:'diamonrecta-4.webp',  badge:'تادالافيل 20مجم' },
+  { name:'ديامونركتا 20مجم | 2 قرص',                                       img:'diamonrecta-2.webp',  badge:'تادالافيل 20مجم' },
+  { name:'باوريكتا ODT استحلاب لضعف الانتصاب والتأخير | 6 أقراص',         img:'powerecta-odt.webp', badge:'فاردينافيل 10مجم' },
+  { name:'باوريكتا لعلاج ضعف الانتصاب | 20مج | 4 اقراص',                  img:'powerecta-4.webp',   badge:'فاردينافيل 20مجم' },
+  { name:'فياجرا 100 للرجال (سيلدينافيل 100مجم) | 4 قرص',                  img:'viagra-100.webp',    badge:'سيلدينافيل 100مجم' },
+  { name:'فياجرا 50 سيلدينافيل للرجال | 4 أقراص',                          img:'viagra-50.webp',     badge:'سيلدينافيل 50مجم' },
+  { name:'تادالونج 20مجم للانتصاب | 4 أقراص',                              img:'tadalong-20.webp',   badge:'تادالافيل 20مجم' },
+  { name:'اريك 100مجم لتقوية الانتصاب | 12 قرص',                           img:'erec-12.webp',       badge:'سيلدينافيل 100مجم' },
+  { name:'جويبوكس 60مجم للتأخير | 6 أقراص',                               img:'joypox-6.webp',      badge:'دابوكسيتين 60مجم' },
+  { name:'فايركتا 100 منشط للذكور | 9 أقراص',                              img:'virecta-9.webp',     badge:'سيلدينافيل 100مجم' },
+  { name:'سيلدين 50مجم لعلاج ضعف الانتصاب | 4 أقراص',                     img:'silden-50.webp',     badge:'سيلدينافيل 50مجم' },
+  { name:'سيلدين 100مجم لضعف الانتصاب الشديد | 4 أقراص',                   img:'silden-100.webp',    badge:'سيلدينافيل 100مجم' }
+];
+
+/* ===== حالة التطبيق ===== */
+const cart = {};
+products.forEach(function(p) { cart[p.key] = 0; });
+
+var menCart = {};
+var adWaitingSlot = '';
+
+var voiceAudio = null;
+var isSpeaking = false;
+var audioCtx = null;
+
+var twIndex = 0;
+var twTimer = null;
+var twActive = true;
+
+/* ===== إدارة الصفحات ===== */
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  var page = document.getElementById('page-' + name);
+  if (page) page.classList.add('active');
+  window.scrollTo(0, 0);
+  if (name === 'men' && typeof renderMenProducts === 'function') renderMenProducts();
+}
+
+/* ===== المنتجات الرئيسية ===== */
+function renderProducts() {
+  var container = document.getElementById('products-list');
+  var html = '';
+  for (var i = 0; i < products.length; i++) {
+    var p = products[i];
+    html += '<div class="product-card">';
+    html += '  <img src="' + p.img + '" alt="' + p.name + '" class="product-img" loading="lazy" onerror="this.style.display=\'none\';var ph=this.nextElementSibling;if(ph)ph.style.display=\'flex\';">';
+    html += '  <div class="product-img-ph" aria-hidden="true">' + p.emoji + '</div>';
+    html += '  <div class="product-info">';
+    html += '    <div class="product-name">' + p.name + '</div>';
+    html += '    <div class="product-name-en">' + p.nameEn + '</div>';
+    html += '    <div class="product-desc">' + p.desc + '</div>';
+    html += '  </div>';
+    html += '  <div class="product-action" id="action-' + p.key + '">';
+    html += '    <button class="add-btn" data-action="add-cart" data-product="' + p.key + '" aria-label="إضافة ' + p.name + '">+</button>';
+    html += '  </div>';
+    html += '</div>';
+  }
+  container.innerHTML = html;
+}
+
+function addToCart(key) {
+  if (cart.hasOwnProperty(key)) {
+    cart[key] = 1;
+    updateAction(key);
+    updateSummary();
+    showToast('✅ أُضيف للطلب!');
+  }
+}
+
+function changeQty(key, delta) {
+  if (!cart.hasOwnProperty(key)) return;
+  cart[key] = Math.max(0, cart[key] + delta);
+  updateAction(key);
+  updateSummary();
+  if (cart[key] === 0) showToast('🗑️ أُزيل من الطلب');
+}
+
+function updateAction(key) {
+  var a = document.getElementById('action-' + key);
+  if (!a) return;
+  var q = cart[key];
+  a.innerHTML = q === 0
+    ? '<button class="add-btn" data-action="add-cart" data-product="' + key + '" aria-label="إضافة">+</button>'
+    : '<div class="counter"><button data-action="change-qty" data-product="' + key + '" data-delta="-1" aria-label="إنقاص">−</button><span>' + q + '</span><button data-action="change-qty" data-product="' + key + '" data-delta="1" aria-label="زيادة">+</button></div>';
+}
+
+function updateSummary() {
+  var items = products.filter(function(p) { return cart[p.key] > 0; });
+  var extra = document.getElementById('extra-orders').value.trim();
+  var box = document.getElementById('order-summary');
+  var content = document.getElementById('summary-content');
+  if (items.length || extra) {
+    box.style.display = 'block';
+    var lines = items.map(function(p) { return p.name + ': ' + cart[p.key] + ' علبة'; });
+    if (extra) lines.push('طلبات إضافية: ' + extra);
+    content.innerHTML = lines.join('<br>');
+  } else {
+    box.style.display = 'none';
+  }
+}
+
+/* ===== منتجات الرجال (نظام السلة) ===== */
+function renderMenProducts() {
+  var container = document.getElementById('men-products-list');
+  if (!container) return;
+  var html = '';
+  for (var i = 0; i < menProducts.length; i++) {
+    var p = menProducts[i];
+    var inCart = menCart.hasOwnProperty(i);
+    var item = inCart ? menCart[i] : null;
+    html += '<div class="men-product-card">';
+    html += '  <div class="men-product-row">';
+    html += '    <img src="' + p.img + '" alt="' + p.name + '" class="men-product-img" loading="lazy" onerror="this.style.display=\'none\';var ph=this.nextElementSibling;if(ph)ph.style.display=\'flex\';">';
+    html += '    <div class="men-product-img-ph" aria-hidden="true">💊</div>';
+    html += '    <div class="men-product-info">';
+    html += '      <div class="men-product-badge">🛡️ ' + p.badge + '</div>';
+    html += '      <div class="men-product-name">' + p.name + '</div>';
+    html += '    </div>';
+    html += '  </div>';
+    html += '  <div class="men-product-actions">';
+    html += '    <select class="men-product-select unit" id="men-unit-' + i + '" aria-label="نوع العبوة">';
+    html += '      <option value="علبة"' + (item && item.unit === 'علبة' ? ' selected' : '') + '>📦 علبة كاملة</option>';
+    html += '      <option value="شريط"' + (item && item.unit === 'شريط' ? ' selected' : '') + '>💊 شريط</option>';
+    html += '      <option value="حباية"' + (item && item.unit === 'حباية' ? ' selected' : '') + '>✨ حباية</option>';
+    html += '    </select>';
+    html += '    <select class="men-product-select qty" id="men-qty-' + i + '" aria-label="الكمية">';
+    for (var q = 1; q <= 5; q++) {
+      html += '      <option value="' + q + '"' + (item && item.qty == q ? ' selected' : '') + '>' + q + '</option>';
+    }
+    html += '    </select>';
+    if (inCart) {
+      html += '    <button class="men-add-btn in-cart" data-action="remove-men-cart" data-index="' + i + '">✔ تم</button>';
+    } else {
+      html += '    <button class="men-add-btn" data-action="add-men-cart" data-index="' + i + '">➕ أضف</button>';
+    }
+    html += '  </div>';
+    html += '</div>';
+  }
+  container.innerHTML = html;
+  renderMenSummary();
+}
+
+function renderMenSummary() {
+  var container = document.getElementById('men-cart-summary');
+  var itemsDiv = document.getElementById('men-cart-items');
+  if (!container || !itemsDiv) return;
+  var keys = Object.keys(menCart);
+  if (keys.length === 0) {
+    container.style.display = 'none';
+    return;
+  }
+  container.style.display = 'block';
+  var html = '';
+  for (var i = 0; i < keys.length; i++) {
+    var idx = keys[i];
+    var item = menCart[idx];
+    var p = menProducts[idx];
+    var idxNum = parseInt(idx, 10);
+    if (!isNaN(idxNum) && p) {
+      html += '<div class="men-cart-item">';
+      html += '  <span class="men-cart-item-name">' + p.name + '</span>';
+      html += '  <span class="men-cart-item-qty">' + item.qty + ' ' + item.unit + '</span>';
+      html += '  <button class="men-cart-remove" data-action="remove-men-cart" data-index="' + idx + '">✕</button>';
+      html += '</div>';
+    }
+  }
+  itemsDiv.innerHTML = html;
+}
+
+function addToMenCart(index) {
+  var qtyEl = document.getElementById('men-qty-' + index);
+  var unitEl = document.getElementById('men-unit-' + index);
+  if (!qtyEl || !unitEl) return;
+  var qty = qtyEl.value;
+  var unit = unitEl.value;
+  menCart[index] = { qty: qty, unit: unit };
+  renderMenProducts();
+  showToast('✅ أُضيف للسلة!');
+}
+
+function removeFromMenCart(index) {
+  delete menCart[index];
+  renderMenProducts();
+  var keys = Object.keys(menCart);
+  if (keys.length === 0) showToast('🗑️ السلة فاضية');
+}
+
+function sendMenOrder() {
+  var keys = Object.keys(menCart);
+  if (keys.length === 0) { showToast('⚠️ اختار منتجات الأول'); return; }
+  var lines = [];
+  for (var i = 0; i < keys.length; i++) {
+    var idx = keys[i];
+    var item = menCart[idx];
+    var p = menProducts[idx];
+    if (p) lines.push('- ' + p.name + ' (' + item.qty + ' ' + item.unit + ')');
+  }
+  var msg = 'السلام عليكم 👋\nعايز أطلب من صيدلية كشك:\n\n*منتجات الصحة للرجال:*\n' + lines.join('\n') + '\n\nمن فضلك تواصل معي لتأكيد الطلب. 🙏';
+  window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+/* ===== الصوت ===== */
+function initAudio() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+
+function toggleVoice() {
+  var btn = document.getElementById('voice-btn');
+  if (!voiceAudio) {
+    voiceAudio = new Audio('omarii.mp3');
+    voiceAudio.addEventListener('ended', stopVoice);
+    voiceAudio.addEventListener('error', stopVoice);
+  }
+  if (isSpeaking) {
+    stopVoice();
+  } else {
+    initAudio();
+    voiceAudio.play().then(function() {
+      isSpeaking = true;
+      if (btn) { btn.textContent = '⏹'; btn.classList.add('playing'); btn.setAttribute('aria-label', 'إيقاف الإعلان الصوتي'); }
+    }).catch(function() {
+      showToast('⚠️ اضغط مرة ثانية');
+    });
+  }
+}
+
+function stopVoice() {
+  if (voiceAudio) { voiceAudio.pause(); voiceAudio.currentTime = 0; }
+  isSpeaking = false;
+  var btn = document.getElementById('voice-btn');
+  if (btn) { btn.textContent = '🔊'; btn.classList.remove('playing'); btn.setAttribute('aria-label', 'تشغيل الإعلان الصوتي'); }
+}
+
+/* ===== الآلة الكاتبة ===== */
+var promoText = [
+  'صيدليت كِشْك مش بس صيدلية، ده بيتك التاني.',
+  'عايز مُكَمِّلاتك وأدويتك تِوصَلَكْ لحد باب بيتك بأسرع وقت.',
+  'دلوقتي اِطْلُبْ أونلاين وحاسب فون كاش.',
+  'و متنساش تكتب لنا في خانة الملاحظات أي أدوية تانية محتاجها،',
+  'علشان نجمع لك كل طلباتك في أوردر واحد.'
+].join(' ');
+
+function playClick() {
+  try {
+    initAudio();
+    if (!audioCtx) return;
+    var sr = audioCtx.sampleRate;
+    var len = Math.floor(sr * 0.035);
+    var buf = audioCtx.createBuffer(1, len, sr);
+    var data = buf.getChannelData(0);
+    for (var i = 0; i < data.length; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 10);
+    }
+    var src = audioCtx.createBufferSource();
+    src.buffer = buf;
+    var gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+    src.connect(gain);
+    gain.connect(audioCtx.destination);
+    src.start();
+  } catch(e) {}
+}
+
+function typeNext() {
+  if (!twActive || twIndex >= promoText.length) return;
+  var ch = promoText[twIndex];
+  var el = document.getElementById('typewriter-text');
+  if (el) el.textContent += ch;
+// if (ch !== ' ' && ch !== '،' && ch !== '.') playClick();
+  twIndex++;
+  var delay = ch === '.' ? CHARS_PER_BEAT.period : CHARS_PER_BEAT.default.min + Math.random() * (CHARS_PER_BEAT.default.max - CHARS_PER_BEAT.default.min);
+  twTimer = setTimeout(typeNext, delay);
+}
+
+function startTypewriter() {
+  twActive = true;
+  twIndex = 0;
+  var el = document.getElementById('typewriter-text');
+  if (el) el.textContent = '';
+  typeNext();
+}
+
+/* ===== الإعلانات ===== */
+function openAdWA(slot) {
+  var msg = 'السلام عليكم 👋\nعايز أعرف أكتر عن المساحة الإعلانية رقم ' + slot + ' في صيدلية كشك.';
+  window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+/* ===== صفحة "بنجهزلك عرض جامد" ===== */
+var adSlotMessages = {
+  '2': { icon: '👶', title: 'عروض البامبرز', sub: 'أقوى العروض على البامبرز في الطريق إليك!\nبنجهزلك عرض جامد جداً 🎁', img: 'pampers.webp' },
+  '3': { icon: '👑', title: 'عضوية VIP', sub: 'المميزات الحصرية لأعضاء VIP في الطريق!\nبنجهزلك عرض جامد جداً 🔥', img: 'vip.webp' },
+  '4': { icon: '💊', title: 'علاجك الشهري', sub: 'خصومات خاصة على علاجك الشهري قادمة!\nبنجهزلك عرض جامد جداً 💸', img: 'treatment.webp' }
+};
+
+function showAdWaiting(slot) {
+  adWaitingSlot = slot;
+  var waitingMode = document.getElementById('waiting-mode');
+  var treatmentMode = document.getElementById('treatment-mode');
+  var info = adSlotMessages[slot] || { icon: '🔥', title: 'عرض مميز', sub: 'بن جهزلك عرض جامد جداً 🎁' };
+
+  if (slot === '4') {
+    waitingMode.style.display = 'none';
+    treatmentMode.classList.add('show');
+    document.querySelector('.ad-waiting-header').style.background = 'linear-gradient(135deg, #c94b4b, #4b134f)';
+  } else {
+    waitingMode.style.display = 'flex';
+    treatmentMode.classList.remove('show');
+    document.querySelector('.ad-waiting-header').style.background = 'linear-gradient(135deg, #f7971e, #ffd200)';
+    document.getElementById('ad-waiting-icon').innerHTML = info.img
+      ? '<img src="' + info.img + '" alt="' + info.title + '" style="width:120px;height:120px;object-fit:contain;border-radius:16px;">'
+      : info.icon;
+    document.getElementById('ad-waiting-title').textContent = 'بن جهزلك عرض جامد جداً 🎁';
+    document.getElementById('ad-waiting-sub').textContent = info.sub;
+    var waBtn = document.querySelector('#page-ad-waiting [data-action="ad-waiting-wa"]');
+    if (waBtn) waBtn.setAttribute('data-slot', slot);
+  }
+  showPage('ad-waiting');
+}
+
+function openAdWaitingWA(slot) {
+  var info = adSlotMessages[slot] || { title: 'عرض مميز' };
+  var msg = 'السلام عليكم 👋\nعايز أعرف أكتر عن ' + info.title + ' في صيدلية كشك.';
+  window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+/* ===== Popup شركة البرمجة ===== */
+function toggleDevPopup(show) {
+  var popup = document.getElementById('devPopup');
+  if (popup) popup.classList.toggle('show', show);
+}
+
+function sendDevLead() {
+  var name = document.getElementById('dev-name').value.trim();
+  var phone = document.getElementById('dev-phone').value.trim();
+  var business = document.getElementById('dev-business').value.trim();
+  if (!name || !phone || !business) {
+    showToast('⚠️ املأ جميع الخانات');
+    return;
+  }
+  var msg = '🚀 *طلب تصميم تطبيق جديد - شركة البرمجة*\n\n';
+  msg += '👤 *اسم العميل:* ' + name + '\n';
+  msg += '📞 *رقم الهاتف:* ' + phone + '\n';
+  msg += '💼 *نشاطه التجاري:* ' + business + '\n\n';
+  msg += '💻 العميل معجب بتطبيق *صيدلية كشك* ويريد تنفيذ مشروع خاص بنشاطه التجاري.';
+  window.open('https://wa.me/' + DEV_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
+  toggleDevPopup(false);
+}
+/* ===== إرسال فورم العلاج الشهري ===== */
+function sendTreatmentForm() {
+  var phone = document.getElementById('treatment-phone').value.trim();
+  var address = document.getElementById('treatment-address').value.trim();
+  var date = document.getElementById('treatment-date').value.trim();
+
+  if (!phone || !address || !date) { showToast('⚠️ املأ البيانات الأساسية أولاً'); return; }
+
+  var msg = '🎀 *مبادرة العلاج الشهري - صيدلية كشك*\n\n';
+  msg += '📞 التليفون: ' + phone + '\n';
+  msg += '📍 العنوان: ' + address + '\n\n';
+  msg += '*💊 الأدوية المطلوبة:*\n';
+
+  var hasDrugs = false;
+  for (var i = 1; i <= 4; i++) {
+    var drug = document.getElementById('drug-' + i).value.trim();
+    var qty = document.getElementById('qty-' + i).value.trim();
+    if (drug) { msg += '  ' + i + '. ' + drug + ' (عدد: ' + (qty || 1) + ')\n'; hasDrugs = true; }
+  }
+
+  if (!hasDrugs) { showToast('⚠️ اكتب اسم دواء واحد على الأقل'); return; }
+
+  msg += '\n📅 موعد الاحتياج: ' + date + '\n\n';
+  msg += '_تم الإرسال عبر تطبيق صيدلية كشك_';
+
+  for (var i = 1; i <= 4; i++) {
+    document.getElementById('drug-' + i).value = '';
+    document.getElementById('qty-' + i).value = '1';
+  }
+  document.getElementById('treatment-phone').value = '';
+  document.getElementById('treatment-address').value = '';
+  document.getElementById('treatment-date').value = '';
+
+  window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
+  showToast('✅ تم الإرسال! هنكلمك قريباً');
+}
+/* ===== الإرسال ===== */
+function validatePhone(p) {
+  return PHONE_REGEX.test(p.replace(/\s/g, ''));
+}
+
+function sendToWhatsApp() {
+  var name = document.getElementById('customer-name').value.trim();
+  var phone = document.getElementById('customer-phone').value.trim();
+  var address = document.getElementById('customer-address').value.trim();
+  var extra = document.getElementById('extra-orders').value.trim();
+
+  if (!name || !phone || !address) { showToast('⚠️ اكمل بياناتك الأول'); return; }
+  if (!validatePhone(phone)) { showToast('⚠️ رقم الهاتف غير صحيح'); return; }
+
+  var items = products.filter(function(p) { return cart[p.key] > 0; });
+  if (!items.length && !extra) { showToast('⚠️ اختار منتج أو اكتب طلب الأول'); return; }
+
+  var productsText = items.map(function(p) { return '- ' + p.name + ': (' + cart[p.key] + ' علبة)'; }).join('\n');
+  var msg = '*طلب جديد من صيدلية كشك 💊*\n\n';
+  msg += '*👤 بيانات العميل:*\n- الاسم: ' + name + '\n- التليفون: ' + phone + '\n- العنوان: ' + address + '\n\n';
+  if (productsText) msg += '*📦 المنتجات:*\n' + productsText + '\n\n';
+  if (extra) msg += '*📝 طلبات إضافية:*\n' + extra + '\n\n';
+  msg += '🎁 _العميل يستحق علبة مناديل فاين هدية مجاناً_';
+
+  window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+/* ===== توست ===== */
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._hideTimer);
+  t._hideTimer = setTimeout(function() { t.classList.remove('show'); }, TOAST_DURATION);
+}
+
+/* ===== نظام الأحداث المُوحّد (Event Delegation) ===== */
+function handleAction(action, target) {
+  switch (action) {
+    case 'show-page':
+      showPage(target.getAttribute('data-page'));
+      break;
+    case 'add-cart':
+      addToCart(target.getAttribute('data-product'));
+      break;
+    case 'change-qty':
+      changeQty(target.getAttribute('data-product'), parseInt(target.getAttribute('data-delta'), 10));
+      break;
+    case 'add-men-cart':
+      addToMenCart(parseInt(target.getAttribute('data-index'), 10));
+      break;
+    case 'remove-men-cart':
+      removeFromMenCart(parseInt(target.getAttribute('data-index'), 10));
+      break;
+    case 'send-men-order':
+      sendMenOrder();
+      break;
+    case 'ad-wa':
+      showAdWaiting(target.getAttribute('data-slot'));
+      break;
+    case 'ad-waiting-wa':
+      openAdWaitingWA(target.getAttribute('data-slot'));
+      break;
+    case 'voice':
+      toggleVoice();
+      break;
+    case 'submit-order':
+      sendToWhatsApp();
+      break;
+    case 'dev-toggle-popup':
+      var popup = document.getElementById('devPopup');
+      toggleDevPopup(!popup || popup.classList.contains('show') ? false : true);
+      break;
+    case 'dev-send-lead':
+      sendDevLead();
+      break;
+    case 'send-treatment':
+      sendTreatmentForm();
+      break;
+  }
+}
+
+document.addEventListener('click', function(e) {
+  var target = e.target.closest('[data-action]');
+  if (target) {
+    if (target.tagName === 'A') e.preventDefault();
+    handleAction(target.getAttribute('data-action'), target);
+  }
+});
+
+/* ===== ربط التغييرات في حقل الطلبات الإضافية ===== */
+document.addEventListener('input', function(e) {
+  if (e.target.id === 'extra-orders') updateSummary();
+});
+
+/* ===== التشغيل الأولي ===== */
+window.addEventListener('load', function() {
+  renderProducts();
+
+  setTimeout(function() {
+    var s = document.getElementById('splash');
+    if (s) { s.style.opacity = '0'; s.style.transform = 'scale(1.05)'; }
+    setTimeout(function() {
+      if (s) s.style.display = 'none';
+      var app = document.getElementById('app');
+      if (app) app.style.display = 'block';
+      setTimeout(function() {
+        startTypewriter();
+      }, TW_INIT_DELAY);
+    }, 600);
+  }, SPLASH_DURATION);
+});
+</script>
+</body>
+</html>
