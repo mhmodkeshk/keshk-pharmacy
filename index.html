@@ -1554,6 +1554,7 @@ textarea.form-input { resize: none; height: 80px; }
     <label class="form-label">نوع نشاطك التجاري *</label>
     <input type="text" id="dev-business" class="form-input" placeholder="مثال: صيدلية، مطعم، محل ملابس...">
     <button class="dev-submit-btn" data-action="dev-send-lead">إرسال 💬</button>
+    <div id="stats-display" style="margin-top:14px;padding-top:14px;border-top:2px dashed #eee;font-size:12px;line-height:2;color:var(--text);"></div>
     <div class="dev-popup-footer">Powered By SMF</div>
   </div>
 </div>
@@ -1698,7 +1699,6 @@ document.addEventListener('click', function(e){
 <script>
 // ===== انفجار أولي: جسيمات + مشاهد تختفي بعد ٧ ثواني =====
 (function() {
-  // --- الجسيمات الخلفية ---
   var container = document.getElementById('bgParticles');
   if (container) {
     var emojis = ['💰','💵','🎁','🔥','🎉','💊','🤑','✨'];
@@ -1713,8 +1713,6 @@ document.addEventListener('click', function(e){
       container.appendChild(span);
     }
   }
-
-  // --- تختفي بعد ٧ ثواني ---
   setTimeout(function() {
     if (container) container.classList.add('fade-out');
     var badges = document.querySelectorAll('.discount-badge-float');
@@ -1722,6 +1720,101 @@ document.addEventListener('click', function(e){
     var sparks = document.querySelector('.hero-sparks');
     if (sparks) sparks.classList.add('fade-out');
   }, 7000);
+})();
+</script>
+
+<script>
+// ===== نظام الإحصائيات والتتبع =====
+(function() {
+  var KEY = '_keshk_stats';
+
+  function getData() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) { return {}; }
+  }
+  function saveData(d) {
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e) {}
+  }
+
+  // تسجيل الزيارة
+  var data = getData();
+  data.visits = (data.visits || 0) + 1;
+  data.lastVisit = Date.now();
+  if (!data.firstVisit) data.firstVisit = Date.now();
+  saveData(data);
+
+  // دالة تسجيل الطلب
+  window._keshkTrackOrder = function() {
+    var d = getData();
+    d.orders = (d.orders || 0) + 1;
+    saveData(d);
+  };
+
+  // تتبع جميع أزرار إرسال الطلبات
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action="submit-order"],[data-action="send-men-order"],[data-action="send-treatment"]');
+    if (btn) setTimeout(window._keshkTrackOrder, 300);
+  });
+
+  // باسورد الإحصائيات
+  var STATS_PASS = '01000000';
+
+  function showStats() {
+    var el = document.getElementById('stats-display');
+    if (!el) return;
+    var d = getData();
+    var first = d.firstVisit ? new Date(d.firstVisit).toLocaleDateString('ar-EG') : '—';
+    var last = d.lastVisit ? new Date(d.lastVisit).toLocaleDateString('ar-EG') + ' ' + new Date(d.lastVisit).toLocaleTimeString('ar-EG') : '—';
+    el.innerHTML =
+      '<div style="font-weight:800;color:var(--green);margin-bottom:6px;">📊 إحصائيات التطبيق</div>' +
+      '<div>👀 عدد الزيارات: <strong>' + (d.visits || 0) + '</strong></div>' +
+      '<div>📦 عدد الطلبات: <strong>' + (d.orders || 0) + '</strong></div>' +
+      '<div style="font-size:10px;color:#999;margin-top:4px;">أول زيارة: ' + first + '<br>آخر زيارة: ' + last + '</div>' +
+      '<button onclick="if(confirm(\'إعادة تعيين الإحصائيات؟\')){localStorage.removeItem(\'' + KEY + '\');showStats();}" style="margin-top:8px;padding:4px 14px;border:1px solid #ddd;border-radius:8px;background:white;font-size:11px;cursor:pointer;font-family:\'Cairo\',sans-serif;">🔄 إعادة تعيين</button>';
+  }
+
+  function showLock() {
+    var el = document.getElementById('stats-display');
+    if (!el) return;
+    el.innerHTML =
+      '<div style="font-weight:800;color:var(--muted);margin-bottom:8px;">🔒 إحصائيات التطبيق</div>' +
+      '<div style="display:flex;gap:6px;align-items:center;">' +
+      '<input type="password" id="stats-pass" placeholder="الباسورد" style="flex:1;padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:\'Cairo\',sans-serif;outline:none;direction:ltr;text-align:center;">' +
+      '<button id="stats-unlock-btn" style="padding:6px 14px;background:var(--green);color:white;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Cairo\',sans-serif;">فتح</button>' +
+      '</div>' +
+      '<div id="stats-error" style="color:#e74c3c;font-size:11px;margin-top:4px;display:none;">❌ الباسورد غلط</div>';
+    setTimeout(function() {
+      var input = document.getElementById('stats-pass');
+      var btn = document.getElementById('stats-unlock-btn');
+      if (!input || !btn) return;
+      function check() {
+        if (input.value === STATS_PASS) {
+          sessionStorage.setItem('_keshk_unlocked', '1');
+          showStats();
+        } else {
+          var err = document.getElementById('stats-error');
+          if (err) err.style.display = 'block';
+        }
+      }
+      btn.addEventListener('click', check);
+      input.addEventListener('keydown', function(ev) {
+        if (ev.key === 'Enter') check();
+      });
+      input.focus();
+    }, 50);
+  }
+
+  // عند فتح popup المطور
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('[data-action="dev-toggle-popup"]')) {
+      setTimeout(function() {
+        if (sessionStorage.getItem('_keshk_unlocked') === '1') {
+          showStats();
+        } else {
+          showLock();
+        }
+      }, 100);
+    }
+  });
 })();
 </script>
 
