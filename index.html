@@ -402,15 +402,9 @@ textarea.form-input { resize: none; height: 80px; }
 
 /* ===== فلوتنج كارد دوزوفا 3D (بدون خلفية) ===== */
 .dozova-float {
-  position: fixed; bottom: 20px; left: 50%;
-  z-index: 500; width: 180px; height: auto;
-  cursor: pointer; transition: opacity 0.5s, transform 0.5s;
-  opacity: 0; transform: translateX(-50%) translateY(30px) scale(0.9);
-  pointer-events: none;
-}
-.dozova-float.show {
-  opacity: 1; transform: translateX(-50%) translateY(0) scale(1);
-  pointer-events: auto;
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  z-index: 9998; width: 180px; height: auto;
+  cursor: pointer;
 }
 .dozova-float.hidden { display: none !important; }
 .dozova-float-img-wrap {
@@ -1515,28 +1509,17 @@ textarea.form-input { resize: none; height: 80px; }
 (function() {
   var el = document.getElementById('dozovaFloat');
   var closeBtn = document.getElementById('dozovaFloatClose');
-  var key = 'dozova_float_hidden';
-
-  function showCard() {
-    if (!el) return;
-    el.classList.remove('hidden');
-    setTimeout(function() { el.classList.add('show'); }, 100);
-  }
+  var key = 'dvf_v1';
 
   if (localStorage.getItem(key) === '1') {
     if (el) el.classList.add('hidden');
-  } else {
-    setTimeout(showCard, 2500);
   }
 
   if (closeBtn) {
     closeBtn.addEventListener('click', function(e) {
       e.stopPropagation();
       localStorage.setItem(key, '1');
-      if (el) {
-        el.classList.remove('show');
-        el.classList.add('hidden');
-      }
+      if (el) el.classList.add('hidden');
     });
   }
 })();
