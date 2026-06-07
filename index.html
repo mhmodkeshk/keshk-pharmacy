@@ -25,7 +25,7 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; min-height: 100vh; }
-.app { width: 100%; max-width: 480px; background: var(--white); min-height: 100vh; position: relative; padding-bottom: 100px; overflow-x: hidden; }
+.app { width: 100%; max-width: 480px; background: var(--white); min-height: 100vh; position: relative; z-index: 1; padding-bottom: 100px; overflow-x: hidden; }
 .page { display: none; }
 .page.active { display: block; }
 
@@ -107,6 +107,49 @@ body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--tex
 }
 .hero-banner-cta:active { transform: scale(0.95); box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
 .hero-banner-cta::after { content: ' ←'; }
+/* نجوم/جسيمات عائمة */
+.hero-sparks {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; overflow: hidden; z-index: 1;
+}
+.hero-sparks span {
+  position: absolute; font-size: 20px; animation: sparkFloat 3s ease-in-out infinite; opacity: 0;
+}
+.hero-sparks.fade-out span { animation: none; opacity: 0 !important; transition: opacity 1s; }
+@keyframes sparkFloat {
+  0% { transform: translateY(30px) scale(0.5); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(-20px) scale(1.3); opacity: 0; }
+}
+/* جسيمات خلفية عائمة (فلوس/هدايا) */
+.bg-particles {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; overflow: hidden; z-index: -1;
+  transition: opacity 2s ease;
+}
+.bg-particles.fade-out { opacity: 0; }
+.bg-particles span {
+  position: absolute; bottom: -40px; font-size: 22px; animation: particleRise linear infinite; opacity: 0.3;
+}
+@keyframes particleRise {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.35; }
+  90% { opacity: 0.35; }
+  100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+}
+/* وميض جوائز */
+.discount-badge-float {
+  position: absolute; z-index: 3; font-size: 14px; font-weight: 900; color: white;
+  background: linear-gradient(135deg,#f39c12,#e67e22); padding: 4px 14px; border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(243,156,18,0.5); animation: badgePulse 1.5s ease infinite; white-space: nowrap;
+  transition: opacity 1.5s ease, transform 1.5s ease;
+}
+.discount-badge-float.fade-out { opacity: 0; transform: scale(0.5); }
+@keyframes badgePulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
 .hero-banner-glow {
   position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
   width: 120px; height: 120px; background: radial-gradient(circle, rgba(255,200,100,0.3), transparent);
@@ -512,10 +555,19 @@ textarea.form-input { resize: none; height: 80px; }
     <div class="hero-banner" data-action="show-page" data-page="offers" role="button" tabindex="0" aria-label="عروض وخصومات طول الشهر">
       <div class="hero-banner-glow"></div>
       <div class="hero-banner-shine"></div>
+      <div class="hero-sparks">
+        <span style="animation-delay:0s;left:10%;">🎁</span>
+        <span style="animation-delay:0.6s;left:30%;">💰</span>
+        <span style="animation-delay:1.2s;left:55%;">🔥</span>
+        <span style="animation-delay:0.3s;left:75%;">💵</span>
+        <span style="animation-delay:0.9s;left:90%;">🎉</span>
+      </div>
+      <div class="discount-badge-float" style="top:-8px;right:-8px;">🔥 خصم ٥٠٪</div>
+      <div class="discount-badge-float" style="bottom:-6px;left:-6px;font-size:11px;background:linear-gradient(135deg,#e74c3c,#c0392b);animation-delay:0.7s;">🎁 هدية مع كل طلب</div>
       <div class="hero-banner-content">
-        <span class="hero-banner-icon">🎁</span>
-        <div class="hero-banner-title">عروض وخصومات<br>طول الشهر</div>
-        <div class="hero-banner-sub">خصومات تصل إلى ٥٠٪ على منتجات مختارة — لفترة محدودة</div>
+        <span class="hero-banner-icon">🎁💰🔥</span>
+        <div class="hero-banner-title">🔥 عروض وخصومات<br>طول الشهر 🔥</div>
+        <div class="hero-banner-sub">خصومات تصل إلى <strong>٥٠٪</strong> على منتجات مختارة — لفترة محدودة ⏳</div>
         <button class="hero-banner-cta">اكتشف العروض</button>
       </div>
     </div>
@@ -604,6 +656,9 @@ textarea.form-input { resize: none; height: 80px; }
         📩 تأكيد الطلب وإرساله عبر واتساب
       </button>
     </div>
+
+    <!-- جسيمات خلفية متحركة -->
+    <div class="bg-particles" id="bgParticles"></div>
 
     <!-- حاوية المنتجات للكود المشفر (مخفية) -->
     <div id="products-list" style="display:none;"></div>
@@ -1638,6 +1693,36 @@ document.addEventListener('click', function(e){
   });
   extra.value = (extra.value || '') + text;
 }, true); // capture phase — ينفذ قبل الكود المشفر
+</script>
+
+<script>
+// ===== انفجار أولي: جسيمات + مشاهد تختفي بعد ٧ ثواني =====
+(function() {
+  // --- الجسيمات الخلفية ---
+  var container = document.getElementById('bgParticles');
+  if (container) {
+    var emojis = ['💰','💵','🎁','🔥','🎉','💊','🤑','✨'];
+    for (var i = 0; i < 14; i++) {
+      var span = document.createElement('span');
+      span.textContent = emojis[i % emojis.length];
+      span.style.left = (Math.random() * 94 + 3) + '%';
+      span.style.fontSize = (16 + Math.random() * 18) + 'px';
+      span.style.animationDuration = (6 + Math.random() * 8) + 's';
+      span.style.animationDelay = (Math.random() * 3) + 's';
+      span.style.opacity = '0.25';
+      container.appendChild(span);
+    }
+  }
+
+  // --- تختفي بعد ٧ ثواني ---
+  setTimeout(function() {
+    if (container) container.classList.add('fade-out');
+    var badges = document.querySelectorAll('.discount-badge-float');
+    for (var b = 0; b < badges.length; b++) badges[b].classList.add('fade-out');
+    var sparks = document.querySelector('.hero-sparks');
+    if (sparks) sparks.classList.add('fade-out');
+  }, 7000);
+})();
 </script>
 
 </body>
