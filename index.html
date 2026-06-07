@@ -1537,20 +1537,21 @@ document.addEventListener('click', function(e) {
 </script>
 
 <script>
-// ===== تشغيل الصوت تلقائياً عند أول تفاعل =====
+// ===== تشغيل الصوت تلقائياً عند أول تفاعل للعميل =====
+// (متصفحات الموبايل بتمنع التشغيل التلقائي، لازم ضغطة اولاً)
 (function() {
-  var started = false;
-  function startVoiceOnce() {
-    if (started) return;
-    started = true;
+  var pending = true;
+  function playVoice() {
+    if (!pending) return;
+    pending = false;
     if (typeof toggleVoice === 'function') {
       toggleVoice();
     }
-    document.removeEventListener('click', startVoiceOnce);
-    document.removeEventListener('touchstart', startVoiceOnce);
   }
-  document.addEventListener('click', startVoiceOnce);
-  document.addEventListener('touchstart', startVoiceOnce);
+
+  // أول ضغطة من العميل تشغل الصوت فوراً (حتى لو على splash)
+  document.addEventListener('click', playVoice, { once: true });
+  document.addEventListener('touchstart', playVoice, { once: true });
 })();
 </script>
 
