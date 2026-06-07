@@ -402,10 +402,10 @@ textarea.form-input { resize: none; height: 80px; }
 
 /* ===== فلوتنج كارد دوزوفا 3D ===== */
 .dozova-float {
-  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
-  z-index: 500; width: 200px; height: auto;
+  position: fixed; bottom: 16px; left: 50%;
+  z-index: 500; width: 170px; height: auto;
   cursor: pointer; transition: opacity 0.4s, transform 0.4s;
-  opacity: 0; transform: translateX(-50%) translateY(20px) scale(0.95);
+  opacity: 0; transform: translateX(-50%) translateY(20px) scale(0.9);
   pointer-events: none;
 }
 .dozova-float.show {
@@ -413,52 +413,48 @@ textarea.form-input { resize: none; height: 80px; }
   pointer-events: auto;
 }
 .dozova-float.hidden { display: none !important; }
-.dozova-float-inner {
-  position: relative; background: white; border-radius: 16px;
-  padding: 10px 10px 8px; text-align: center;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,166,81,0.15);
-  transform: perspective(600px) rotateY(-4deg) rotateX(2deg);
-  transition: transform 0.3s;
-}
-.dozova-float-inner:active { transform: perspective(600px) rotateY(-2deg) rotateX(1deg) scale(0.97); }
 .dozova-float-img {
-  width: 90px; height: 90px; object-fit: contain; display: block; margin: 0 auto 4px;
-  transform: perspective(400px) rotateY(-12deg) rotateX(6deg);
-  filter: drop-shadow(-4px 6px 10px rgba(0,0,0,0.25));
+  width: 100%; height: auto; display: block;
+  transform: perspective(500px) rotateY(-8deg) rotateX(4deg);
+  filter: drop-shadow(-8px 10px 18px rgba(0,0,0,0.35));
   transition: transform 0.3s;
 }
-.dozova-float:hover .dozova-float-img { transform: perspective(400px) rotateY(-8deg) rotateX(4deg) scale(1.05); }
+.dozova-float:hover .dozova-float-img { transform: perspective(500px) rotateY(-5deg) rotateX(2deg) scale(1.05); }
+.dozova-float:active .dozova-float-img { transform: perspective(500px) rotateY(-4deg) rotateX(2deg) scale(0.97); }
 .dozova-float-badge {
-  position: absolute; top: -8px; left: -8px;
+  position: absolute; top: -6px; left: -6px;
   background: linear-gradient(135deg,#e74c3c,#c0392b);
-  color: white; font-size: 9px; font-weight: 900; padding: 3px 10px;
+  color: white; font-size: 10px; font-weight: 900; padding: 4px 12px;
   border-radius: 20px; box-shadow: 0 2px 8px rgba(231,76,60,0.4);
-  white-space: nowrap;
+  white-space: nowrap; z-index: 2;
 }
 .dozova-float-price {
-  font-size: 16px; font-weight: 900; color: #27ae60; line-height: 1.2;
+  position: absolute; bottom: 4px; right: 4px;
+  font-size: 15px; font-weight: 900; color: white;
+  background: linear-gradient(135deg,#27ae60,#1e8449);
+  padding: 3px 12px; border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(39,174,96,0.5);
+  z-index: 2; line-height: 1.3;
 }
-.dozova-float-price del { font-size: 11px; color: #999; font-weight: 600; margin-left: 4px; }
-.dozova-float-name {
-  font-size: 10px; color: var(--muted); font-weight: 600; line-height: 1.2; margin-top: 1px;
-}
+.dozova-float-price del { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 600; margin-left: 4px; }
 .dozova-float-close {
-  position: absolute; top: -10px; right: -10px;
-  width: 26px; height: 26px; border-radius: 50%;
-  background: #fff; border: 2px solid #e0e0e0;
-  font-size: 14px; line-height: 1; color: #999;
+  position: absolute; top: -8px; right: -8px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.3);
+  font-size: 16px; line-height: 1; color: white;
   cursor: pointer; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12); z-index: 2;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2); z-index: 3;
   font-family: 'Cairo', sans-serif; transition: all 0.2s;
+  backdrop-filter: blur(4px);
 }
-.dozova-float-close:hover { background: #e74c3c; border-color: #e74c3c; color: white; }
+.dozova-float-close:hover { background: #e74c3c; border-color: #e74c3c; }
 .dozova-float-shine {
-  position: absolute; inset: 0; border-radius: 16px; overflow: hidden; pointer-events: none;
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1;
 }
 .dozova-float-shine::after {
   content: ''; position: absolute; top: -50%; left: -50%;
   width: 200%; height: 200%;
-  background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.25) 45%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.25) 55%, transparent 60%);
+  background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.3) 45%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.3) 55%, transparent 60%);
   animation: shineSweep 4s ease infinite;
 }
 @keyframes shineSweep {
@@ -466,13 +462,13 @@ textarea.form-input { resize: none; height: 80px; }
   20%, 100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
 }
 .dozova-float-glow {
-  position: absolute; inset: -4px; border-radius: 20px;
+  position: absolute; inset: -6px; border-radius: 50%;
   background: linear-gradient(135deg, #27ae60, #2ecc71, #27ae60);
-  opacity: 0.3; filter: blur(8px); z-index: -1; animation: glowPulse 2s ease infinite;
+  opacity: 0.25; filter: blur(14px); z-index: -1; animation: glowPulse 2s ease infinite;
 }
 @keyframes glowPulse {
-  0%, 100% { opacity: 0.2; filter: blur(8px); }
-  50% { opacity: 0.4; filter: blur(12px); }
+  0%, 100% { opacity: 0.15; filter: blur(14px); }
+  50% { opacity: 0.35; filter: blur(18px); }
 }
 </style>
 </head>
@@ -922,8 +918,8 @@ textarea.form-input { resize: none; height: 80px; }
           <div class="men-product-name">🌿 دوزوفا KSM-66 أشواجندا | 60 قرص 🔥</div>
           <div class="men-product-desc">أشواجندا KSM-66 طبيعية 100% لدعم الطاقة وتقليل التوتر وتحسين التركيز.</div>
           <div style="display:flex;align-items:center;gap:8px;margin:4px 0;">
-            <span style="text-decoration:line-through;color:#999;font-size:13px;">350 ج</span>
-            <span style="background:#27ae60;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">250 ج</span>
+            <span style="text-decoration:line-through;color:#999;font-size:13px;">250 ج</span>
+            <span style="background:#27ae60;color:white;padding:2px 10px;border-radius:14px;font-weight:900;font-size:15px;">225 ج</span>
             <span style="background:#e74c3c;color:white;padding:2px 8px;border-radius:14px;font-weight:700;font-size:11px;">عرض خاص</span>
           </div>
           <div class="offer-qty-row" data-offer-key="off-dozova">
@@ -1485,14 +1481,11 @@ textarea.form-input { resize: none; height: 80px; }
 <!-- ===== فلوتنج كارد دوزوفا ===== -->
 <div class="dozova-float" id="dozovaFloat" data-action="show-page" data-page="offers-supplements" role="button" tabindex="0" aria-label="عرض دوزوفا KSM-66 أشواجندا">
   <div class="dozova-float-glow"></div>
-  <div class="dozova-float-inner">
-    <div class="dozova-float-shine"></div>
-    <span class="dozova-float-badge">🔥 عرض خاص</span>
-    <button class="dozova-float-close" id="dozovaFloatClose" aria-label="إغلاق">✕</button>
-    <img src="dozova.webp" alt="دوزوفا KSM-66 أشواجندا" class="dozova-float-img" loading="lazy">
-    <div class="dozova-float-price"><del>350 ج</del> 250 ج</div>
-    <div class="dozova-float-name">دوزوفا KSM-66 أشواجندا</div>
-  </div>
+  <div class="dozova-float-shine"></div>
+  <span class="dozova-float-badge">🔥 عرض خاص</span>
+  <button class="dozova-float-close" id="dozovaFloatClose" aria-label="إغلاق">✕</button>
+  <img src="dozova.webp" alt="دوزوفا KSM-66 أشواجندا" class="dozova-float-img" loading="lazy">
+  <div class="dozova-float-price"><del>250 ج</del> 225 ج</div>
 </div>
 
 <div class="dev-popup-overlay" id="devPopup">
@@ -1602,7 +1595,7 @@ var OFFERS_CATALOG = {
   'off-concor-plus':   { name:'كونكور 5 بلاس (Concor Plus)', price:'60 ج' },
   'off-diamicron':     { name:'دياميكرون 60 مجم MR', price:'130 ج' },
   'off-concor-cor':    { name:'كونكور كور 2.5 مجم (Concor Cor)', price:'50 ج' },
-  'off-dozova':        { name:'دوزوفا KSM-66 أشواجندا 60 قرص', price:'250 ج' }
+  'off-dozova':        { name:'دوزوفا KSM-66 أشواجندا 60 قرص', price:'200 ج' }
 };
 var offersCart = {};
 
